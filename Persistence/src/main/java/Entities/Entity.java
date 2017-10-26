@@ -6,6 +6,7 @@ import javax.persistence.Id;
 
 /**
  * @author Jan Cech
+ * Abstract class that represents database entity
  */
 public abstract class Entity {
     @Id

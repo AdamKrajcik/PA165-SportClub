@@ -19,4 +19,15 @@ public class Coach extends Person{
     public void setTeams(Set<Team> teams) {
         this.teams = teams;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

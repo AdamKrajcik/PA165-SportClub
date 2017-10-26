@@ -53,4 +53,15 @@ public class Player extends Person{
     public void setRosterEntries(Set<RosterEntry> rosterEntries) {
         this.rosterEntries = rosterEntries;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

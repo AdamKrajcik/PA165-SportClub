@@ -4,9 +4,11 @@ import Entities.Entity;
 
 /**
  * @author Jan Cech
+ * Generic interface that every entity specific DAO should implement
  */
 //so far only for basic CRUD operations, no further filtering possible
-public interface DAOInterface<E extends Entity> {
+//ToDo maybe find a better name for this
+public interface Dao<E extends Entity> {
     /**
      * Creates a new entity in db
      * @param entity entity to be created

@@ -15,7 +15,8 @@ import java.util.Set;
 public class Team extends Entities.Entity{
 
 
-    @Column(length = 25)
+    //business key
+    @Column(length = 25, unique = true, nullable = false)
     private String name;
 
     @ManyToOne
@@ -63,5 +64,21 @@ public class Team extends Entities.Entity{
 
     public void setRosterEntries(Set<RosterEntry> rosterEntries) {
         this.rosterEntries = rosterEntries;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Team team = (Team) o;
+
+        return name.equals(team.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }
