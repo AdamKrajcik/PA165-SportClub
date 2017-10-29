@@ -8,8 +8,10 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 /**
- * @author Jan Cech
  * Class that represents one team
+ *
+ * @author Jan Cech
+ * @update Martin Skrovina 410461 Add/remove RosterEntry
  */
 @Entity
 public class Team {
@@ -81,6 +83,14 @@ public class Team {
 
     public void setRosterEntries(Set<RosterEntry> rosterEntries) {
         this.rosterEntries = rosterEntries;
+    }
+
+    public void addRosterEntry(RosterEntry rosterEntry) {
+        this.rosterEntries.add(rosterEntry);
+    }
+
+    public void removeRosterEntry(RosterEntry rosterEntry) {
+        this.rosterEntries.remove(rosterEntry);
     }
 
     @Override
