@@ -1,6 +1,6 @@
-package DAO;
+package cz.muni.fi.pa165.sportsclub.dao;
 
-import Entities.Entity;
+import cz.muni.fi.pa165.sportsclub.entity.Entity;
 
 /**
  * @author Jan Cech

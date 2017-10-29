@@ -1,4 +1,4 @@
-package Entities;
+package cz.muni.fi.pa165.sportsclub.entity;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -13,7 +13,10 @@ import java.util.Objects;
  */
 
 @Entity
-public class RosterEntry extends Entities.Entity{
+public class RosterEntry {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
 
     @ManyToOne
     @NotNull
@@ -35,6 +38,14 @@ public class RosterEntry extends Entities.Entity{
     }
 
     public RosterEntry() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Team getTeam() {

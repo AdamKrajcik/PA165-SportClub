@@ -1,7 +1,7 @@
-package DAO;
+package cz.muni.fi.pa165.sportsclub.dao;
 
 
-import Entities.RosterEntry;
+import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
 
 import java.util.List;
 

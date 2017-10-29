@@ -1,10 +1,10 @@
-package Entities;
+package cz.muni.fi.pa165.sportsclub.entity;
 
-
-import org.hibernate.annotations.Generated;
+import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 /**
@@ -12,8 +12,11 @@ import java.util.Set;
  * Class that represents one team
  */
 @Entity
-public class Team extends Entities.Entity{
+public class Team {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
 
     //business key
     @Column(length = 25, unique = true, nullable = false)
@@ -22,16 +25,30 @@ public class Team extends Entities.Entity{
     @ManyToOne
     private Coach coach;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private AgeGroup ageGroup;
 
     @OneToMany
     private Set<RosterEntry> rosterEntries;
+
+    public Team() {
+
+    }
 
     public Team(String name, Coach coach, AgeGroup ageGroup, Set<RosterEntry> rosterEntries) {
         this.name = name;
         this.coach = coach;
         this.ageGroup = ageGroup;
         this.rosterEntries = rosterEntries;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

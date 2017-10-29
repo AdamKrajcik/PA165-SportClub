@@ -1,6 +1,6 @@
-package DAO;
+package cz.muni.fi.pa165.sportsclub.dao;
 
-import Entities.RosterEntry;
+import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @Repository
-public class RosterEntryDaoImpl implements RosterEntryDao{
+public class RosterEntryDaoImpl implements RosterEntryDao {
 
     @PersistenceContext
     private EntityManager em;
