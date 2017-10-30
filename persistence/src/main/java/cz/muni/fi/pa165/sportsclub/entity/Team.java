@@ -5,8 +5,10 @@ import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
 
 /**
  * Class that represents one team
@@ -80,11 +82,7 @@ public class Team {
     }
 
     public Set<RosterEntry> getRosterEntries() {
-        return rosterEntries;
-    }
-
-    public void setRosterEntries(Set<RosterEntry> rosterEntries) {
-        this.rosterEntries = rosterEntries;
+        return Collections.unmodifiableSet(rosterEntries);
     }
 
     public void addRosterEntry(RosterEntry rosterEntry) {
@@ -99,11 +97,19 @@ public class Team {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Team)) {
+            return false;
+        }
 
-        Team team = (Team) o;
+        final Team other = (Team) o;
 
-        return name.equals(team.name);
+        if ((getName() == null)
+                ? (other.getName() != null)
+                : !getName().equals(other.getName())) {
+            return false;
+        }
 
+        return true;
     }
 
     @Override
