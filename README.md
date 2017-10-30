@@ -14,12 +14,12 @@ Think of a sports club for a team sport (football, ice hockey etc.). Create a sy
 ### <a name="use-case-diagram"></a>Use case diagram
 <img src="https://github.com/HonzaCech/PA165-SportClub/blob/master/wiki/Use%20Case%20Diagram1.png" alt="Class diagram SportsClub" width="600" >
 
-### 4.1 <a name="milestone-1"></a>1st Milestone Project Requirements
+### <a name="milestone-1"></a>1st Milestone Project Requirements
 
-Adam Krajčík : Player + DAO, Tests for TeamDao
+Adam Krajčík(422636) : Player + DAO, Tests for TeamDao
 
-445403 Kristián Katanik : RosterEntry + DAO, Tests for PlayerDao, wiki + diagrams
+Kristián Katanik(445403) : RosterEntry + DAO, Tests for PlayerDao, wiki + diagrams
 
-Martin Škrovina : Team + DAO, Tests for CoachDao
+Martin Škrovina(410461) : Team + DAO, Tests for CoachDao
 
-Jan Čech : Coach + DAO, Tests for RosterEntryDao
+Jan Čech(445524) : Coach + DAO, Tests for RosterEntryDao
