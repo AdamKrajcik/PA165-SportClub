@@ -5,22 +5,24 @@ import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Class that represents one team
  *
  * @author Jan Cech
- * @update Martin Skrovina 410461 Add/remove RosterEntry
+ * @author  Martin Skrovina 410461 Add/remove RosterEntry
  */
 @Entity
 public class Team {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     //business key
+    @NotNull
     @Column(length = 25, unique = true, nullable = false)
     private String name;
 
@@ -31,8 +33,8 @@ public class Team {
     @Enumerated(EnumType.STRING)
     private AgeGroup ageGroup;
 
-    @OneToMany
-    private Set<RosterEntry> rosterEntries;
+    @OneToMany(mappedBy = "team")
+    private Set<RosterEntry> rosterEntries = new HashSet<>();
 
     public Team() {
 
@@ -106,6 +108,9 @@ public class Team {
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        final int prime = 23;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0: name.hashCode());
+        return result;
     }
 }

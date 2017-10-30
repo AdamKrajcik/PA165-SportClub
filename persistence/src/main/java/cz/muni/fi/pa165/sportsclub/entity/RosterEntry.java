@@ -9,13 +9,13 @@ import java.util.Objects;
 
 /**
  * @author Jan Cech
- * @update Kristián Katanik 445403 created equals and hashcode
+ * @author Kristián Katanik 445403 created equals and hashcode
  */
 
 @Entity
 public class RosterEntry {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne

@@ -5,24 +5,28 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author Jan
+ * Abstract class for shared variables
+ *
+ * @author Jan cech
+ * @author 422636 Adam Krajcik
  */
-@Entity
+@MappedSuperclass
 public abstract class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull
-    @Column(length = 25)
+    @Column(length = 25, nullable = false)
     private String firstName;
 
     @NotNull
-    @Column(length = 25)
+    @Column(length = 25, nullable = false)
     private String lastName;
 
     //business key
+    @NotNull
     @Column(length = 25, unique = true, nullable = false)
     private String email;
 

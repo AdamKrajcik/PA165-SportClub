@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +39,7 @@ public class Player extends Person {
     @Past
     private Date dateOfBirth;
 
-    @OneToMany(mappedBy = "player", cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "player")
     private Set<RosterEntry> rosterEntries = new HashSet<RosterEntry>();
 
     public int getHeight() {
@@ -66,7 +67,7 @@ public class Player extends Person {
     }
 
     public Set<RosterEntry> getRosterEntries() {
-        return rosterEntries;
+        return Collections.unmodifiableSet(rosterEntries);
     }
 
     public void addRosterEntry(RosterEntry entry) {
@@ -75,10 +76,6 @@ public class Player extends Person {
 
     public void removeRosterEntry(RosterEntry entry) {
         rosterEntries.remove(entry);
-    }
-
-    public void setRosterEntries(Set<RosterEntry> rosterEntries) {
-        this.rosterEntries = rosterEntries;
     }
 
     @Override

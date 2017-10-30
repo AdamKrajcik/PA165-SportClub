@@ -25,27 +25,24 @@ public class PlayerDaoImpl implements PlayerDao {
 
     @Override
     public void create(Player player) {
-        if (player == null) {
-            throw new IllegalArgumentException("Player cannot be null");
-        }
         em.persist(player);
     }
 
     @Override
     public void update(Player player) {
-        if (player == null) {
-            throw new IllegalArgumentException("Player cannot be null");
-        }
         em.merge(player);
     }
 
     @Override
     public void delete(Player player) {
-        if (player == null) {
-            throw new IllegalArgumentException("Player cannot be null");
+        if (em.contains(player))
+        {
+            em.remove(player);
         }
-
-        em.remove(em.merge(player));
+        else
+        {
+            em.remove(em.merge(player));
+        }
     }
 
     @Override
@@ -66,7 +63,7 @@ public class PlayerDaoImpl implements PlayerDao {
 
     @Override
     public List<Team> getPlayerTeams(Player player) {
-        return em.createQuery("SELECT t FROM Team t JOIN RosterEntry r WHERE r.player = :player", Team.class)
+        return em.createQuery("SELECT t FROM Team t JOIN t.rosterEntries r WHERE r.player = :player", Team.class)
                 .setParameter("player", player).getResultList();
     }
 }
