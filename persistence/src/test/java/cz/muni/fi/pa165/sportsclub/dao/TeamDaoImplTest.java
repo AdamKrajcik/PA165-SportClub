@@ -15,6 +15,11 @@ import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 
 
+/**
+ * Tests for TeamDao
+ *
+ * @author 422636 Adam Krajcik
+ */
 @ContextConfiguration(classes = PersistenceSampleApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional

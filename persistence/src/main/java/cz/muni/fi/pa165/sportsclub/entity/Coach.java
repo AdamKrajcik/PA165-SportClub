@@ -11,7 +11,7 @@ import java.util.Set;
  * Class representing a coach
  *
  * @author Jan Cech
- * @author 422636 Adam Krajcik
+ * @author 422636 Adam Krajcik updates
  */
 @Entity
 public class Coach extends Person {

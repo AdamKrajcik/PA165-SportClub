@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
  * Abstract class for shared variables
  *
  * @author Jan cech
- * @author 422636 Adam Krajcik
+ * @author 422636 Adam Krajcik updates
  */
 @MappedSuperclass
 public abstract class Person {
