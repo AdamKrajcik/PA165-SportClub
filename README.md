@@ -17,6 +17,9 @@ Think of a sports club for a team sport (football, ice hockey etc.). Create a sy
 ### 4.1 <a name="milestone-1"></a>1st Milestone Project Requirements
 
 Adam Krajčík : Player + DAO, Tests for TeamDao
+
 445403 Kristián Katanik : RosterEntry + DAO, Tests for PlayerDao, wiki + diagrams
+
 Martin Škrovina : Team + DAO, Tests for CoachDao
+
 Jan Čech : Coach + DAO, Tests for RosterEntryDao
