@@ -42,6 +42,7 @@ public class Player extends Person {
     @OneToMany(mappedBy = "player")
     private Set<RosterEntry> rosterEntries = new HashSet<RosterEntry>();
 
+
     public int getHeight() {
         return height;
     }
@@ -105,13 +106,13 @@ public class Player extends Person {
     public int hashCode() {
         final int prime = 23;
         int result = 1;
-        result = prime * result + ((getEmail() == null) ? 0: getEmail().hashCode());
+        result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        return "PLAYER(id=" + getId()  + ", firstName=" + getFirstName() + ", lastName=" + getLastName()
-        + ", email=" + getEmail() + ", dateOfBirth=" + dateOfBirth +")";
+        return "PLAYER(id=" + getId() + ", firstName=" + getFirstName() + ", lastName=" + getLastName()
+                + ", email=" + getEmail() + ", dateOfBirth=" + dateOfBirth + ")";
     }
 }

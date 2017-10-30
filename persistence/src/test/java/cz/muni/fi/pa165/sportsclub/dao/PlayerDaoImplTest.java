@@ -39,11 +39,10 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
 
 
     @Test
-    public void findAllTest() {
-
+    public void testFindAll() {
         Player player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
-        cal1.set(2000,2,11);
+        cal1.set(2000, 2, 11);
         player1.setDateOfBirth(cal1.getTime());
         player1.setHeight(160);
         player1.setWeight(80);
@@ -53,7 +52,7 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
 
         Player player2 = new Player();
         Calendar cal2 = Calendar.getInstance();
-        cal2.set(1998,11,20);
+        cal2.set(1998, 11, 20);
         player2.setDateOfBirth(cal2.getTime());
         player2.setHeight(165);
         player2.setWeight(90);
@@ -64,16 +63,15 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
         playerDao.create(player1);
         playerDao.create(player2);
 
-        List<Player> result = playerDao.getAllPlayers();
+        List<Player> result = playerDao.findAll();
         Assert.assertEquals(result.size(), 2);
     }
 
     @Test
-    public void deletePlayerTest(){
-
+    public void testDeletePlayer() {
         Player player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
-        cal1.set(2000,2,11);
+        cal1.set(2000, 2, 11);
         player1.setDateOfBirth(cal1.getTime());
         player1.setHeight(160);
         player1.setWeight(80);
@@ -84,15 +82,14 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
         playerDao.create(player1);
         Assert.assertNotNull(player1.getId());
         playerDao.delete(player1);
-        Assert.assertNull(playerDao.getPlayerById(player1.getId()));
+        Assert.assertNull(playerDao.findById(player1.getId()));
     }
 
     @Test
-    public void updatePlayerTest(){
-
+    public void testUpdatePlayer() {
         Player player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
-        cal1.set(2000,2,11);
+        cal1.set(2000, 2, 11);
         player1.setDateOfBirth(cal1.getTime());
         player1.setHeight(160);
         player1.setWeight(80);
@@ -103,15 +100,14 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
         playerDao.create(player1);
         player1.setHeight(180);
         playerDao.update(player1);
-        Assert.assertEquals(playerDao.getPlayerById(player1.getId()).getHeight(),180, 0.01);
+        Assert.assertEquals(playerDao.findById(player1.getId()).getHeight(), 180, 0.01);
     }
 
     @Test
-    public void createPlayerTest(){
-
+    public void testCreatePlayer() {
         Player player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
-        cal1.set(2000,2,11);
+        cal1.set(2000, 2, 11);
         player1.setDateOfBirth(cal1.getTime());
         player1.setHeight(160);
         player1.setWeight(80);
@@ -120,16 +116,14 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
         player1.setEmail("pavol.mrkva@gmail.com");
 
         playerDao.create(player1);
-        Assert.assertEquals(playerDao.getPlayerById(player1.getId()).getEmail(),"pavol.mrkva@gmail.com");
-
+        Assert.assertEquals(playerDao.findById(player1.getId()).getEmail(), "pavol.mrkva@gmail.com");
     }
 
     @Test
-    public void getPlayerByEmailTest(){
-
+    public void testFindByEmail() {
         Player player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
-        cal1.set(2000,2,11);
+        cal1.set(2000, 2, 11);
         player1.setDateOfBirth(cal1.getTime());
         player1.setHeight(160);
         player1.setWeight(80);
@@ -138,16 +132,15 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
         player1.setEmail("pavol.mrkva@gmail.com");
 
         playerDao.create(player1);
-        Player found = playerDao.getPlayerByEmail(player1.getEmail());
+        Player found = playerDao.findByEmail(player1.getEmail());
         Assert.assertEquals(found, player1);
     }
 
     @Test
-    public void getPlayerByIdTest(){
-
+    public void testFindById() {
         Player player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
-        cal1.set(2000,2,11);
+        cal1.set(2000, 2, 11);
         player1.setDateOfBirth(cal1.getTime());
         player1.setHeight(160);
         player1.setWeight(80);
@@ -156,16 +149,15 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
         player1.setEmail("pavol.mrkva@gmail.com");
 
         playerDao.create(player1);
-        Player found = playerDao.getPlayerById(player1.getId());
+        Player found = playerDao.findById(player1.getId());
         Assert.assertEquals(found, player1);
     }
 
     @Test
-    public void getPlayerTeamsTest(){
-
+    public void testFindTeamsByPlayer() {
         Player player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
-        cal1.set(2000,2,11);
+        cal1.set(2000, 2, 11);
         player1.setDateOfBirth(cal1.getTime());
         player1.setHeight(160);
         player1.setWeight(80);
@@ -206,16 +198,15 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
         teamDao.update(team1);
         teamDao.update(team2);
 
-        List<Team> result = playerDao.getPlayerTeams(player1);
+        List<Team> result = playerDao.findTeamsByPlayer(player1);
         Assert.assertEquals(result.size(), 2);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testNullFirstName() {
-
         Player player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
-        cal1.set(2000,2,11);
+        cal1.set(2000, 2, 11);
         player1.setDateOfBirth(cal1.getTime());
         player1.setHeight(160);
         player1.setWeight(80);
@@ -224,15 +215,13 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
 
         player1.setFirstName(null);
         playerDao.create(player1);
-
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testNullLastName() {
-
         Player player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
-        cal1.set(2000,2,11);
+        cal1.set(2000, 2, 11);
         player1.setDateOfBirth(cal1.getTime());
         player1.setHeight(160);
         player1.setWeight(80);
@@ -241,12 +230,10 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
 
         player1.setLastName(null);
         playerDao.create(player1);
-
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testNullDateOfBirth() {
-
         Player player1 = new Player();
         player1.setHeight(160);
         player1.setWeight(80);
@@ -256,15 +243,13 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
 
         player1.setDateOfBirth(null);
         playerDao.create(player1);
-
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testHeightNotNegative() {
-
         Player player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
-        cal1.set(2000,2,11);
+        cal1.set(2000, 2, 11);
         player1.setDateOfBirth(cal1.getTime());
         player1.setHeight(160);
         player1.setFirstName("Pavol");
@@ -277,10 +262,9 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testWeightNotNegative() {
-
         Player player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
-        cal1.set(2000,2,11);
+        cal1.set(2000, 2, 11);
         player1.setDateOfBirth(cal1.getTime());
         player1.setHeight(160);
         player1.setFirstName("Pavol");
@@ -293,7 +277,6 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testDateOfBirthInFuture() {
-
         Player player1 = new Player();
         player1.setHeight(160);
         player1.setFirstName("Pavol");
@@ -302,7 +285,7 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
 
         Calendar cal1 = Calendar.getInstance();
         cal1.getTime();
-        cal1.add(Calendar.DATE,1);
+        cal1.add(Calendar.DATE, 1);
         player1.setDateOfBirth(cal1.getTime());
         playerDao.create(player1);
     }

@@ -23,14 +23,15 @@ public class TeamDaoImplTest extends AbstractTestNGSpringContextTests {
     @Inject
     private TeamDao teamDao;
 
+
     @Test
     public void testCreate() {
-        Team blueTeem = new Team();
-        blueTeem.setName("blue");
-        blueTeem.setAgeGroup(AgeGroup.M16);
+        Team blueTeam = new Team();
+        blueTeam.setName("blue");
+        blueTeam.setAgeGroup(AgeGroup.M16);
 
-        teamDao.create(blueTeem);
-        Assert.assertEquals(teamDao.getTeamById(blueTeem.getId()), blueTeem);
+        teamDao.create(blueTeam);
+        Assert.assertEquals(teamDao.findById(blueTeam.getId()), blueTeam);
     }
 
     @Test
@@ -43,7 +44,7 @@ public class TeamDaoImplTest extends AbstractTestNGSpringContextTests {
         redTeam.setName("yellow");
         teamDao.update(redTeam);
 
-        Assert.assertEquals(teamDao.getTeamById(redTeam.getId()), redTeam);
+        Assert.assertEquals(teamDao.findById(redTeam.getId()), redTeam);
     }
 
     @Test
@@ -53,14 +54,14 @@ public class TeamDaoImplTest extends AbstractTestNGSpringContextTests {
         yellowTeam.setAgeGroup(AgeGroup.M24);
 
         teamDao.create(yellowTeam);
-        Assert.assertEquals(teamDao.getTeamById(yellowTeam.getId()), yellowTeam);
+        Assert.assertEquals(teamDao.findById(yellowTeam.getId()), yellowTeam);
 
         teamDao.delete(yellowTeam);
-        Assert.assertNull(teamDao.getTeamById(yellowTeam.getId()));
+        Assert.assertNull(teamDao.findById(yellowTeam.getId()));
     }
 
     @Test
-    public void testGetTeamById()  {
+    public void testFindById() {
         Team greenTeam = new Team();
         greenTeam.setName("green");
         greenTeam.setAgeGroup(AgeGroup.M16);
@@ -72,12 +73,12 @@ public class TeamDaoImplTest extends AbstractTestNGSpringContextTests {
         teamDao.create(greenTeam);
         teamDao.create(orangeTeam);
 
-        Assert.assertEquals(teamDao.getTeamById(greenTeam.getId()), greenTeam);
-        Assert.assertEquals(teamDao.getTeamById(orangeTeam.getId()), orangeTeam);
+        Assert.assertEquals(teamDao.findById(greenTeam.getId()), greenTeam);
+        Assert.assertEquals(teamDao.findById(orangeTeam.getId()), orangeTeam);
     }
 
     @Test
-    public void testGetAllTeams()  {
+    public void testFindAll() {
         Team greenTeam = new Team();
         greenTeam.setName("green");
         greenTeam.setAgeGroup(AgeGroup.M16);
@@ -89,9 +90,9 @@ public class TeamDaoImplTest extends AbstractTestNGSpringContextTests {
         teamDao.create(greenTeam);
         teamDao.create(orangeTeam);
 
-        Assert.assertEquals(teamDao.getAllTeams().size(), 2);
-        Assert.assertTrue(teamDao.getAllTeams().contains(greenTeam));
-        Assert.assertTrue(teamDao.getAllTeams().contains(orangeTeam));
+        Assert.assertEquals(teamDao.findAll().size(), 2);
+        Assert.assertTrue(teamDao.findAll().contains(greenTeam));
+        Assert.assertTrue(teamDao.findAll().contains(orangeTeam));
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)

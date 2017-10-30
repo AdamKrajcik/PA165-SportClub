@@ -16,6 +16,7 @@ public class Coach extends Person {
     @OneToMany(mappedBy = "coach")
     private Set<Team> teams = new HashSet<Team>();
 
+
     public Set<Team> getTeams() {
         return Collections.unmodifiableSet(teams);
     }
@@ -47,7 +48,7 @@ public class Coach extends Person {
     public int hashCode() {
         final int prime = 23;
         int result = 1;
-        result = prime * result + ((getEmail() == null) ? 0: getEmail().hashCode());
+        result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         return result;
     }
 }

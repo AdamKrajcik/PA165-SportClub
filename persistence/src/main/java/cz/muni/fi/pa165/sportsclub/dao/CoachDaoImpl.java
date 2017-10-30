@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Implementation of CoachDAO
+ *
  * @author Jan Cech
  */
 @Repository
@@ -44,17 +45,17 @@ public class CoachDaoImpl implements CoachDao {
     }
 
     @Override
-    public Coach findCoachById(Long id) {
+    public Coach findById(Long id) {
         return em.find(Coach.class, id);
     }
 
     @Override
-    public List<Coach> findAllCoaches() {
+    public List<Coach> findAll() {
         return em.createQuery("SELECT c FROM Coach c", Coach.class).getResultList();
     }
 
     @Override
-    public Coach findCoachByEmail(String email) {
+    public Coach findByEmail(String email) {
         return em
                 .createQuery("SELECT c FROM Coach c where c.email = :mail", Coach.class)
                 .setParameter("mail", email)

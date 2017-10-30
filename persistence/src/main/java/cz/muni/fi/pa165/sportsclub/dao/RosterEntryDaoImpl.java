@@ -38,11 +38,11 @@ public class RosterEntryDaoImpl implements RosterEntryDao {
 
     @Override
     public RosterEntry findById(Long id) {
-        return em.find(RosterEntry.class,id);
+        return em.find(RosterEntry.class, id);
     }
 
     @Override
     public List<RosterEntry> findAll() {
-        return em.createQuery("SELECT re FROM RosterEntry re",RosterEntry.class).getResultList();
+        return em.createQuery("SELECT re FROM RosterEntry re", RosterEntry.class).getResultList();
     }
 }

@@ -14,7 +14,7 @@ import java.util.Set;
  * Class that represents one team
  *
  * @author Jan Cech
- * @author  Martin Skrovina 410461 Add/remove RosterEntry
+ * @author Martin Skrovina 410461 Add/remove RosterEntry
  */
 @Entity
 public class Team {
@@ -38,8 +38,8 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private Set<RosterEntry> rosterEntries = new HashSet<>();
 
-    public Team() {
 
+    public Team() {
     }
 
     public Team(String name, Coach coach, AgeGroup ageGroup, Set<RosterEntry> rosterEntries) {
@@ -116,7 +116,7 @@ public class Team {
     public int hashCode() {
         final int prime = 23;
         int result = 1;
-        result = prime * result + ((name == null) ? 0: name.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 }

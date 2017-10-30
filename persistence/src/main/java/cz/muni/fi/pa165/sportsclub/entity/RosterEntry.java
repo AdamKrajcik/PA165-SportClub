@@ -31,6 +31,7 @@ public class RosterEntry {
     @NotNull
     private int jerseyNumber;
 
+
     public RosterEntry(Team team, Player player, int jerseyNumber) {
         this.team = team;
         this.player = player;
@@ -88,7 +89,7 @@ public class RosterEntry {
             return false;
         if (!Objects.equals(this.getTeam(), other.getTeam()))
             return false;
-        if(this.getJerseyNumber() != other.getJerseyNumber())
+        if (this.getJerseyNumber() != other.getJerseyNumber())
             return false;
         return true;
 

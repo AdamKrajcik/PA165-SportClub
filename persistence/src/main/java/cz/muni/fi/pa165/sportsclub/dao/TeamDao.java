@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Database operations interface for {@link Team}
- * 
+ *
  * @author 410461 Martin Skrovina
  */
 public interface TeamDao {
@@ -38,12 +38,12 @@ public interface TeamDao {
      * @param id of team
      * @return team object with specified id if exists, null otherwise
      */
-    Team getTeamById(Long id);
+    Team findById(Long id);
 
     /**
      * Retrieves all team objects
      *
      * @return all teams
      */
-    List<Team> getAllTeams();
+    List<Team> findAll();
 }

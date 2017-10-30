@@ -35,34 +35,31 @@ public class PlayerDaoImpl implements PlayerDao {
 
     @Override
     public void delete(Player player) {
-        if (em.contains(player))
-        {
+        if (em.contains(player)) {
             em.remove(player);
-        }
-        else
-        {
+        } else {
             em.remove(em.merge(player));
         }
     }
 
     @Override
-    public Player getPlayerById(Long id) {
+    public Player findById(Long id) {
         return em.find(Player.class, id);
     }
 
     @Override
-    public List<Player> getAllPlayers() {
+    public List<Player> findAll() {
         return em.createQuery("SELECT p FROM Player p", Player.class).getResultList();
     }
 
     @Override
-    public Player getPlayerByEmail(String email) {
+    public Player findByEmail(String email) {
         return em.createQuery("SELECT p FROM Player p WHERE p.email = :email", Player.class)
                 .setParameter("email", email).getSingleResult();
     }
 
     @Override
-    public List<Team> getPlayerTeams(Player player) {
+    public List<Team> findTeamsByPlayer(Player player) {
         return em.createQuery("SELECT t FROM Team t JOIN t.rosterEntries r WHERE r.player = :player", Team.class)
                 .setParameter("player", player).getResultList();
     }

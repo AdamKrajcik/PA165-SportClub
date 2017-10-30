@@ -41,14 +41,14 @@ public interface PlayerDao {
      * @param id of player
      * @return player object with specified id if exists, null otherwise
      */
-    Player getPlayerById(Long id);
+    Player findById(Long id);
 
     /**
      * Retrieves all players objects
      *
      * @return all players
      */
-    List<Player> getAllPlayers();
+    List<Player> findAll();
 
     /**
      * Retrieves player by email
@@ -56,7 +56,7 @@ public interface PlayerDao {
      * @param email of player
      * @return player with selected email
      */
-    Player getPlayerByEmail(String email);
+    Player findByEmail(String email);
 
     /**
      * Retrieves player's teams
@@ -64,5 +64,5 @@ public interface PlayerDao {
      * @param player player in teams
      * @return teams of player
      */
-    public List<Team> getPlayerTeams(Player player);
+    public List<Team> findTeamsByPlayer(Player player);
 }

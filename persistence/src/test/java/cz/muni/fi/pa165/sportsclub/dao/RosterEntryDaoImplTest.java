@@ -98,7 +98,6 @@ public class RosterEntryDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(rosterEntryDao.findById(entry1.getId()), entry1);
         Assert.assertEquals(rosterEntryDao.findAll().size(), 2);
         Assert.assertTrue(rosterEntryDao.findAll().contains(entry2));
-
     }
 
     @Test
@@ -113,7 +112,6 @@ public class RosterEntryDaoImplTest extends AbstractTestNGSpringContextTests {
         entry1.setJerseyNumber(24);
         rosterEntryDao.update(entry1);
         Assert.assertEquals(rosterEntryDao.findById(entry1.getId()).getJerseyNumber(), 24);
-
     }
 
     @Test
@@ -164,8 +162,5 @@ public class RosterEntryDaoImplTest extends AbstractTestNGSpringContextTests {
         entry1.setJerseyNumber(999);
 
         rosterEntryDao.create(entry1);
-
-
     }
-
 }

@@ -46,12 +46,12 @@ public class TeamDaoImpl implements TeamDao {
     }
 
     @Override
-    public Team getTeamById(Long id) {
+    public Team findById(Long id) {
         return em.find(Team.class, id);
     }
 
     @Override
-    public List<Team> getAllTeams() {
+    public List<Team> findAll() {
         return em.createQuery("SELECT t FROM Team t", Team.class).getResultList();
     }
 }

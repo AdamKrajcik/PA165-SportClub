@@ -30,6 +30,7 @@ public abstract class Person {
     @Column(length = 25, unique = true, nullable = false)
     private String email;
 
+
     public long getId() {
         return id;
     }
