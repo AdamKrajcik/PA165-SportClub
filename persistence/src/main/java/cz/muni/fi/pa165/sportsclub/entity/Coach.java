@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
+ * Class representing a coach
+ *
  * @author Jan Cech
  * @author 422636 Adam Krajcik
  */

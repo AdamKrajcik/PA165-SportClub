@@ -25,21 +25,26 @@ public class PlayerDaoImpl implements PlayerDao {
 
     @Override
     public void create(Player player) {
+        if (player == null) {
+            throw new IllegalArgumentException("Player cannot be null");
+        }
         em.persist(player);
     }
 
     @Override
     public void update(Player player) {
+        if (player == null) {
+            throw new IllegalArgumentException("Player cannot be null");
+        }
         em.merge(player);
     }
 
     @Override
     public void delete(Player player) {
-        if (em.contains(player)) {
-            em.remove(player);
-        } else {
-            em.remove(em.merge(player));
+        if (player == null) {
+            throw new IllegalArgumentException("Player cannot be null");
         }
+            em.remove(em.merge(player));
     }
 
     @Override

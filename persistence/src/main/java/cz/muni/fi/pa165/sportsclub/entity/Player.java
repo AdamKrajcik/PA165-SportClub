@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Class representing player
+ * Class representing a player
  *
  * @author 422636 Adam Krajcik
  */
@@ -108,11 +108,5 @@ public class Player extends Person {
         int result = 1;
         result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "PLAYER(id=" + getId() + ", firstName=" + getFirstName() + ", lastName=" + getLastName()
-                + ", email=" + getEmail() + ", dateOfBirth=" + dateOfBirth + ")";
     }
 }
