@@ -124,7 +124,7 @@ public class RosterEntryDaoImplTest extends AbstractTestNGSpringContextTests {
         entry1.setJerseyNumber(42);
         rosterEntryDao.create(entry1);
         Assert.assertEquals(rosterEntryDao.findAll().size(), 1);
-        rosterEntryDao.remove(entry1);
+        rosterEntryDao.delete(entry1);
         Assert.assertEquals(rosterEntryDao.findAll().size(), 0);
         Assert.assertNull(rosterEntryDao.findById(entry1.getId()));
     }

@@ -28,11 +28,11 @@ public interface RosterEntryDao {
     RosterEntry update(RosterEntry rosterEntry);
 
     /**
-     * Removes RosterEntry from database.
+     * Deletes RosterEntry from database.
      *
-     * @param rosterEntry to be removed.
+     * @param rosterEntry to be deleted.
      */
-    void remove(RosterEntry rosterEntry);
+    void delete(RosterEntry rosterEntry);
 
     /**
      * Find specific RosterEntry by its ID

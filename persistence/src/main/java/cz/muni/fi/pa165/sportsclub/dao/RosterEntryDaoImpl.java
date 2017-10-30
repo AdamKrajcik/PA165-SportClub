@@ -23,17 +23,26 @@ public class RosterEntryDaoImpl implements RosterEntryDao {
 
     @Override
     public void create(RosterEntry rosterEntry) {
+        if (rosterEntry == null) {
+            throw new IllegalArgumentException("RosterEntry cannot be null");
+        }
         em.persist(rosterEntry);
     }
 
     @Override
     public RosterEntry update(RosterEntry rosterEntry) {
+        if (rosterEntry == null) {
+            throw new IllegalArgumentException("RosterEntry cannot be null");
+        }
         return em.merge(rosterEntry);
     }
 
     @Override
-    public void remove(RosterEntry rosterEntry) {
-        em.remove(rosterEntry);
+    public void delete(RosterEntry rosterEntry) {
+        if (rosterEntry == null) {
+            throw new IllegalArgumentException("RosterEntry cannot be null");
+        }
+        em.remove(em.merge(rosterEntry));
     }
 
     @Override

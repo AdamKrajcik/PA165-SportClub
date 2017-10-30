@@ -274,19 +274,4 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
         player1.setWeight(-1);
         playerDao.create(player1);
     }
-
-    @Test(expectedExceptions = ConstraintViolationException.class)
-    public void testDateOfBirthInFuture() {
-        Player player1 = new Player();
-        player1.setHeight(160);
-        player1.setFirstName("Pavol");
-        player1.setLastName("Mrkva");
-        player1.setEmail("pavol.mrkva@gmail.com");
-
-        Calendar cal1 = Calendar.getInstance();
-        cal1.getTime();
-        cal1.add(Calendar.DATE, 1);
-        player1.setDateOfBirth(cal1.getTime());
-        playerDao.create(player1);
-    }
 }
