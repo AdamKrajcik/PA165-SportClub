@@ -16,7 +16,7 @@ import java.util.Objects;
 public class RosterEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @NotNull

@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,10 +22,11 @@ public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     //business key
     @NotNull
+    @Size(min=3, max = 25)
     @Column(length = 25, unique = true, nullable = false)
     private String name;
 
