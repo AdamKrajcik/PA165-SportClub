@@ -8,7 +8,7 @@ import java.util.Set;
  *
  * @author 422636 Adam Krajcik
  */
-public class CoachDto {
+public class CoachDto extends PersonDto{
 
     private Set<TeamDto> teams;
 

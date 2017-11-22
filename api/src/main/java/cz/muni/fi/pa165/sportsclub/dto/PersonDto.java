@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.sportsclub.dto;
 
-public class PersonDto {
+public abstract class PersonDto {
 
     private Long id;
 
