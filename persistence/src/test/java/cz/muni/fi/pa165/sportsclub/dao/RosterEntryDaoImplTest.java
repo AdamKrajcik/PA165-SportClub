@@ -11,11 +11,16 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 /**
@@ -37,23 +42,27 @@ public class RosterEntryDaoImplTest extends AbstractTestNGSpringContextTests {
     @Inject
     private PlayerDao playerDao;
 
+    @PersistenceContext
+    private EntityManager em;
+
     private Team blueTeam;
     private Team redTeam;
     private Player player1;
     private Player player2;
+    private RosterEntry entry1;
+    private RosterEntry entry2;
 
 
-    //@BeforeTest
+    @BeforeMethod
     public void setUp() {
         blueTeam = new Team();
         blueTeam.setName("blue");
         blueTeam.setAgeGroup(AgeGroup.M16);
-        teamDao.create(blueTeam);
 
         redTeam = new Team();
         redTeam.setName("red");
         redTeam.setAgeGroup(AgeGroup.M20);
-        teamDao.create(redTeam);
+
 
         player1 = new Player();
         Calendar cal1 = Calendar.getInstance();
@@ -74,39 +83,31 @@ public class RosterEntryDaoImplTest extends AbstractTestNGSpringContextTests {
         player2.setFirstName("Peter");
         player2.setLastName("Noval");
         player2.setEmail("peter.noval@gmail.com");
+
+        entry1 = new RosterEntry();
+        entry1.setPlayer(player1);
+        entry1.setTeam(blueTeam);
+        entry1.setJerseyNumber(42);
+
+        entry2 = new RosterEntry();
+        entry2.setPlayer(player1);
+        entry2.setTeam(blueTeam);
+        entry2.setJerseyNumber(10);
     }
 
     @Test
     public void createEntry() {
-        setUp();
 
-
-        RosterEntry entry1 = new RosterEntry();
-        entry1.setPlayer(player1);
-        entry1.setTeam(blueTeam);
-        entry1.setJerseyNumber(42);
         rosterEntryDao.create(entry1);
 
-        RosterEntry entry2 = new RosterEntry();
-        entry2.setPlayer(player1);
-        entry2.setTeam(blueTeam);
-        entry2.setJerseyNumber(10);
-        rosterEntryDao.create(entry2);
-
         Assert.assertEquals(rosterEntryDao.findById(entry1.getId()), entry1);
-        Assert.assertEquals(rosterEntryDao.findAll().size(), 2);
-        Assert.assertTrue(rosterEntryDao.findAll().contains(entry2));
     }
 
     @Test
     void updateEntry() {
-        setUp();
 
-        RosterEntry entry1 = new RosterEntry();
-        entry1.setPlayer(player1);
-        entry1.setTeam(blueTeam);
-        entry1.setJerseyNumber(42);
-        rosterEntryDao.create(entry1);
+        em.persist(entry1);
+        em.flush();
         entry1.setJerseyNumber(24);
         rosterEntryDao.update(entry1);
         Assert.assertEquals(rosterEntryDao.findById(entry1.getId()).getJerseyNumber(), 24);
@@ -114,51 +115,71 @@ public class RosterEntryDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteEntry() {
-        setUp();
 
-        RosterEntry entry1 = new RosterEntry();
-        entry1.setPlayer(player1);
-        entry1.setTeam(blueTeam);
-        entry1.setJerseyNumber(42);
-        rosterEntryDao.create(entry1);
+        em.persist(entry1);
+        em.flush();
         Assert.assertEquals(rosterEntryDao.findAll().size(), 1);
         rosterEntryDao.delete(entry1);
         Assert.assertEquals(rosterEntryDao.findAll().size(), 0);
         Assert.assertNull(rosterEntryDao.findById(entry1.getId()));
     }
 
+    @Test
+    public void findById(){
+
+        em.persist(entry1);
+        em.flush();
+        RosterEntry result = rosterEntryDao.findById(entry1.getId());
+        Assert.assertEquals(result,entry1);
+    }
+
+    @Test
+    public void findAll(){
+
+        em.persist(entry1);
+        em.persist(entry2);
+        em.flush();
+        List<RosterEntry> result = rosterEntryDao.findAll();
+        List<RosterEntry> listEntries = new ArrayList<>();
+        listEntries.add(entry1);
+        listEntries.add(entry2);
+        Assert.assertEquals(result.size(),2);
+        Assert.assertEquals(result,listEntries);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findWithNullId() {
+
+        rosterEntryDao.findById(null);
+
+    }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createEntryWithNullTeam() {
-        setUp();
 
-        RosterEntry entry1 = new RosterEntry();
-        entry1.setPlayer(player1);
         entry1.setTeam(null);
-        entry1.setJerseyNumber(42);
         rosterEntryDao.create(entry1);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createEntryWithNullPlayer() {
-        setUp();
 
-        RosterEntry entry1 = new RosterEntry();
         entry1.setPlayer(null);
-        entry1.setTeam(blueTeam);
-        entry1.setJerseyNumber(42);
         rosterEntryDao.create(entry1);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createEntryWithBigNumber() {
-        setUp();
 
-        RosterEntry entry1 = new RosterEntry();
-        entry1.setPlayer(player1);
-        entry1.setTeam(blueTeam);
         entry1.setJerseyNumber(999);
-
         rosterEntryDao.create(entry1);
     }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void createEntryWithLowNumber() {
+
+        entry1.setJerseyNumber(-50);
+        rosterEntryDao.create(entry1);
+    }
+
 }

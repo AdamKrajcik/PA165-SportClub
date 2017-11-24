@@ -37,7 +37,7 @@ public class Coach extends Person {
             return false;
         }
 
-        final Player other = (Player) o;
+        final Coach other = (Coach) o;
 
         if ((getEmail() == null) ? (other.getEmail() != null) : !getEmail().equals(other.getEmail())) {
             return false;

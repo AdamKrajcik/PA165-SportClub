@@ -8,9 +8,12 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
 
 
@@ -24,64 +27,73 @@ import javax.validation.ConstraintViolationException;
 @Transactional
 public class CoachDaoImplTest extends AbstractTestNGSpringContextTests {
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Inject
     private CoachDao coachDao;
 
+    private Coach coach1;
+    private Coach coach2;
+    private Coach coach3;
 
-    @Test
-    public void testCreate() {
-        Coach coach = new Coach();
-        coach.setFirstName("Firstname");
-        coach.setLastName("Lastname");
-        coach.setEmail("lastname@example.com");
+    @BeforeMethod
+    public void setUp(){
 
-        coachDao.create(coach);
-
-        Assert.assertEquals(coachDao.findById(coach.getId()), coach);
-    }
-
-    @Test
-    public void testUpdate() {
-        Coach coach = new Coach();
-        coach.setFirstName("Firstname");
-        coach.setLastName("Lastname");
-        coach.setEmail("lastname@example.com");
-
-        coachDao.create(coach);
-        coach.setEmail("firstname@example.com");
-        coachDao.update(coach);
-
-        Assert.assertEquals(coachDao.findById(coach.getId()).getEmail(), coach.getEmail());
-    }
-
-    @Test
-    public void testDelete() {
-        Coach coach = new Coach();
-        coach.setFirstName("Firstname");
-        coach.setLastName("Lastname");
-        coach.setEmail("lastname@example.com");
-
-        coachDao.create(coach);
-        Assert.assertEquals(coachDao.findById(coach.getId()), coach);
-
-        coachDao.delete(coach);
-        Assert.assertNull(coachDao.findById(coach.getId()));
-    }
-
-    @Test
-    public void testFindById() {
-        Coach coach1 = new Coach();
+        coach1 = new Coach();
         coach1.setFirstName("Firstname");
         coach1.setLastName("Lastname");
         coach1.setEmail("lastname@example.com");
 
-        Coach coach2 = new Coach();
+        coach2 = new Coach();
         coach2.setFirstName("Vorname");
         coach2.setLastName("Nachname");
         coach2.setEmail("nachname@example.com");
 
+        coach3 = new Coach();
+        coach3.setFirstName("Prénom");
+        coach3.setLastName("Nom de famille");
+        coach3.setEmail("nomdefamille@example.com");
+
+
+    }
+
+    @Test
+    public void testCreate() {
+
         coachDao.create(coach1);
-        coachDao.create(coach2);
+
+        Assert.assertEquals(coachDao.findById(coach1.getId()), coach1);
+    }
+
+    @Test
+    public void testUpdate() {
+
+        em.persist(coach1);
+        em.flush();
+        coach1.setEmail("firstname@example.com");
+        coachDao.update(coach1);
+
+        Assert.assertEquals(coachDao.findById(coach1.getId()).getEmail(), coach1.getEmail());
+    }
+
+    @Test
+    public void testDelete() {
+
+        em.persist(coach1);
+        em.flush();
+        Assert.assertEquals(coachDao.findById(coach1.getId()), coach1);
+
+        coachDao.delete(coach1);
+        Assert.assertNull(coachDao.findById(coach1.getId()));
+    }
+
+    @Test
+    public void testFindById() {
+
+        em.persist(coach1);
+        em.persist(coach2);
+        em.flush();
 
         Assert.assertEquals(coachDao.findById(coach1.getId()), coach1);
         Assert.assertEquals(coachDao.findById(coach2.getId()), coach2);
@@ -89,24 +101,11 @@ public class CoachDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindAll() {
-        Coach coach1 = new Coach();
-        coach1.setFirstName("Firstname");
-        coach1.setLastName("Lastname");
-        coach1.setEmail("lastname@example.com");
 
-        Coach coach2 = new Coach();
-        coach2.setFirstName("Vorname");
-        coach2.setLastName("Nachname");
-        coach2.setEmail("nachname@example.com");
-
-        Coach coach3 = new Coach();
-        coach3.setFirstName("Prénom");
-        coach3.setLastName("Nom de famille");
-        coach3.setEmail("nomdefamille@example.com");
-
-        coachDao.create(coach1);
-        coachDao.create(coach2);
-        coachDao.create(coach3);
+        em.persist(coach1);
+        em.persist(coach2);
+        em.persist(coach3);
+        em.flush();
 
         Assert.assertEquals(coachDao.findAll().size(), 3);
         Assert.assertTrue(coachDao.findAll().contains(coach1));
@@ -116,49 +115,41 @@ public class CoachDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindByEmail() {
-        Coach coach1 = new Coach();
-        coach1.setFirstName("Firstname");
-        coach1.setLastName("Lastname");
-        coach1.setEmail("lastname@example.com");
 
-        Coach coach2 = new Coach();
-        coach2.setFirstName("Vorname");
-        coach2.setLastName("Nachname");
-        coach2.setEmail("nachname@example.com");
-
-        Coach coach3 = new Coach();
-        coach3.setFirstName("Prénom");
-        coach3.setLastName("Nom de famille");
-        coach3.setEmail("nomdefamille@example.com");
-
-        coachDao.create(coach1);
-        coachDao.create(coach2);
-        coachDao.create(coach3);
+        em.persist(coach1);
+        em.persist(coach2);
+        em.persist(coach3);
+        em.flush();
 
         Assert.assertEquals(coachDao.findByEmail(coach2.getEmail()), coach2);
     }
 
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findWithNullId() {
+
+        coachDao.findById(null);
+
+    }
+
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testFirstNameNull() {
-        Coach coach = new Coach();
-        coach.setLastName("Lastname");
-        coach.setEmail("lastname@example.com");
-        coachDao.create(coach);
+
+        coach1.setFirstName(null);
+        coachDao.create(coach1);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testLastNameNull() {
-        Coach coach = new Coach();
-        coach.setFirstName("Firstname");
-        coach.setEmail("lastname@example.com");
-        coachDao.create(coach);
+
+        coach1.setLastName(null);
+        coachDao.create(coach1);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testEmailNull() {
-        Coach coach = new Coach();
-        coach.setFirstName("Firstname");
-        coach.setLastName("Lastname");
-        coachDao.create(coach);
+
+        coach1.setEmail(null);
+        coachDao.create(coach1);
     }
+
 }

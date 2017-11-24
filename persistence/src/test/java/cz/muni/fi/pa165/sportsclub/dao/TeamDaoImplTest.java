@@ -9,9 +9,12 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
 
 
@@ -28,12 +31,32 @@ public class TeamDaoImplTest extends AbstractTestNGSpringContextTests {
     @Inject
     private TeamDao teamDao;
 
+    @PersistenceContext
+    private EntityManager em;
+
+    private Team blueTeam;
+    private Team redTeam;
+    private Team yellowTeam;
+
+    @BeforeMethod
+    public void setUp() {
+
+        blueTeam = new Team();
+        blueTeam.setName("blue");
+        blueTeam.setAgeGroup(AgeGroup.M16);
+
+        redTeam = new Team();
+        redTeam.setName("red");
+        redTeam.setAgeGroup(AgeGroup.M20);
+
+        yellowTeam = new Team();
+        yellowTeam.setName("yellow");
+        yellowTeam.setAgeGroup(AgeGroup.M24);
+
+    }
 
     @Test
     public void testCreate() {
-        Team blueTeam = new Team();
-        blueTeam.setName("blue");
-        blueTeam.setAgeGroup(AgeGroup.M16);
 
         teamDao.create(blueTeam);
         Assert.assertEquals(teamDao.findById(blueTeam.getId()), blueTeam);
@@ -41,11 +64,10 @@ public class TeamDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testUpdate() {
-        Team redTeam = new Team();
-        redTeam.setName("red");
-        redTeam.setAgeGroup(AgeGroup.M20);
 
-        teamDao.create(redTeam);
+        em.persist(redTeam);
+        em.flush();
+
         redTeam.setName("yellow");
         teamDao.update(redTeam);
 
@@ -54,11 +76,10 @@ public class TeamDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testDelete() {
-        Team yellowTeam = new Team();
-        yellowTeam.setName("yellow");
-        yellowTeam.setAgeGroup(AgeGroup.M24);
 
-        teamDao.create(yellowTeam);
+        em.persist(yellowTeam);
+        em.flush();
+
         Assert.assertEquals(teamDao.findById(yellowTeam.getId()), yellowTeam);
 
         teamDao.delete(yellowTeam);
@@ -84,26 +105,33 @@ public class TeamDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindAll() {
-        Team greenTeam = new Team();
-        greenTeam.setName("green");
-        greenTeam.setAgeGroup(AgeGroup.M16);
 
-        Team orangeTeam = new Team();
-        orangeTeam.setName("orange");
-        orangeTeam.setAgeGroup(AgeGroup.M20);
+        em.persist(redTeam);
+        em.persist(blueTeam);
+        em.persist(yellowTeam);
+        em.flush();
 
-        teamDao.create(greenTeam);
-        teamDao.create(orangeTeam);
+        Assert.assertEquals(teamDao.findAll().size(), 3);
+        Assert.assertTrue(teamDao.findAll().contains(yellowTeam));
+        Assert.assertTrue(teamDao.findAll().contains(blueTeam));
+        Assert.assertTrue(teamDao.findAll().contains(redTeam));
+    }
 
-        Assert.assertEquals(teamDao.findAll().size(), 2);
-        Assert.assertTrue(teamDao.findAll().contains(greenTeam));
-        Assert.assertTrue(teamDao.findAll().contains(orangeTeam));
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findByNullId() {
+        teamDao.findById(null);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testNameNull() {
-        Team team = new Team();
-        team.setAgeGroup(AgeGroup.M16);
-        teamDao.create(team);
+        yellowTeam.setName(null);
+        teamDao.create(yellowTeam);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void testAgeGroupNull() {
+
+        yellowTeam.setAgeGroup(null);
+        teamDao.create(yellowTeam);
     }
 }
