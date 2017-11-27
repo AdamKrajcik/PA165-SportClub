@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.sportsclub.facades;
+package cz.muni.fi.pa165.sportsclub.facade;
 
 import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.dto.TeamDto;
@@ -97,7 +97,7 @@ public class TeamFacadeImpl implements TeamFacade {
         Player p = mappingService.mapTo(player, Player.class);
         Team t = mappingService.mapTo(team, Team.class);
         AgeGroup a = ageGroupService.ageGroupForBirthDate(p.getDateOfBirth());
-        if (a != t.getAgeGroup() && ageGroupService.oneAbove(a) != t.getAgeGroup()) {
+        if (a != t.getAgeGroup() && a.oneAbove() != t.getAgeGroup()) {
             throw new IllegalArgumentException("Player cannot play for this team - bad age group");
         }
         if (t.getRosterEntries().stream().anyMatch(e -> e.getPlayer() == p)) {

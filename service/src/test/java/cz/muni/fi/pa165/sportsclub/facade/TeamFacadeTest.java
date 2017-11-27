@@ -9,7 +9,6 @@ import cz.muni.fi.pa165.sportsclub.entity.Player;
 import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
 import cz.muni.fi.pa165.sportsclub.entity.Team;
 import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
-import cz.muni.fi.pa165.sportsclub.facades.TeamFacadeImpl;
 import cz.muni.fi.pa165.sportsclub.mapper.MappingService;
 import cz.muni.fi.pa165.sportsclub.service.AgeGroupService;
 import cz.muni.fi.pa165.sportsclub.service.PlayerService;
@@ -133,7 +132,6 @@ public class TeamFacadeTest {
         Mockito.when(mappingService.mapTo(team1Dto, Team.class)).thenReturn(team1);
         Mockito.when(mappingService.mapTo(player1Dto, Player.class)).thenReturn(player1);
         Mockito.when(ageGroupService.ageGroupForBirthDate(Date.from(Instant.parse("1976-08-27T00:00:00.000Z")))).thenReturn(AgeGroup.MS);
-        Mockito.when(ageGroupService.oneAbove(AgeGroup.MS)).thenReturn(null);
         teamFacade.addPlayer(player1Dto, team1Dto, 42);
         Mockito.verify(teamService, Mockito.times(1)).updateTeam(team1);
         Mockito.verify(playerService, Mockito.times(1)).updatePlayer(player1);
