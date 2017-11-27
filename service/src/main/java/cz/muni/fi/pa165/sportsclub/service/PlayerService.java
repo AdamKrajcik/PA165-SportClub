@@ -41,6 +41,14 @@ public interface PlayerService {
     Player findById(long id);
 
     /**
+     * Finds player by specified email.
+     *
+     * @param email email of the player
+     * @return return player with the given email
+     */
+    Player findByEmail(String email);
+
+    /**
      * Returns all players.
      *
      * @return list of all players

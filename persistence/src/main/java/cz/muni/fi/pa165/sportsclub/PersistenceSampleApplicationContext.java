@@ -22,18 +22,18 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories()
+@EnableJpaRepositories
 @ComponentScan(basePackages = {"cz.muni.fi.pa165.sportsclub.dao"})
 public class PersistenceSampleApplicationContext {
 
     @Bean
-    public JpaTransactionManager transactionManager(){
+    public JpaTransactionManager transactionManager() {
         return  new JpaTransactionManager(entityManagerFactory().getObject());
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean  entityManagerFactory(){
-        LocalContainerEntityManagerFactoryBean jpaFactoryBean = new LocalContainerEntityManagerFactoryBean ();
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean jpaFactoryBean = new LocalContainerEntityManagerFactoryBean();
         jpaFactoryBean.setDataSource(db());
         jpaFactoryBean.setLoadTimeWeaver(instrumentationLoadTimeWeaver());
         jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
@@ -44,6 +44,7 @@ public class PersistenceSampleApplicationContext {
     public LocalValidatorFactoryBean localValidatorFactoryBean(){
         return new LocalValidatorFactoryBean();
     }
+
     @Bean
     public LoadTimeWeaver instrumentationLoadTimeWeaver() {
         return new InstrumentationLoadTimeWeaver();

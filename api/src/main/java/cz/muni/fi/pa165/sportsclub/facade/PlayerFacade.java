@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface PlayerFacade {
 
-    Long createPlayer(PlayerDto player);
+    void createPlayer(PlayerDto player);
 
     void updatePlayer(PlayerDto player);
 
