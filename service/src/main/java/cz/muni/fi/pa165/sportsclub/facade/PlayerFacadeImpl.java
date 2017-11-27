@@ -21,9 +21,6 @@ public class PlayerFacadeImpl implements PlayerFacade {
     @Inject
     private MappingService mappingService;
 
-    @Inject
-    private RosterService rosterService;
-
 
     @Override
     public void createPlayer(PlayerDto player) {
@@ -37,7 +34,6 @@ public class PlayerFacadeImpl implements PlayerFacade {
 
     @Override
     public void deletePlayer(PlayerDto player) {
-        playerService.findById(player.getId()).getRosterEntries().stream().forEach(entry -> rosterService.deleteEntry(entry.getId()));
         playerService.deletePlayer(player.getId());
     }
 

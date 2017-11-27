@@ -44,9 +44,9 @@ public class PlayerFacadeImplTest {
 
     @BeforeMethod
     public void setUp() throws Exception {
+        playerDto = EntityFactory.createPlayerDto();
         player = EntityFactory.createPlayer();
         player.setId(1L);
-        playerDto = EntityFactory.createPlayerDto();
 
         when(mappingService.mapTo(player, PlayerDto.class)).thenReturn(playerDto);
         when(mappingService.mapTo(playerDto, Player.class)).thenReturn(player);
@@ -68,6 +68,7 @@ public class PlayerFacadeImplTest {
 
     @Test
     public void testDeletePlayer() throws Exception {
+        playerDto.setId(1L);
         when(playerService.findById(player.getId())).thenReturn(player);
         playerFacade.deletePlayer(playerDto);
         verify(playerService).deletePlayer(player.getId());
@@ -76,7 +77,7 @@ public class PlayerFacadeImplTest {
     @Test
     public void testGetPlayer() throws Exception {
         when(playerService.findById(player.getId())).thenReturn(player);
-        playerFacade.getPlayer(playerDto.getId());
+        playerFacade.getPlayer(player.getId());
         verify(playerService).findById(player.getId());
     }
 
@@ -84,7 +85,7 @@ public class PlayerFacadeImplTest {
     public void testGetPlayerByEmail() throws Exception {
         when(playerService.findByEmail(player.getEmail())).thenReturn(player);
         playerFacade.getPlayerByEmail(player.getEmail());
-        verify(playerService.findByEmail(player.getEmail()));
+        verify(playerService).findByEmail(player.getEmail());
     }
 
     @Test
@@ -92,7 +93,7 @@ public class PlayerFacadeImplTest {
         when(playerService.getAll()).thenReturn(Collections.singletonList(player));
         List all = playerFacade.getAllPlayers();
         Assert.assertEquals(all.size(), 1);
-        verify(playerService.getAll());
+        verify(playerService).getAll();
     }
 
 }

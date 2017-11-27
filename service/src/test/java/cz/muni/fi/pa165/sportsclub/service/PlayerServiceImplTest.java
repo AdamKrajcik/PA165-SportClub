@@ -2,7 +2,9 @@ package cz.muni.fi.pa165.sportsclub.service;
 
 import cz.muni.fi.pa165.sportsclub.EntityFactory;
 import cz.muni.fi.pa165.sportsclub.dao.PlayerDao;
+import cz.muni.fi.pa165.sportsclub.dao.RosterEntryDao;
 import cz.muni.fi.pa165.sportsclub.entity.Player;
+import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -23,11 +25,15 @@ public class PlayerServiceImplTest {
     @Mock
     private PlayerDao playerDao;
 
+    @Mock
+    RosterEntryDao rosterEntryDao;
+
     @InjectMocks
     private PlayerService playerService = new PlayerServiceImpl();
 
     private Player player;
     private Player createdPlayer;
+    private RosterEntry entry;
 
     @BeforeClass
     public void setUpClass() {
@@ -36,9 +42,11 @@ public class PlayerServiceImplTest {
 
     @BeforeMethod
     public void setUp() throws Exception {
-        player = EntityFactory.createPlayer();
+        entry = EntityFactory.createRosterEntry();
+        player = entry.getPlayer();
         createdPlayer = EntityFactory.createPlayer();
         createdPlayer.setId(1L);
+        createdPlayer.addRosterEntry(entry);
     }
 
     @Test
@@ -58,6 +66,7 @@ public class PlayerServiceImplTest {
         when(playerDao.findById(createdPlayer.getId())).thenReturn(createdPlayer);
         playerService.deletePlayer(createdPlayer.getId());
         verify(playerDao).delete(createdPlayer);
+        verify(rosterEntryDao).delete(entry);
     }
 
     @Test

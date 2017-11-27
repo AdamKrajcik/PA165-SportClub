@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.sportsclub.service;
 
 import cz.muni.fi.pa165.sportsclub.dao.PlayerDao;
+import cz.muni.fi.pa165.sportsclub.dao.RosterEntryDao;
 import cz.muni.fi.pa165.sportsclub.entity.Player;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,9 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Inject
     private PlayerDao playerDao;
+
+    @Inject
+    private RosterEntryDao rosterEntryDao;
 
     @Override
     public void createPlayer(Player player) {
@@ -29,6 +33,9 @@ public class PlayerServiceImpl implements PlayerService {
         if (p == null) {
             throw new IllegalStateException();
         }
+
+        p.getRosterEntries().stream().forEach(entry -> rosterEntryDao.delete(entry));
+
         playerDao.delete(p);
     }
 
