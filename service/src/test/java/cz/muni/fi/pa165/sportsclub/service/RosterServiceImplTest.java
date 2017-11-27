@@ -28,6 +28,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
+/**
+ * Tests for Roster service
+ *
+ * @author 410461 Martin Skrovina
+ */
 public class RosterServiceImplTest {
 
     @Inject

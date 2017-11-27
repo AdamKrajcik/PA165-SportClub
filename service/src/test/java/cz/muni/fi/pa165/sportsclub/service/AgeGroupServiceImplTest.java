@@ -19,6 +19,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 
+/**
+ * Tests for AgeGroup service
+ *
+ * @author 410461 Martin Skrovina
+ */
 public class AgeGroupServiceImplTest {
 
     @Inject
