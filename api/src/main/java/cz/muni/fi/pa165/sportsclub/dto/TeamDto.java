@@ -22,7 +22,7 @@ public class TeamDto {
     // move enum
     private String ageCategory;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

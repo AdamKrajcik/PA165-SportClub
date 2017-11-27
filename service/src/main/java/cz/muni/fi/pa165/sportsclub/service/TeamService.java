@@ -42,6 +42,14 @@ public interface TeamService {
     Team findById(long id);
 
     /**
+     * Find team by given name
+     *
+     * @param name name of the team
+     * @return team with given name
+     */
+    Team findByName(String name);
+
+    /**
      * Returns all teams.
      *
      * @return List of all teams

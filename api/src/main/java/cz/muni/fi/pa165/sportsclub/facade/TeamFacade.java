@@ -18,11 +18,11 @@ public interface TeamFacade {
 
     void deleteTeam(TeamDto team);
 
-    void addPlayer(PlayerDto player, int jerseyNumber);
+    void addPlayer(PlayerDto player, TeamDto team, int jerseyNumber);
 
-    void removePlayer(PlayerDto player);
+    void removePlayer(PlayerDto player, TeamDto Team);
 
-    void updateJerseyNumber(PlayerDto player, int jerseyNumber);
+    void updateJerseyNumber(PlayerDto player, TeamDto team, int jerseyNumber);
 
     TeamDto getTeam(Long id);
 

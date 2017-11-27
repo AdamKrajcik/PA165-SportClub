@@ -54,4 +54,10 @@ public class TeamDaoImpl implements TeamDao {
     public List<Team> findAll() {
         return em.createQuery("SELECT t FROM Team t", Team.class).getResultList();
     }
+
+    @Override
+    public Team findByName(String name) {
+        return em.createQuery("SELECT t FROM Team t WHERE t.name = :name", Team.class)
+                .setParameter("name", name).getSingleResult();
+    }
 }

@@ -46,4 +46,12 @@ public interface TeamDao {
      * @return all teams
      */
     List<Team> findAll();
+
+    /**
+     * Finds team by given name
+     *
+     * @param name name of the team
+     * @return team with given name
+     */
+    Team findByName(String name);
 }
