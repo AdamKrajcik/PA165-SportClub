@@ -11,11 +11,11 @@ import java.util.List;
  */
 public interface CoachFacade {
 
-    Long createCoach(CoachDto coach);
+    long createCoach(CoachDto coach);
 
     void updateCoach(CoachDto coach);
 
-    void deleteCoach(CoachDto coach);
+    void deleteCoach(Long coachId);
 
     CoachDto getCoach(Long id);
 

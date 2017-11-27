@@ -28,9 +28,9 @@ public interface CoachService {
     /**
      * Deletes coach.
      *
-     * @param id coach's ID who to be deleted
+     * @param coach to be deleted
      */
-    void deleteCoach(long id);
+    void deleteCoach(Coach coach);
 
     /**
      * Finds team manager by id.
@@ -47,4 +47,12 @@ public interface CoachService {
      * @return list of coaches
      */
     List<Coach> getAll();
+
+    /**
+     * Get coach by his email.
+     *
+     * @param email coach's email
+     * @return coach with given email
+     */
+    Coach findByEmail(String email);
 }
