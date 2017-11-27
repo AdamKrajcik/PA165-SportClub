@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of TeamFacade
@@ -187,4 +188,20 @@ public class TeamFacadeImpl implements TeamFacade {
         return mappingService.mapTo(teamService.getAll(), TeamDto.class);
 
     }
+
+    @Override
+    public List<PlayerDto> getAllowedPlayers(TeamDto team) {
+        if (team == null) {
+            throw new IllegalArgumentException("Team cannot be null");
+        }
+
+        Team t = teamService.findById(team.getId());
+        if (t == null) {
+            throw new IllegalArgumentException("Team not found in system");
+        }
+
+        return mappingService.mapTo(rosterService.getAllowedPlayers(t), PlayerDto.class);
+    }
+
+
 }

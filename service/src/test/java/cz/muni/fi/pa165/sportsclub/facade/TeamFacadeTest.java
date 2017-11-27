@@ -229,4 +229,13 @@ public class TeamFacadeTest {
         Assert.assertEquals(actualTeams.get(0), expected.get(0));
     }
 
+    @Test
+    public void testGetAllowedPlayers() throws Exception {
+        Mockito.when(teamService.findById(team1Dto.getId())).thenReturn(team1);
+        Mockito.when(rosterService.getAllowedPlayers(team1)).thenReturn(Collections.singletonList(player1));
+        Mockito.when(mappingService.mapTo(Collections.singletonList(player1), PlayerDto.class))
+                .thenReturn(Collections.singletonList(player1Dto));
+
+        Assert.assertEquals(teamFacade.getAllowedPlayers(team1Dto), Collections.singletonList(player1Dto));
+    }
 }

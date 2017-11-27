@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.sportsclub.facade;
 
 import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.dto.TeamDto;
+import cz.muni.fi.pa165.sportsclub.entity.Team;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface TeamFacade {
     TeamDto getTeamByName(String name);
 
     List<TeamDto> getAllTeams();
+
+    List<PlayerDto> getAllowedPlayers(TeamDto team);
 }
