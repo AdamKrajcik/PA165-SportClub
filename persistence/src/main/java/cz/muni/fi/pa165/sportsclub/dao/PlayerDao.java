@@ -3,7 +3,9 @@ package cz.muni.fi.pa165.sportsclub.dao;
 
 import cz.muni.fi.pa165.sportsclub.entity.Player;
 import cz.muni.fi.pa165.sportsclub.entity.Team;
+import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,6 +51,8 @@ public interface PlayerDao {
      * @return all players
      */
     List<Player> findAll();
+
+    List<Player> findByBirthDate(Date from, Date to);
 
     /**
      * Retrieves player by email

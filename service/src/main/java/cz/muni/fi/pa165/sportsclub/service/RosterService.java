@@ -1,6 +1,9 @@
 package cz.muni.fi.pa165.sportsclub.service;
 
+import cz.muni.fi.pa165.sportsclub.entity.Coach;
+import cz.muni.fi.pa165.sportsclub.entity.Player;
 import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
+import cz.muni.fi.pa165.sportsclub.entity.Team;
 
 import java.util.List;
 
@@ -47,4 +50,19 @@ public interface RosterService {
      */
     List<RosterEntry> findAll();
 
+    /**
+     * Returns coach's teams in which the player can participate
+     *
+     * @param player to be queried
+     * @return Teams
+     */
+    List<Team> getAllowedTeams(Coach coach, Player player);
+
+    /**
+     * Returns players that can be added to the team
+     *
+     * @param team to be queried
+     * @return Players
+     */
+    List<Player> getAllowedPlayers(Team team);
 }

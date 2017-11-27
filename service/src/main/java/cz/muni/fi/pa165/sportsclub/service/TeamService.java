@@ -47,12 +47,4 @@ public interface TeamService {
      * @return List of all teams
      */
     List<Team> getAll();
-
-    /**
-     * Returns teams in which can player participate along to his age group
-     *
-     * @param player to be queried
-     * @return Teams
-     */
-    List<Team> getAllowedTeams(Player player);
 }

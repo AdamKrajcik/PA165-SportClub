@@ -3,11 +3,13 @@ package cz.muni.fi.pa165.sportsclub.dao;
 
 import cz.muni.fi.pa165.sportsclub.entity.Player;
 import cz.muni.fi.pa165.sportsclub.entity.Team;
+import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.List;
 
 
@@ -55,6 +57,17 @@ public class PlayerDaoImpl implements PlayerDao {
     @Override
     public List<Player> findAll() {
         return em.createQuery("SELECT p FROM Player p", Player.class).getResultList();
+    }
+
+    @Override
+    public List<Player> findByBirthDate(Date from, Date to) {
+        return em.createQuery("SELECT p FROM" +
+                " Player p" +
+                " WHERE p.dateOfBirth >= :from" +
+                " AND p.dateOfBirth <= :to", Player.class)
+                .setParameter("from", from)
+                .setParameter("to", to)
+                .getResultList();
     }
 
     @Override
