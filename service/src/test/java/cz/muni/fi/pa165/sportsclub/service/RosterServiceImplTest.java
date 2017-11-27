@@ -19,9 +19,8 @@ import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
+import java.time.Instant;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -51,6 +50,12 @@ public class RosterServiceImplTest {
     private RosterEntry rosterEntry;
     private RosterEntry createdRosterEntry;
 
+    private Player playerM16;
+    private Player playerM20;
+    private Player playerM24;
+    private Player playerMS;
+
+
     @BeforeClass
     public void setUpClass() {
         MockitoAnnotations.initMocks(this);
@@ -63,6 +68,17 @@ public class RosterServiceImplTest {
         createdRosterEntry.setId(1L);
 
         when(rosterEntryDao.findById(1L)).thenReturn(createdRosterEntry);
+
+        // Current time is July 28, 2016
+        playerM16 = EntityFactory.createPlayerM16("PlayerM16");
+        playerM20 = EntityFactory.createPlayerM20("PlayerM20");
+        playerM24 = EntityFactory.createPlayerM24("PlayerM24");
+        playerMS = EntityFactory.createPlayerMS("PlayerMS");
+
+        when(ageGroupService.ageGroupForBirthDate(playerM16.getDateOfBirth())).thenReturn(AgeGroup.M16);
+        when(ageGroupService.ageGroupForBirthDate(playerM20.getDateOfBirth())).thenReturn(AgeGroup.M20);
+        when(ageGroupService.ageGroupForBirthDate(playerM24.getDateOfBirth())).thenReturn(AgeGroup.M24);
+        when(ageGroupService.ageGroupForBirthDate(playerMS.getDateOfBirth())).thenReturn(AgeGroup.MS);
     }
 
     @Test
@@ -97,7 +113,7 @@ public class RosterServiceImplTest {
     }
 
     @Test
-    public void testGetAllowedTeams() throws Exception {
+    public void testGetAllowedTeamsSingleNoDuplicates() throws Exception {
         Coach coach = EntityFactory.createCoach();
 
         Team teamM16 = EntityFactory.createTeam("Test Team M16", AgeGroup.M16, coach);
@@ -110,22 +126,6 @@ public class RosterServiceImplTest {
         coach.addTeam(teamM24);
         coach.addTeam(teamMS);
 
-        Player playerM16 = EntityFactory.createPlayerM16("PlayerM16");
-        Player playerM20 = EntityFactory.createPlayerM20("PlayerM20");
-        Player playerM24 = EntityFactory.createPlayerM24("PlayerM24");
-        Player playerMS = EntityFactory.createPlayerMS("PlayerMS");
-
-//        team1.addRosterEntry(new RosterEntry(team1, player1, 1));
-//        team1.addRosterEntry(new RosterEntry(team1, player1, 2));
-//        team1.addRosterEntry(new RosterEntry(team1, player1, 3));
-//        team1.addRosterEntry(new RosterEntry(team1, player1, 4));
-
-        // Current time is e.g. July 27, 2016
-        when(ageGroupService.ageGroupForBirthDate(playerM16.getDateOfBirth())).thenReturn(AgeGroup.M16);
-        when(ageGroupService.ageGroupForBirthDate(playerM20.getDateOfBirth())).thenReturn(AgeGroup.M20);
-        when(ageGroupService.ageGroupForBirthDate(playerM24.getDateOfBirth())).thenReturn(AgeGroup.M24);
-        when(ageGroupService.ageGroupForBirthDate(playerMS.getDateOfBirth())).thenReturn(AgeGroup.MS);
-
         assertThat(rosterService.getAllowedTeams(coach, playerM16)).containsExactlyInAnyOrder(teamM16, teamM20);
         assertThat(rosterService.getAllowedTeams(coach, playerM20)).containsExactlyInAnyOrder(teamM20, teamM24);
         assertThat(rosterService.getAllowedTeams(coach, playerM24)).containsExactlyInAnyOrder(teamM24, teamMS);
@@ -133,24 +133,129 @@ public class RosterServiceImplTest {
     }
 
     @Test
+    public void testGetAllowedTeamsMultipleNoDuplicates() throws Exception {
+        Coach coach = EntityFactory.createCoach();
+
+        Team teamM16 = EntityFactory.createTeam("Test Team M16", AgeGroup.M16, coach);
+        Team teamM20_1 = EntityFactory.createTeam("Test Team M20 1", AgeGroup.M20, coach);
+        Team teamM20_2 = EntityFactory.createTeam("Test Team M20 2", AgeGroup.M20, coach);
+        Team teamM20_3 = EntityFactory.createTeam("Test Team M20 3", AgeGroup.M20, coach);
+        Team teamM24_1 = EntityFactory.createTeam("Test Team M24 1", AgeGroup.M24, coach);
+        Team teamM24_2 = EntityFactory.createTeam("Test Team M24 2", AgeGroup.M24, coach);
+        Team teamMS_1 = EntityFactory.createTeam("Test Team MS", AgeGroup.MS, coach);
+        Team teamMS_2 = EntityFactory.createTeam("Test Team MS", AgeGroup.MS, coach);
+
+        coach.addTeam(teamM16);
+        coach.addTeam(teamM20_1);
+        coach.addTeam(teamM20_2);
+        coach.addTeam(teamM20_3);
+        coach.addTeam(teamM24_1);
+        coach.addTeam(teamM24_2);
+        coach.addTeam(teamMS_1);
+        coach.addTeam(teamMS_2);
+
+        assertThat(rosterService.getAllowedTeams(coach, playerM20))
+                .containsExactlyInAnyOrder(teamM20_1, teamM20_2, teamM20_3, teamM24_1, teamM24_2);
+    }
+
+    @Test
+    public void testGetAllowedTeamsSingleDuplicate() throws Exception {
+        Coach coach = EntityFactory.createCoach();
+
+        Team teamM20 = EntityFactory.createTeam("Test Team M20", AgeGroup.M20, coach);
+        Team teamM24 = EntityFactory.createTeam("Test Team M24", AgeGroup.M24, coach);
+
+        coach.addTeam(teamM20);
+        coach.addTeam(teamM24);
+
+        teamM20.addRosterEntry(new RosterEntry(teamM20, playerM20, 1));
+
+        List<Team> teams = rosterService.getAllowedTeams(coach, playerM20);
+        assertThat(teams).doesNotContain(teamM20);
+        assertThat(teams).containsExactlyInAnyOrder(teamM24);
+    }
+
+    @Test
+    public void testGetAllowedTeamsMultipleDuplicates() throws Exception {
+        Coach coach = EntityFactory.createCoach();
+
+        Team teamM16 = EntityFactory.createTeam("Test Team M16", AgeGroup.M16, coach);
+        Team teamM20_1 = EntityFactory.createTeam("Test Team M20 1", AgeGroup.M20, coach);
+        Team teamM20_2 = EntityFactory.createTeam("Test Team M20 2", AgeGroup.M20, coach);
+        Team teamM20_3 = EntityFactory.createTeam("Test Team M20 3", AgeGroup.M20, coach);
+        Team teamM24_1 = EntityFactory.createTeam("Test Team M24 1", AgeGroup.M24, coach);
+        Team teamM24_2 = EntityFactory.createTeam("Test Team M24 2", AgeGroup.M24, coach);
+        Team teamMS_1 = EntityFactory.createTeam("Test Team MS", AgeGroup.MS, coach);
+        Team teamMS_2 = EntityFactory.createTeam("Test Team MS", AgeGroup.MS, coach);
+
+        coach.addTeam(teamM16);
+        coach.addTeam(teamM20_1);
+        coach.addTeam(teamM20_2);
+        coach.addTeam(teamM20_3);
+        coach.addTeam(teamM24_1);
+        coach.addTeam(teamM24_2);
+        coach.addTeam(teamMS_1);
+        coach.addTeam(teamMS_2);
+
+        teamM20_2.addRosterEntry(new RosterEntry(teamM20_2, playerM20, 1));
+        teamM24_1.addRosterEntry(new RosterEntry(teamM24_1, playerM20, 1));
+
+        List<Team> teams = rosterService.getAllowedTeams(coach, playerM20);
+
+        assertThat(teams).doesNotContain(teamM20_2);
+        assertThat(teams).doesNotContain(teamM24_1);
+        assertThat(teams).containsExactlyInAnyOrder(teamM20_1, teamM20_3, teamM24_2);
+    }
+
+    @Test
+    public void testGetAllowedTeamsNoneOfGroup() throws Exception {
+        Coach coach = EntityFactory.createCoach();
+
+        Team teamM20 = EntityFactory.createTeam("Test Team M20", AgeGroup.M20, coach);
+        Team teamM24 = EntityFactory.createTeam("Test Team M24", AgeGroup.M24, coach);
+
+        coach.addTeam(teamM20);
+        coach.addTeam(teamM24);
+
+        assertThat(rosterService.getAllowedTeams(coach, playerMS)).isEmpty();
+    }
+
+    @Test
+    public void testGetAllowedTeamsNoTeams() throws Exception {
+        Coach coach = EntityFactory.createCoach();
+
+        assertThat(rosterService.getAllowedTeams(coach, playerM20)).isEmpty();
+    }
+
+    @Test
     public void testGetAllowedPlayers() throws Exception {
         Coach coach = EntityFactory.createCoach();
         Team teamM16 = EntityFactory.createTeam("Test Team M16", AgeGroup.M16, coach);
 
-        Player playerM16 = EntityFactory.createPlayerM16("PlayerM16");
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(2000, Calendar.JULY, 27);
-        Date date16yrs = cal.getTime();
+        Date date20yrs = Date.from(Instant.parse("1995-07-27T23:59:59.999Z"));
+        Date date16yrsOld = Date.from(Instant.parse("1999-07-27T23:59:59.999Z"));
         Date currentTime = EntityFactory.getConstantCurrentTime();
 
-        when(ageGroupService.getTimeSpan(AgeGroup.M16)).thenReturn(new TimeSpan(date16yrs, currentTime));
-        cal.set(1996, Calendar.JULY, 27);
-        Date date20yrs = cal.getTime();
+        when(ageGroupService.getTimeSpan(AgeGroup.M16))
+                .thenReturn(new TimeSpan(date16yrsOld, currentTime));
 
-        when(ageGroupService.getTimeSpan(AgeGroup.M20)).thenReturn(new TimeSpan(date20yrs, date16yrs));
-        when(playerDao.findByBirthDate(date20yrs, currentTime)).thenReturn(Collections.singletonList(playerM16));
+        when(ageGroupService.getTimeSpan(AgeGroup.M20))
+                .thenReturn(new TimeSpan(date20yrs, date16yrsOld));
 
+
+        // Single player
+        when(playerDao.findByBirthDate(date20yrs, currentTime))
+                .thenReturn(Collections.singletonList(playerM16));
         assertThat(rosterService.getAllowedPlayers(teamM16)).containsExactlyInAnyOrder(playerM16);
+
+        // Two players
+        when(playerDao.findByBirthDate(date20yrs, currentTime))
+                .thenReturn(new ArrayList<>(Arrays.asList(playerM16, playerM20)));
+        assertThat(rosterService.getAllowedPlayers(teamM16)).containsExactlyInAnyOrder(playerM16, playerM20);
+
+        // No players
+        when(playerDao.findByBirthDate(date20yrs, currentTime))
+                .thenReturn(new ArrayList<>());
+        assertThat(rosterService.getAllowedPlayers(teamM16)).isEmpty();
     }
 }
