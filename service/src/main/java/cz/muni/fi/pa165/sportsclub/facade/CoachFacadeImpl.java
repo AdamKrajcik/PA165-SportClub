@@ -1,9 +1,14 @@
 package cz.muni.fi.pa165.sportsclub.facade;
 
 import cz.muni.fi.pa165.sportsclub.dto.CoachDto;
+import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
+import cz.muni.fi.pa165.sportsclub.dto.TeamDto;
 import cz.muni.fi.pa165.sportsclub.entity.Coach;
+import cz.muni.fi.pa165.sportsclub.entity.Player;
 import cz.muni.fi.pa165.sportsclub.mapper.MappingService;
 import cz.muni.fi.pa165.sportsclub.service.CoachService;
+import cz.muni.fi.pa165.sportsclub.service.PlayerService;
+import cz.muni.fi.pa165.sportsclub.service.RosterService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +30,14 @@ public class CoachFacadeImpl implements CoachFacade{
     @Inject
     private CoachService coachService;
 
+    @Inject
+    private RosterService rosterService;
+
+    @Inject
+    private PlayerService playerService;
+
     @Override
-    public long createCoach(CoachDto coach) {
+    public Long createCoach(CoachDto coach) {
 
         if(coach == null || coach.getEmail() == null || coach.getLastName() == null || coach.getFirstName() == null){
             throw new IllegalArgumentException("Coach and his attributes must not be null");
@@ -92,6 +103,15 @@ public class CoachFacadeImpl implements CoachFacade{
     public List<CoachDto> getAllCoaches() {
 
         return mappingService.mapTo(coachService.getAll(), CoachDto.class);
+
+    }
+
+    @Override
+    public List<TeamDto> getAllowedTeams(CoachDto coach, PlayerDto player) {
+
+        Coach c = coachService.findById(coach.getId());
+        Player p = playerService.findById(player.getId());
+        return mappingService.mapTo(rosterService.getAllowedTeams(c, p), TeamDto.class);
 
     }
 

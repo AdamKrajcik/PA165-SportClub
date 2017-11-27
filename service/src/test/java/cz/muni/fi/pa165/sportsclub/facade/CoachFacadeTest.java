@@ -1,19 +1,28 @@
 package cz.muni.fi.pa165.sportsclub.facade;
 
+import cz.muni.fi.pa165.sportsclub.EntityFactory;
 import cz.muni.fi.pa165.sportsclub.dto.CoachDto;
+import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
+import cz.muni.fi.pa165.sportsclub.dto.TeamDto;
 import cz.muni.fi.pa165.sportsclub.entity.Coach;
+import cz.muni.fi.pa165.sportsclub.entity.Player;
+import cz.muni.fi.pa165.sportsclub.entity.Team;
 import cz.muni.fi.pa165.sportsclub.mapper.MappingService;
 import cz.muni.fi.pa165.sportsclub.service.CoachService;
+import cz.muni.fi.pa165.sportsclub.service.PlayerService;
+import cz.muni.fi.pa165.sportsclub.service.RosterService;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -30,6 +39,12 @@ public class CoachFacadeTest {
 
     @Mock
     private CoachService coachService;
+
+    @Mock
+    private RosterService rosterService;
+
+    @Mock
+    private PlayerService playerService;
 
     @Mock
     private MappingService mappingService;
@@ -157,6 +172,29 @@ public class CoachFacadeTest {
         Mockito.verify(coachService,Mockito.times(1)).findByEmail(email);
         assertThat(result).isEqualToComparingFieldByField(coach1Dto);
 
+    }
+
+    @Test
+    public void getAllowedTeamsTest(){
+
+        Player player = EntityFactory.createPlayer();
+        player.setId(3L);
+        PlayerDto playerDto = EntityFactory.createPlayerDto();
+        playerDto.setId(3L);
+        Team team = EntityFactory.createTeam();
+
+        TeamDto teamDto = new TeamDto();
+        teamDto.setAgeCategory(team.getAgeGroup().toString());
+        teamDto.setName(team.getName());
+
+        when(coachService.findById(coach2Dto.getId())).thenReturn(coach2);
+        when(playerService.findById(playerDto.getId())).thenReturn(player);
+
+        when(rosterService.getAllowedTeams(coach2, player))
+                .thenReturn(Collections.singletonList(team));
+        when(mappingService.mapTo(Collections.singletonList(team), TeamDto.class))
+                .thenReturn(Collections.singletonList(teamDto));
+        Assert.assertEquals(coachFacade.getAllowedTeams(coach2Dto, playerDto), Collections.singletonList(teamDto));
     }
 
 }

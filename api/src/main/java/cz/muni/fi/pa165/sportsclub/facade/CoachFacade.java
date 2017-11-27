@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.sportsclub.facade;
 
 import cz.muni.fi.pa165.sportsclub.dto.CoachDto;
+import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
+import cz.muni.fi.pa165.sportsclub.dto.TeamDto;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  */
 public interface CoachFacade {
 
-    long createCoach(CoachDto coach);
+    Long createCoach(CoachDto coach);
 
     void updateCoach(CoachDto coach);
 
@@ -22,4 +24,8 @@ public interface CoachFacade {
     CoachDto getCoachByEmail(String email);
 
     List<CoachDto> getAllCoaches();
+
+    List<TeamDto> getAllowedTeams(CoachDto coach, PlayerDto player);
+
+
 }
