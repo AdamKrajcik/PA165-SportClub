@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.sportsclub.service;
 
 import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 import cz.muni.fi.pa165.sportsclub.utils.TimeSpan;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import java.time.temporal.ChronoUnit;
  *
  * @author 410461 Martin Skrovina
  */
+@Service
 public class AgeGroupServiceImpl implements AgeGroupService {
 
     @Inject
@@ -21,37 +23,10 @@ public class AgeGroupServiceImpl implements AgeGroupService {
 
 
     @Override
-    public List<AgeGroup> getAllAscending() {
-        return new ArrayList<>(Arrays.asList(AgeGroup.values()));
-    }
-
-    @Override
-    public AgeGroup oneAbove(AgeGroup ageGroup) {
-        List<AgeGroup> sorted = getAllAscending();
-
-        ListIterator<AgeGroup> iterator = sorted.listIterator(sorted.indexOf(ageGroup));
-
-        return iterator.hasNext()
-                ? iterator.next()
-                : null;
-    }
-
-    @Override
-    public AgeGroup oneBelow(AgeGroup ageGroup) {
-        List<AgeGroup> sorted = getAllAscending();
-
-        ListIterator<AgeGroup> iterator = sorted.listIterator(sorted.indexOf(ageGroup));
-
-        return iterator.hasPrevious()
-                ? iterator.previous()
-                : null;
-    }
-
-    @Override
     public AgeGroup ageGroupForBirthDate(Date birthDate) {
         ZoneId zone = ZoneId.of("UTC");
 
-        List<AgeGroup> sorted = getAllAscending();
+        List<AgeGroup> sorted = AgeGroup.getAllAscending();
 
         LocalDate today = timeService.getCurrentTime()
                 .toInstant()

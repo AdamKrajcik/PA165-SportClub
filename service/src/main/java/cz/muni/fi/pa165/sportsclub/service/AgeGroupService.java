@@ -12,11 +12,6 @@ import java.util.List;
  * @author 410461 Martin Skrovina
  */
 public interface AgeGroupService {
-    List<AgeGroup> getAllAscending();
-
-    AgeGroup oneAbove(AgeGroup ageGroup);
-
-    AgeGroup oneBelow(AgeGroup ageGroup);
 
     AgeGroup ageGroupForBirthDate(Date birthDate);
 

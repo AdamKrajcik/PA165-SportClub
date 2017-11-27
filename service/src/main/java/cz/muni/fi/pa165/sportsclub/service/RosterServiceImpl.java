@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
 import cz.muni.fi.pa165.sportsclub.entity.Team;
 import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 import cz.muni.fi.pa165.sportsclub.utils.TimeSpan;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author 410461 Martin Skrovina
  */
+@Service
 public class RosterServiceImpl implements RosterService {
     @Inject
     RosterEntryDao rosterEntryDao;
@@ -43,6 +45,9 @@ public class RosterServiceImpl implements RosterService {
     @Override
     public void deleteEntry(long id) {
         RosterEntry rosterEntry = rosterEntryDao.findById(id);
+        if (rosterEntry == null) {
+            throw new IllegalStateException();
+        }
         rosterEntryDao.delete(rosterEntry);
     }
 
@@ -61,7 +66,7 @@ public class RosterServiceImpl implements RosterService {
         Set<Team> teams = coach.getTeams();
 
         AgeGroup ageGroup = ageGroupService.ageGroupForBirthDate(player.getDateOfBirth());
-        AgeGroup oneAboveAgeGroup = ageGroupService.oneAbove(ageGroup);
+        AgeGroup oneAboveAgeGroup = ageGroup.oneAbove();
 
         return teams
                 .stream()
@@ -78,7 +83,7 @@ public class RosterServiceImpl implements RosterService {
     @Override
     public List<Player> getAllowedPlayers(Team team) {
         AgeGroup base = team.getAgeGroup();
-        AgeGroup oneAbove = ageGroupService.oneAbove(base);
+        AgeGroup oneAbove = base.oneAbove();
 
         TimeSpan baseSpan = ageGroupService.getTimeSpan(base);
         TimeSpan oneAboveSpan = oneAbove == null
@@ -88,10 +93,10 @@ public class RosterServiceImpl implements RosterService {
         Set<RosterEntry> teamRosterEntries = team.getRosterEntries();
 
         return playerDao.findByBirthDate(
-                baseSpan.getFrom(),
                 oneAboveSpan == null
-                        ? baseSpan.getTo()
-                        : oneAboveSpan.getTo()
+                        ? baseSpan.getFrom()
+                        : oneAboveSpan.getFrom(),
+                baseSpan.getTo()
         )
         .stream()
         .filter(p -> teamRosterEntries.stream().allMatch(r -> r.getPlayer() != p))

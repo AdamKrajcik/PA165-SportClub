@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.sportsclub.service;
 
+import org.springframework.stereotype.Service;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Date;
  *
  * @author PA165 Team
  */
+@Service
 public class TimeServiceImpl implements TimeService {
 
     @Override

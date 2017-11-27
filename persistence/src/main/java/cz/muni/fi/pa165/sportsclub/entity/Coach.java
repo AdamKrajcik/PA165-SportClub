@@ -23,6 +23,10 @@ public class Coach extends Person {
         return Collections.unmodifiableSet(teams);
     }
 
+    public void addTeam(Team team) {
+        teams.add(team);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
