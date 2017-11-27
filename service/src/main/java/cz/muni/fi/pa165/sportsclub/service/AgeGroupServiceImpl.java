@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 import cz.muni.fi.pa165.sportsclub.utils.TimeSpan;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneOffset;
 import java.util.*;
 import javax.inject.Inject;
 import java.time.LocalDate;
@@ -53,7 +54,7 @@ public class AgeGroupServiceImpl implements AgeGroupService {
     public TimeSpan getTimeSpan(AgeGroup ageGroup) {
         ZoneId zone = ZoneId.of("UTC");
 
-        int lowerBound = ageGroup.getUpperBoundary();
+        int lowerBound = ageGroup.getLowerBoundary();
         int upperBound = ageGroup.getUpperBoundary();
 
         LocalDate today = timeService.getCurrentTime()
@@ -61,9 +62,17 @@ public class AgeGroupServiceImpl implements AgeGroupService {
                 .atZone(zone)
                 .toLocalDate();
 
-        Date lowerBoundDate = Date.from(today.minusYears(lowerBound).atStartOfDay(ZoneId.of("UTC")).toInstant());
-        Date upperBoundDate = Date.from(today.minusYears(upperBound).atStartOfDay(ZoneId.of("UTC")).toInstant());
+        Date youngerDate = Date.from(today
+                .minusYears(lowerBound)
+                .plusDays(1)
+                .atStartOfDay()
+                .minus(1, ChronoUnit.MILLIS).toInstant(ZoneOffset.UTC));
+        Date olderDate = Date.from(today
+                .minusYears(upperBound + 1)
+                .plusDays(1)
+                .atStartOfDay()
+                .toInstant(ZoneOffset.UTC));
 
-        return new TimeSpan(lowerBoundDate, upperBoundDate);
+        return new TimeSpan(olderDate, youngerDate);
     }
 }
