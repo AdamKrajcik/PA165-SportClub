@@ -12,13 +12,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.inject.Inject;
-
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
+
 
 public class PlayerServiceImplTest {
 
@@ -86,5 +84,4 @@ public class PlayerServiceImplTest {
         when(playerDao.findAll()).thenReturn(Collections.singletonList(createdPlayer));
         assertThat(playerService.getAll()).isEqualTo(Collections.singletonList(createdPlayer));
     }
-
 }

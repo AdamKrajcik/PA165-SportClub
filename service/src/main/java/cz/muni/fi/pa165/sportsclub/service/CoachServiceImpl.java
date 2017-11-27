@@ -22,47 +22,35 @@ public class CoachServiceImpl implements CoachService{
 
     @Override
     public void createCoach(Coach coach) {
-
         Coach testCoach = coachDao.findById(coach.getId());
         if (testCoach != null){
             throw new SportsClubServiceException("Coach with given ID already exists.");
         }
         coachDao.create(coach);
-
     }
 
     @Override
     public void updateCoach(Coach coach) {
-
         coachDao.update(coach);
-
     }
 
     @Override
     public void deleteCoach(Coach coach) {
-
         coachDao.delete(coach);
-
     }
 
     @Override
     public Coach findById(long id) {
-
         return coachDao.findById(id);
-
     }
 
     @Override
     public List<Coach> getAll() {
-
         return coachDao.findAll();
-
     }
 
     @Override
     public Coach findByEmail(String email) {
-
         return coachDao.findByEmail(email);
-
     }
 }

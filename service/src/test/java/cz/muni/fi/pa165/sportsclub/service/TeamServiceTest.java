@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Tests for team service
  *
@@ -114,5 +115,4 @@ public class TeamServiceTest {
         Assert.assertEquals(actual.size(), 3);
         Assert.assertTrue(actual.contains(team1));
     }
-
 }

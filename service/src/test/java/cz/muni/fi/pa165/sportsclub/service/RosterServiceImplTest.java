@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.sportsclub.service;
 
 import cz.muni.fi.pa165.sportsclub.EntityFactory;
-import cz.muni.fi.pa165.sportsclub.ServiceConfig;
 import cz.muni.fi.pa165.sportsclub.dao.PlayerDao;
 import cz.muni.fi.pa165.sportsclub.dao.RosterEntryDao;
 import cz.muni.fi.pa165.sportsclub.entity.Coach;

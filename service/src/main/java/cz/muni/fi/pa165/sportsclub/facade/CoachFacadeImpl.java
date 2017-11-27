@@ -47,7 +47,6 @@ public class CoachFacadeImpl implements CoachFacade{
 
         coachService.createCoach(mappedCoach);
         return mappedCoach.getId();
-
     }
 
     @Override
@@ -60,59 +59,47 @@ public class CoachFacadeImpl implements CoachFacade{
         coachDto.setEmail(coachDto.getEmail());
 
         coachService.updateCoach(coach);
-
     }
 
 
     @Override
     public void deleteCoach(Long coachId) {
-
         if(coachId == null){
             throw new IllegalArgumentException("Argument coach cannot be null");
         }
 
         coachService.deleteCoach(coachService.findById(coachId));
-
     }
 
     @Override
     public CoachDto getCoach(Long id) {
-
         if(id == null){
             throw new IllegalArgumentException("Null id argument.");
         }
 
         Coach coach = coachService.findById(id);
         return (coach == null) ? null : mappingService.mapTo(coach, CoachDto.class);
-
     }
 
     @Override
     public CoachDto getCoachByEmail(String email) {
-
         if(email == null){
             throw new IllegalArgumentException("Email cannot be null");
         }
 
         Coach coach = coachService.findByEmail(email);
         return (coach == null) ? null : mappingService.mapTo(coach, CoachDto.class);
-
     }
 
     @Override
     public List<CoachDto> getAllCoaches() {
-
         return mappingService.mapTo(coachService.getAll(), CoachDto.class);
-
     }
 
     @Override
     public List<TeamDto> getAllowedTeams(CoachDto coach, PlayerDto player) {
-
         Coach c = coachService.findById(coach.getId());
         Player p = playerService.findById(player.getId());
         return mappingService.mapTo(rosterService.getAllowedTeams(c, p), TeamDto.class);
-
     }
-
 }

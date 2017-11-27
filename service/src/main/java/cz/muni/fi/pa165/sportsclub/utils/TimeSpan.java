@@ -2,6 +2,11 @@ package cz.muni.fi.pa165.sportsclub.utils;
 
 import java.util.Date;
 
+/**
+ * Interval between 2 dates
+ *
+ * @author PA165 Team
+ */
 public class TimeSpan {
     private Date from;
     private Date to;

@@ -61,14 +61,11 @@ public class CoachFacadeTest {
 
     @BeforeClass
     public void setupClass() throws ServiceException {
-
         MockitoAnnotations.initMocks(this);
-
     }
 
     @BeforeMethod
     public void setUpMethod() {
-
         coach1 = new Coach();
         coach1.setFirstName("Name");
         coach1.setLastName("Last name");
@@ -89,12 +86,10 @@ public class CoachFacadeTest {
         coach2Dto.setLastName("Retep");
         coach2Dto.setEmail("peter@email.com");
         coach2Dto.setId(2L);
-
     }
 
     @Test
     public void createCoachTest() {
-
         when(mappingService.mapTo(coach1Dto, Coach.class)).thenReturn(coach1);
 
         doAnswer(invocation -> {
@@ -106,36 +101,30 @@ public class CoachFacadeTest {
 
         Mockito.verify(coachService, Mockito.times(1)).createCoach(coach1);
         assertThat(id).isEqualTo(1L);
-
     }
 
     @Test
     public void deleteCoachTest() {
-
         Long id = 1L;
 
         when(coachService.findById(id)).thenReturn(coach1);
 
         coachFacade.deleteCoach(id);
         Mockito.verify(coachService, Mockito.times(1)).deleteCoach(coach1);
-
     }
 
     @Test
     public void updateCoachTest() {
-
         when(coachService.findById(2L)).thenReturn(coach2);
 
         coach1Dto.setFirstName("Masa");
 
         coachFacade.updateCoach(coach2Dto);
         Mockito.verify(coachService,Mockito.times(1)).updateCoach(coach2);
-
     }
 
     @Test
     public void getCoachByIdTest() {
-
         Long id = 1L;
 
         when(coachService.findById(id)).thenReturn(coach1);
@@ -145,23 +134,19 @@ public class CoachFacadeTest {
 
         assertThat(test).isEqualToComparingFieldByField(coach1Dto);
         Mockito.verify(coachService,Mockito.times(2)).findById(id);
-
     }
 
     @Test
     public void getAllCoachesTest() {
-
         when(coachService.getAll()).thenReturn(Arrays.asList(coach1,coach2));
         when(mappingService.mapTo(any(), eq(CoachDto.class))).thenReturn(Arrays.asList(coach1Dto, coach2Dto));
 
         assertThat(coachFacade.getAllCoaches()).containsOnly(coach1Dto, coach2Dto);
         Mockito.verify(coachService, Mockito.times(1)).getAll();
-
     }
 
     @Test
     public void getCoachByEmailTest(){
-
         String email = "email@email.com";
 
         when(coachService.findByEmail(email)).thenReturn(coach1);
@@ -171,12 +156,10 @@ public class CoachFacadeTest {
 
         Mockito.verify(coachService,Mockito.times(1)).findByEmail(email);
         assertThat(result).isEqualToComparingFieldByField(coach1Dto);
-
     }
 
     @Test
     public void getAllowedTeamsTest(){
-
         Player player = EntityFactory.createPlayer();
         player.setId(3L);
         PlayerDto playerDto = EntityFactory.createPlayerDto();
@@ -196,5 +179,4 @@ public class CoachFacadeTest {
                 .thenReturn(Collections.singletonList(teamDto));
         Assert.assertEquals(coachFacade.getAllowedTeams(coach2Dto, playerDto), Collections.singletonList(teamDto));
     }
-
 }

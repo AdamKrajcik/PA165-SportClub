@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 @Service
 public class TeamFacadeImpl implements TeamFacade {
 
-
     @Inject
     TeamService teamService;
 
@@ -70,7 +69,6 @@ public class TeamFacadeImpl implements TeamFacade {
         if (t == null) {
             throw new IllegalArgumentException("Team does not exist");
         }
-
 
         t = mappingService.mapTo(team, Team.class);
         teamService.updateTeam(t);
@@ -141,7 +139,6 @@ public class TeamFacadeImpl implements TeamFacade {
             throw new IllegalArgumentException("Player " + player.toString() +
                     " doesn't play for team " + team.toString());
         }
-
     }
 
     @Override
@@ -186,7 +183,6 @@ public class TeamFacadeImpl implements TeamFacade {
     @Override
     public List<TeamDto> getAllTeams() {
         return mappingService.mapTo(teamService.getAll(), TeamDto.class);
-
     }
 
     @Override
@@ -202,6 +198,4 @@ public class TeamFacadeImpl implements TeamFacade {
 
         return mappingService.mapTo(rosterService.getAllowedPlayers(t), PlayerDto.class);
     }
-
-
 }

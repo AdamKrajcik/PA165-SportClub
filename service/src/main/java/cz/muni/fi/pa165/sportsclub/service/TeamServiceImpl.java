@@ -40,7 +40,6 @@ public class TeamServiceImpl implements TeamService {
         return teamDao.findById(id);
     }
 
-
     @Override
     public List<Team> getAll() {
         return teamDao.findAll();
