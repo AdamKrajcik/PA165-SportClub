@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.sportsclub.dao;
 import cz.muni.fi.pa165.sportsclub.PersistenceSampleApplicationContext;
 import cz.muni.fi.pa165.sportsclub.entity.Team;
 import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -117,9 +118,35 @@ public class TeamDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(teamDao.findAll().contains(redTeam));
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
+    public void createWithNullTeam() {
+
+        teamDao.create(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void updateWithNullTeam() {
+
+        teamDao.update(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void deleteWithNullTeam() {
+
+        teamDao.delete(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
     public void findByNullId() {
         teamDao.findById(null);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void findByNullName() {
+        teamDao.findByName(null);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)

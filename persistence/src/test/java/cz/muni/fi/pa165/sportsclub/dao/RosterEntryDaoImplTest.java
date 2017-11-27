@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.sportsclub.entity.Player;
 import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
 import cz.muni.fi.pa165.sportsclub.entity.Team;
 import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -147,7 +148,28 @@ public class RosterEntryDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(result,listEntries);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
+    public void createWithNullRE() {
+
+        rosterEntryDao.create(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void updateWithNullRE() {
+
+        rosterEntryDao.update(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void deleteWithNullRE() {
+
+        rosterEntryDao.delete(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
     public void findWithNullId() {
 
         rosterEntryDao.findById(null);

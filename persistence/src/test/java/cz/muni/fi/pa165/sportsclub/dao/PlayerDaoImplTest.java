@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.sportsclub.entity.Player;
 import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
 import cz.muni.fi.pa165.sportsclub.entity.Team;
 import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -19,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -130,14 +132,35 @@ public class PlayerDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(found, player1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
+    public void createNullPlayer() {
+
+        playerDao.create(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void updateNullPlayer() {
+
+        playerDao.update(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void deleteNullPlayer() {
+
+        playerDao.delete(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
     public void findWithNullId() {
 
         playerDao.findById(null);
 
     }
 
-    @Test(expectedExceptions = NoResultException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void findWithNullEmail() {
 
         playerDao.findByEmail(null);

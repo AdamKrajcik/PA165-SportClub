@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.sportsclub.dao;
 
 import cz.muni.fi.pa165.sportsclub.PersistenceSampleApplicationContext;
 import cz.muni.fi.pa165.sportsclub.entity.Coach;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -124,11 +125,37 @@ public class CoachDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(coachDao.findByEmail(coach2.getEmail()), coach2);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
+    public void createNullCoach() {
+
+        coachDao.create(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void updateWithNullCoach() {
+
+        coachDao.update(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void deleteWithNullCoach() {
+
+        coachDao.delete(null);
+
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
     public void findWithNullId() {
 
         coachDao.findById(null);
+    }
 
+    @Test(expectedExceptions = DataAccessException.class)
+    public void findWithNullEmail() {
+
+        coachDao.findByEmail(null);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
