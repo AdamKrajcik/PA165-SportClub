@@ -46,7 +46,10 @@ public class CoachDaoImpl implements CoachDao {
 
     @Override
     public Coach findById(Long id) {
-        return em.find(Coach.class, id);
+        if(id == null){
+            throw new IllegalArgumentException("Id cannot be null");
+        }
+            return em.find(Coach.class, id);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.sportsclub.facade;
 
 import cz.muni.fi.pa165.sportsclub.EntityFactory;
+import cz.muni.fi.pa165.sportsclub.ServiceConfig;
 import cz.muni.fi.pa165.sportsclub.dto.CoachDto;
 import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.dto.TeamDto;
@@ -16,11 +17,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -35,7 +39,8 @@ import static org.mockito.Mockito.when;
  *
  * @author 445403 Kristian Katanik
  */
-public class CoachFacadeTest {
+@ContextConfiguration(classes = ServiceConfig.class)
+public class CoachFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private CoachService coachService;
@@ -54,7 +59,6 @@ public class CoachFacadeTest {
 
     private Coach coach1;
     private Coach coach2;
-
 
     @InjectMocks
     private CoachFacade coachFacade = new CoachFacadeImpl();

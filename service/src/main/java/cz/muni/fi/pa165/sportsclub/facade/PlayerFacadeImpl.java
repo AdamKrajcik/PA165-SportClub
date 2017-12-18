@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.entity.Player;
 import cz.muni.fi.pa165.sportsclub.mapper.MappingService;
 import cz.muni.fi.pa165.sportsclub.service.PlayerService;
-import cz.muni.fi.pa165.sportsclub.service.RosterService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -6,7 +6,6 @@ import cz.muni.fi.pa165.sportsclub.entity.Player;
 import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
 import cz.muni.fi.pa165.sportsclub.entity.Team;
 import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
-import cz.muni.fi.pa165.sportsclub.facade.TeamFacade;
 import cz.muni.fi.pa165.sportsclub.mapper.MappingService;
 import cz.muni.fi.pa165.sportsclub.service.AgeGroupService;
 import cz.muni.fi.pa165.sportsclub.service.PlayerService;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Implementation of TeamFacade

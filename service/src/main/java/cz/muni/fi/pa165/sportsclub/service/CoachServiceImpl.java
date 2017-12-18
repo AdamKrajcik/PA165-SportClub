@@ -22,9 +22,8 @@ public class CoachServiceImpl implements CoachService{
 
     @Override
     public void createCoach(Coach coach) {
-        Coach testCoach = coachDao.findById(coach.getId());
-        if (testCoach != null){
-            throw new SportsClubServiceException("Coach with given ID already exists.");
+        if(coach == null){
+            throw new IllegalArgumentException("Coach acnnot be null");
         }
         coachDao.create(coach);
     }

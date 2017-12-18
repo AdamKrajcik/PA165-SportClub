@@ -1,11 +1,14 @@
 package cz.muni.fi.pa165.sportsclub.service;
 
 import cz.muni.fi.pa165.sportsclub.EntityFactory;
+import cz.muni.fi.pa165.sportsclub.ServiceConfig;
 import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 import cz.muni.fi.pa165.sportsclub.utils.TimeSpan;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -24,11 +27,12 @@ import static org.mockito.Mockito.when;
  *
  * @author 410461 Martin Skrovina
  */
-public class AgeGroupServiceImplTest {
+@ContextConfiguration(classes = ServiceConfig.class)
+public class AgeGroupServiceImplTest extends AbstractTestNGSpringContextTests {
 
     @Inject
     @InjectMocks
-    AgeGroupService ageGroupService = new AgeGroupServiceImpl();
+    AgeGroupService ageGroupService;
 
     @Mock
     TimeService timeService;

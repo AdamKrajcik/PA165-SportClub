@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.sportsclub.service;
 
 import cz.muni.fi.pa165.sportsclub.EntityFactory;
+import cz.muni.fi.pa165.sportsclub.ServiceConfig;
 import cz.muni.fi.pa165.sportsclub.dao.PlayerDao;
 import cz.muni.fi.pa165.sportsclub.dao.RosterEntryDao;
 import cz.muni.fi.pa165.sportsclub.entity.Player;
@@ -8,17 +9,23 @@ import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.inject.Inject;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-
-public class PlayerServiceImplTest {
+/**
+ * @author 422636 Adam Krajcik
+ */
+@ContextConfiguration(classes = ServiceConfig.class)
+public class PlayerServiceImplTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private PlayerDao playerDao;
@@ -26,8 +33,9 @@ public class PlayerServiceImplTest {
     @Mock
     RosterEntryDao rosterEntryDao;
 
+    @Inject
     @InjectMocks
-    private PlayerService playerService = new PlayerServiceImpl();
+    private PlayerService playerService;
 
     private Player player;
     private Player createdPlayer;

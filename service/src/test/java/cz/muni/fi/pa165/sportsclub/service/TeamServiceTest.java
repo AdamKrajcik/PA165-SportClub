@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.sportsclub.service;
 
+import cz.muni.fi.pa165.sportsclub.ServiceConfig;
 import cz.muni.fi.pa165.sportsclub.dao.TeamDao;
 import cz.muni.fi.pa165.sportsclub.entity.Coach;
 import cz.muni.fi.pa165.sportsclub.entity.Team;
@@ -9,11 +10,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +27,8 @@ import java.util.List;
  *
  * @author Jan Cech
  */
-public class TeamServiceTest {
+@ContextConfiguration(classes = ServiceConfig.class)
+public class TeamServiceTest extends AbstractTestNGSpringContextTests {
 
     private Team team1;
     private Team team2;
@@ -33,8 +38,9 @@ public class TeamServiceTest {
     @Mock
     private TeamDao teamDao;
 
+    @Inject
     @InjectMocks
-    private TeamService teamService = new TeamServiceImpl();
+    private TeamService teamService;
 
     @BeforeMethod
     public void setUp() {

@@ -1,12 +1,14 @@
 package cz.muni.fi.pa165.sportsclub.mapper;
 
 import org.dozer.Mapper;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Service
 public class MappingServiceImpl implements MappingService {
 
     @Inject

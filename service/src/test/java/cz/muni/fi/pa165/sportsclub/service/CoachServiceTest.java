@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.sportsclub.service;
 
+import cz.muni.fi.pa165.sportsclub.ServiceConfig;
 import cz.muni.fi.pa165.sportsclub.dao.CoachDao;
 import cz.muni.fi.pa165.sportsclub.entity.Coach;
 import org.hibernate.service.spi.ServiceException;
@@ -7,11 +8,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +24,8 @@ import java.util.List;
  *
  * @author 445403 Kristian Katanik
  */
-public class CoachServiceTest {
+@ContextConfiguration(classes = ServiceConfig.class)
+public class CoachServiceTest extends AbstractTestNGSpringContextTests {
 
     private Coach coach1;
     private Coach coach2;
@@ -29,8 +34,9 @@ public class CoachServiceTest {
     @Mock
     private CoachDao coachDao;
 
+    @Inject
     @InjectMocks
-    private CoachService coachService = new CoachServiceImpl();
+    private CoachService coachService;
 
     @BeforeMethod
     public void createCoaches(){
@@ -88,7 +94,7 @@ public class CoachServiceTest {
 
         Coach result = coachService.findById(1L);
 
-        Mockito.verify(coachDao, Mockito.times(2)).findById(Mockito.anyLong());
+        Mockito.verify(coachDao, Mockito.times(1)).findById(Mockito.anyLong());
         Assert.assertNotNull(result);
     }
 

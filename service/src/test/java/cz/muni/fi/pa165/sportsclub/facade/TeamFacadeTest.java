@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.sportsclub.facade;
 
+import cz.muni.fi.pa165.sportsclub.ServiceConfig;
 import cz.muni.fi.pa165.sportsclub.dto.CoachDto;
 import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.dto.RosterEntryDto;
@@ -18,10 +19,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.inject.Inject;
 import java.time.Instant;
 import java.util.*;
 
@@ -30,7 +34,8 @@ import java.util.*;
  *
  * @author Jan Cech
  */
-public class TeamFacadeTest {
+@ContextConfiguration(classes = ServiceConfig.class)
+public class TeamFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     TeamService teamService;
 
@@ -45,6 +50,7 @@ public class TeamFacadeTest {
 
     @Mock
     AgeGroupService ageGroupService;
+
 
     @InjectMocks
     private TeamFacade teamFacade = new TeamFacadeImpl();

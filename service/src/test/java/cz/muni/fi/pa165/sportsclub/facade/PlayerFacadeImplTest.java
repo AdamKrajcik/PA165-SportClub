@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.sportsclub.facade;
 
 import cz.muni.fi.pa165.sportsclub.EntityFactory;
+import cz.muni.fi.pa165.sportsclub.ServiceConfig;
 import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.entity.Player;
 import cz.muni.fi.pa165.sportsclub.mapper.MappingService;
@@ -8,12 +9,15 @@ import cz.muni.fi.pa165.sportsclub.service.PlayerService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,13 +26,15 @@ import static org.mockito.Mockito.*;
 /**
  * @author 422636 Adam Krajcik
  */
-public class PlayerFacadeImplTest {
+@ContextConfiguration(classes = ServiceConfig.class)
+public class PlayerFacadeImplTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private PlayerService playerService;
 
     @Mock
     private MappingService mappingService;
+
 
     @InjectMocks
     private PlayerFacade playerFacade = new PlayerFacadeImpl();
