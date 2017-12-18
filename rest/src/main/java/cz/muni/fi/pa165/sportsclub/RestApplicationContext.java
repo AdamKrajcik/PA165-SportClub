@@ -1,13 +1,12 @@
-package cz.muni.fi.pa165.sportsclub.config;
+package cz.muni.fi.pa165.sportsclub;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import cz.muni.fi.pa165.sportsclub.ServiceConfig;
+import cz.muni.fi.pa165.sportsclub.config.SampleDataConfiguration;
+import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -25,7 +24,7 @@ import java.util.Locale;
 
 @EnableWebMvc
 @Configuration
-//@Import({SampleDataConfiguration.class})
+@Import({ServiceConfig.class/*, SampleDataConfiguration.class*/})
 @ComponentScan(basePackages = {"cz.muni.fi.pa165.sportsclub.controller"})
 public class RestApplicationContext extends WebMvcConfigurerAdapter {
 

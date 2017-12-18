@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.sportsclub.config;
+package cz.muni.fi.pa165.sportsclub;
 
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
