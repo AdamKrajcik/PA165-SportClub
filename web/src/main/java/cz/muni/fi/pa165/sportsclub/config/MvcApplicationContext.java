@@ -1,8 +1,10 @@
 package cz.muni.fi.pa165.sportsclub.config;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan(basePackages = "cz.muni.fi.pa165.sportsclub.controllers")
 public class MvcApplicationContext extends WebMvcConfigurerAdapter {
 
+    public static final String TEXTS = "Texts";
 
 
     @Override
@@ -38,6 +41,15 @@ public class MvcApplicationContext extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
+    /**
+     * Provides localized messages.
+     */
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename(TEXTS);
+        return messageSource;
+    }
 
     @Bean
     public Validator validator() {

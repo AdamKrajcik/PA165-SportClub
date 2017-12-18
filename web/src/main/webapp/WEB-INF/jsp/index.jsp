@@ -5,4 +5,15 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<p>Hello World!</p>
+<my:pagetemplate>
+<jsp:attribute name="body">
+
+    <div class="jumbotron">
+        <h1>Welcome to Sport Club Sys!</h1>
+        <p class="lead">Please log in.</p>
+        <p><a class="btn btn-lg btn-success" href="${pageContext.request.contextPath}/login"
+              role="button">Log In</a></p>
+    </div>
+
+</jsp:attribute>
+</my:pagetemplate>
