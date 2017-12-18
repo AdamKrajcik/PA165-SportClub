@@ -4,6 +4,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 @Configuration
 //@Import(SecurityConfiguration.class)
+@Import(SampleDataConfiguration.class)
 @ComponentScan(basePackages = "cz.muni.fi.pa165.sportsclub.controllers")
 public class MvcApplicationContext extends WebMvcConfigurerAdapter {
 
