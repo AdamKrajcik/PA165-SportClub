@@ -10,6 +10,7 @@ import java.util.Objects;
  * @author 422636 Adam Krajcik
  */
 @Entity
+@Table(name="Users")
 public class User {
 
     @Id
@@ -17,7 +18,7 @@ public class User {
     private Long id;
 
     @NotNull
-    @Column(unique = true)
+    @Column(length = 25, unique = true, nullable = false)
     private String email;
 
     @NotNull
@@ -65,8 +66,8 @@ public class User {
         User user = (User) o;
         return Objects.equals(getId(), user.getId()) &&
                 Objects.equals(getEmail(), user.getEmail()) &&
-                Objects.equals(getRole(), user.getRole()) &&
-                Objects.equals(getPasswordHash(), user.getPasswordHash());
+                Objects.equals(getRole(), user.getRole());
+
     }
 
     @Override

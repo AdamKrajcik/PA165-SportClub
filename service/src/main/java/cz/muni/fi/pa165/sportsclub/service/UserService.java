@@ -4,19 +4,24 @@ import cz.muni.fi.pa165.sportsclub.entity.User;
 
 import java.util.List;
 
+/**
+ * User service interface
+ *
+ * @author 422636 Adam Krajcik
+ */
 public interface UserService {
 
     /**
      * Creates new user.
      *
-     * @param user player to create
+     * @param user user to create
      */
     void registerUser(User user, String password);
 
     /**
      * Updates user.
      *
-     * @param user player with the updated data
+     * @param user user with the updated data
      */
     void updateUser(User user);
 
@@ -48,11 +53,11 @@ public interface UserService {
      *
      * @return list of all users
      */
-    List<User> findAll();
+    List<User> getAll();
 
 
     /**
-     * authenticate
+     * authenticate user with password
      * @param u User
      * @param passwordHash hash
      * @return

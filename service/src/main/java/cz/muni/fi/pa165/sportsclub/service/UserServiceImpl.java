@@ -11,6 +11,9 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.List;
 
+/**
+ * @author 422636 Adam Krajcik
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -44,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> getAll() {
         return userDao.getAll();
     }
 

@@ -10,6 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.util.List;
 
+/**
+ * User facade
+ *
+ * @author 422636 Adam Krajcik
+ */
 @Service
 @Transactional
 public class UserFacadeImpl implements UserFacade {
@@ -30,7 +35,7 @@ public class UserFacadeImpl implements UserFacade {
 
 
     @Override
-    public void updateUser(User userDto) {
+    public void updateUser(UserDto userDto) {
         userService.updateUser(mappingService.mapTo(userDto, User.class));
     }
 
@@ -40,9 +45,8 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public boolean authenticate(UserDto userDto) {
-        return userService.authenticate(
-                userService.findById(userDto.getId()), userDto.getPasswordHash());    }
+    public boolean authenticate(UserDto userDto, String password) {
+        return userService.authenticate(mappingService.mapTo(userDto, User.class), password);    }
 
     @Override
     public boolean isAdmin(UserDto userDto) {
@@ -57,7 +61,7 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public List<UserDto> getAll() {
-        return mappingService.mapTo(userService.findAll(), UserDto.class);
+        return mappingService.mapTo(userService.getAll(), UserDto.class);
     }
 
     @Override

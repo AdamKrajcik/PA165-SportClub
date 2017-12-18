@@ -1,10 +1,8 @@
 package cz.muni.fi.pa165.sportsclub;
 
 import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
-import cz.muni.fi.pa165.sportsclub.entity.Coach;
-import cz.muni.fi.pa165.sportsclub.entity.Player;
-import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
-import cz.muni.fi.pa165.sportsclub.entity.Team;
+import cz.muni.fi.pa165.sportsclub.dto.UserDto;
+import cz.muni.fi.pa165.sportsclub.entity.*;
 import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 
 import java.time.Instant;
@@ -16,6 +14,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class EntityFactory {
+
+    public static User createUser() {
+        User user = new User();
+        user.setEmail("admin@admin.cz");
+        user.setPasswordHash("hohoho");
+        user.setRole("ADMIN");
+        return user;
+    }
+
+    public static UserDto createUserDto() {
+        UserDto user = new UserDto();
+        user.setEmail("admin@admin.cz");
+        user.setPasswordHash("hohoho");
+        user.setRole("ADMIN");
+        return user;
+    }
 
     public static Player createPlayer() {
         Player player = new Player();

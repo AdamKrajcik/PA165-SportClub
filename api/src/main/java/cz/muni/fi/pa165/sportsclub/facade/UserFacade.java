@@ -22,7 +22,8 @@ public interface UserFacade {
      *
      * @param userDto
      */
-    void updateUser(User userDto);
+    void updateUser(UserDto userDto);
+
 
     /**
      *
@@ -35,7 +36,8 @@ public interface UserFacade {
      * @param userDto
      * @return
      */
-    boolean authenticate(UserDto userDto);
+    boolean authenticate(UserDto userDto, String password);
+
 
     /**
      *
@@ -44,11 +46,10 @@ public interface UserFacade {
     boolean isAdmin(UserDto userDto);
 
 
+  
     UserDto getById(Long id);
 
     List<UserDto> getAll();
 
     UserDto getByEmail(String email);
-
-
 }

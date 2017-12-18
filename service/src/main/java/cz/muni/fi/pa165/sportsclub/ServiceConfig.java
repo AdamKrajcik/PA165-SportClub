@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(PersistenceSampleApplicationContext.class)
+@Import({PersistenceSampleApplicationContext.class})
 @ComponentScan(basePackages= {"cz.muni.fi.pa165.sportsclub.service", "cz.muni.fi.pa165.sportsclub.facade"})
 public class ServiceConfig {
 

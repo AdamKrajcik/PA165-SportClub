@@ -1,9 +1,12 @@
 package cz.muni.fi.pa165.sportsclub.dto;
 
-import cz.muni.fi.pa165.sportsclub.entity.User;
-
 import java.util.Objects;
 
+/**
+ * User DTO
+ *
+ * @author 422636 Adam Krajcik
+ */
 public class UserDto {
 
     private Long id;
@@ -50,11 +53,12 @@ public class UserDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(getId(), user.getId()) &&
-                Objects.equals(getEmail(), user.getEmail()) &&
-                Objects.equals(getRole(), user.getRole()) &&
-                Objects.equals(getPasswordHash(), user.getPasswordHash());
+
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(getId(), userDto.getId()) &&
+                Objects.equals(getEmail(), userDto.getEmail()) &&
+                Objects.equals(getRole(), userDto.getRole());
+
     }
 
     @Override
