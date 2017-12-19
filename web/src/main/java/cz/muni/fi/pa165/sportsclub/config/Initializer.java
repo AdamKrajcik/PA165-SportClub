@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.sportsclub.config;
 
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -32,5 +33,11 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return null;
+    }
+
+    @Override
+    public void onStartup(javax.servlet.ServletContext servletContext) throws javax.servlet.ServletException {
+        super.onStartup(servletContext);
+        servletContext.addListener(RequestContextListener.class);
     }
 }

@@ -4,6 +4,8 @@ import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.exception.ResourceAlreadyExistsException;
 import cz.muni.fi.pa165.sportsclub.exception.ResourceNotFoundException;
 import cz.muni.fi.pa165.sportsclub.facade.PlayerFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +19,10 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/player")
+@RequestMapping("/rest/player")
 public class PlayerController {
+
+    final static Logger logger = LoggerFactory.getLogger(PlayerController.class);
 
     @Inject
     private PlayerFacade playerFacade;
@@ -30,7 +34,7 @@ public class PlayerController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, headers = {"Accept=application/json"})
     public final PlayerDto getPlayer(@PathVariable("id") long id) throws ResourceNotFoundException {
         try{
             PlayerDto playerDto = playerFacade.getPlayer(id);
@@ -41,10 +45,12 @@ public class PlayerController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/{email}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/byEmail/{email}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final PlayerDto getPlayerByEmail(@PathVariable("email") String email) throws ResourceNotFoundException {
         try{
+            logger.info(email);
             PlayerDto playerDto = playerFacade.getPlayerByEmail(email);
+            logger.info(playerDto.getEmail());
             return playerDto;
         } catch (Exception ex){
             throw new ResourceNotFoundException();
