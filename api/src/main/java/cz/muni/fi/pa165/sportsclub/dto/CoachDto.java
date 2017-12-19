@@ -25,11 +25,11 @@ public class CoachDto extends PersonDto{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CoachDto coachDto = (CoachDto) o;
-        return Objects.equals(getTeams(), coachDto.getTeams());
+        return Objects.equals(getEmail(), coachDto.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTeams());
+        return Objects.hash(getEmail());
     }
 }

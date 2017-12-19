@@ -1,14 +1,8 @@
 package cz.muni.fi.pa165.sportsclub.loader;
 
-import cz.muni.fi.pa165.sportsclub.entity.Coach;
-import cz.muni.fi.pa165.sportsclub.entity.Player;
-import cz.muni.fi.pa165.sportsclub.entity.RosterEntry;
-import cz.muni.fi.pa165.sportsclub.entity.Team;
+import cz.muni.fi.pa165.sportsclub.entity.*;
 import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
-import cz.muni.fi.pa165.sportsclub.service.CoachService;
-import cz.muni.fi.pa165.sportsclub.service.PlayerService;
-import cz.muni.fi.pa165.sportsclub.service.RosterService;
-import cz.muni.fi.pa165.sportsclub.service.TeamService;
+import cz.muni.fi.pa165.sportsclub.service.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,9 +33,22 @@ public class SampleDataLoaderImpl implements SampleDataLoader{
     @Inject
     private RosterService rosterService;
 
+    @Inject
+    private UserService userService;
+
 
     @Override
     public void loadData() throws IOException, ParseException {
+
+        User admin = new User();
+        admin.setEmail("admin@admin.cz");
+        admin.setRole("ADMIN");
+        admin.setPasswordHash("pass");
+
+        User coach = new User();
+        coach.setEmail("coach@coach.cz");
+        coach.setRole("COACH");
+        coach.setPasswordHash("pass");
 
         Coach coach1 = new Coach();
         coach1.setFirstName("Laco");
@@ -127,6 +134,8 @@ public class SampleDataLoaderImpl implements SampleDataLoader{
         player5.addRosterEntry(rosterEntry3);
         player6.addRosterEntry(rosterEntry4);
 
+        userService.registerUser(admin, "admin");
+        userService.registerUser(coach, "coach");
         coachService.createCoach(coach1);
         coachService.createCoach(coach2);
         teamService.createTeam(team1);

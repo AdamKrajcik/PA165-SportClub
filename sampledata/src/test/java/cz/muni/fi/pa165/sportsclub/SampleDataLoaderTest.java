@@ -49,7 +49,7 @@ public class SampleDataLoaderTest extends AbstractTestNGSpringContextTests {
 
 
 
-    @Test(enabled = false)
+    @Test
     public void testLoad() throws IOException, ParseException {
 
         List<Team> teams = teamService.getAll();
