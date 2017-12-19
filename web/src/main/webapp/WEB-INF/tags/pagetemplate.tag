@@ -39,7 +39,7 @@
                     <ul class="dropdown-menu">
                         <li><my:a href="/coach/list"><f:message key="navigation.admin.coaches"/></my:a></li>
                         <li><my:a href="/team/list/all"><f:message key="navigation.admin.teams"/></my:a></li>
-                        <li><my:a href="/player/list/all"><f:message key="navigation.admin.players"/></my:a></li>
+                        <li><my:a href="/player/list"><f:message key="navigation.admin.players"/></my:a></li>
                     </ul>
                 </li>
             </ul>
