@@ -27,10 +27,56 @@ public class CoachController {
     @Inject
     TeamFacade teamFacade;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String getCoaches(Model model) {
         model.addAttribute("coaches", coachFacade.getAllCoaches());
         return "coach/list";
+    }
+
+    // @Secured("ROLE_ADMIN")
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String createCoach(Model model) {
+        model.addAttribute("coachCreate", new CoachDto());
+        return "coach/create";
+    }
+
+    //@Secured("ROLE_ADMIN")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String createCoach(@ModelAttribute("coach") CoachDto coachDto, UriComponentsBuilder uriBuilder) {
+        coachFacade.createCoach(coachDto);
+        return "redirect:" + uriBuilder.path("/coach/list").toUriString();
+    }
+
+    // @Secured("ROLE_ADMIN")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public String deleteCoach(@PathVariable long id, UriComponentsBuilder uriBuilder) {
+        coachFacade.deleteCoach(id);
+        return "redirect:" + uriBuilder.path("/coach/list").toUriString();
+    }
+
+    //@Secured("ROLE_ADMIN")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String updateCoach(@PathVariable long id, Model model) {
+        CoachDto coachDto = coachFacade.getCoach(id);
+        if (coachDto == null)
+            return "redirect:/coach";
+        model.addAttribute("coachUpdate", coachDto);
+        return "coach/update";
+    }
+
+    //@Secured("ROLE_ADMIN")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    public String updateCoach(@ModelAttribute("coachUpdate") CoachDto coachDto, @PathVariable("id") long id, Model model, UriComponentsBuilder uriBuilder) {
+        coachDto.setId(id);
+        coachFacade.updateCoach(coachDto);
+        return "redirect:" + uriBuilder.path("/coach/list").toUriString();
+    }
+
+    @RequestMapping(value = "view/{id}", method = RequestMethod.GET)
+    public String getCoach(@PathVariable("id") long id, Model model) {
+        CoachDto coachDto = coachFacade.getCoach(id);
+        model.addAttribute("coach", coachDto);
+        return "coach/view";
     }
 
 }

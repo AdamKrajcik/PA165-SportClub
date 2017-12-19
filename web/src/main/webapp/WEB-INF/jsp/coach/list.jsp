@@ -15,7 +15,7 @@
 <my:pagetemplate title="Coaches">
 <jsp:attribute name="body">
 
-    <my:a href="/coach/new" class="btn btn-primary">
+    <my:a href="/coach/create" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         New coach
     </my:a>
@@ -23,11 +23,11 @@
     <table class="table">
         <thead>
         <tr>
-            <th>id</th>
-            <th>firstName</th>
-            <th>lastName</th>
-            <th>email</th>
-            <th>teams</th>
+            <th>Id</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Teams</th>
         </tr>
         </thead>
         <tbody>
@@ -37,8 +37,23 @@
                 <td><c:out value="${coach.firstName}"/></td>
                 <td><c:out value="${coach.lastName}"/></td>
                 <td><c:out value="${coach.email}"/></td>
+                <c:choose>
+                    <c:when test="${coach.teams.size()==0}">
+                        <td><c:out value="-"/></td>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${coach.teams}" var="team">
+                            <td><c:out value="${team.name}"/></td>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
                 <td>
                     <my:a href="/coach/view/${coach.id}" class="btn btn-primary">View</my:a>
+                </td>
+                <td>
+                    <form method="get" action="${pageContext.request.contextPath}/coach/update/${coach.id}">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
                 </td>
                 <td>
                     <form method="post" action="${pageContext.request.contextPath}/coach/delete/${coach.id}">
