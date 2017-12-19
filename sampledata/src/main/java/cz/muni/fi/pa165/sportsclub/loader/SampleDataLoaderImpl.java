@@ -73,7 +73,7 @@ public class SampleDataLoaderImpl implements SampleDataLoader{
         player1.setLastName("Mrkvicka");
         player1.setWeight(80);
         player1.setHeight(160);
-        player1.setEmail("player1@gmail.com");
+        player1.setEmail("player1@gmail.cz");
         player1.setDateOfBirth(createDate("10/10/1995"));
 
         Player player2 = new Player();

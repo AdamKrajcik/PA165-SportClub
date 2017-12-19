@@ -1,6 +1,9 @@
 package cz.muni.fi.pa165.sportsclub.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,8 +18,10 @@ public class TeamDto {
 
     private String name;
 
+    @JsonManagedReference
     private CoachDto coach;
 
+    @JsonBackReference
     private Set<RosterEntryDto> roster;
 
     // move enum

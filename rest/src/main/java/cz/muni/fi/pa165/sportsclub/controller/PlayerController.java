@@ -48,9 +48,9 @@ public class PlayerController {
     @RequestMapping(value = "/byEmail/{email}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final PlayerDto getPlayerByEmail(@PathVariable("email") String email) throws ResourceNotFoundException {
         try{
-            logger.info(email);
+
             PlayerDto playerDto = playerFacade.getPlayerByEmail(email);
-            logger.info(playerDto.getEmail());
+
             return playerDto;
         } catch (Exception ex){
             throw new ResourceNotFoundException();

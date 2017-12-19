@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.sportsclub.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.Objects;
 import java.util.Set;
 
@@ -10,6 +12,7 @@ import java.util.Set;
  */
 public class CoachDto extends PersonDto{
 
+    @JsonBackReference
     private Set<TeamDto> teams;
 
     public Set<TeamDto> getTeams() {

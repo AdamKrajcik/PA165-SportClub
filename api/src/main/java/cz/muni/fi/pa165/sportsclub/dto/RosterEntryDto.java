@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.sportsclub.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.Objects;
 
 /**
@@ -11,8 +14,10 @@ public class RosterEntryDto {
 
     private Long id;
 
+    @JsonManagedReference
     private TeamDto team;
 
+    @JsonBackReference
     private PlayerDto player;
 
     private int jerseyNumber;

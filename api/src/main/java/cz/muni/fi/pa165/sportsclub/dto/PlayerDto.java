@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.sportsclub.dto;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -17,6 +19,7 @@ public class PlayerDto extends PersonDto {
 
     private Date dateOfBirth;
 
+    @JsonManagedReference
     private Set<RosterEntryDto> rosterEntries;
 
     public int getHeight() {
@@ -56,14 +59,11 @@ public class PlayerDto extends PersonDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlayerDto playerDto = (PlayerDto) o;
-        return getHeight() == playerDto.getHeight() &&
-                getWeight() == playerDto.getWeight() &&
-                Objects.equals(getDateOfBirth(), playerDto.getDateOfBirth()) &&
-                Objects.equals(getRosterEntries(), playerDto.getRosterEntries());
+        return Objects.equals(getEmail(), playerDto.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getHeight(), getWeight(), getDateOfBirth(), getRosterEntries());
+        return Objects.hash(getEmail());
     }
 }
