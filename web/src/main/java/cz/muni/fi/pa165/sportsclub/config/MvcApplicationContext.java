@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.sportsclub.AllowOriginInterceptor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.Validator;
@@ -97,5 +98,15 @@ public class MvcApplicationContext extends WebMvcConfigurerAdapter {
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
         configurer.setUseSuffixPatternMatch(false);
+
+    }
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer.defaultContentType(MediaType.APPLICATION_JSON)
+                .mediaType("json", MediaType.APPLICATION_JSON)
+                .ignoreAcceptHeader(true)
+                .favorPathExtension(false)
+                .favorParameter(false);
     }
 }
