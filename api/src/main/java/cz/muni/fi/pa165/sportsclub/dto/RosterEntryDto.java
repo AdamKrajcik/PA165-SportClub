@@ -3,6 +3,9 @@ package cz.muni.fi.pa165.sportsclub.dto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -15,11 +18,16 @@ public class RosterEntryDto {
     private Long id;
 
     @JsonManagedReference
+    @NotNull
     private TeamDto team;
 
     @JsonBackReference
+    @NotNull
     private PlayerDto player;
 
+    @NotNull
+    @Max(99)
+    @Min(1)
     private int jerseyNumber;
 
     public Long getId() {

@@ -13,7 +13,7 @@
 <jsp:attribute name="body">
 
     <form:form method="post" action="${pageContext.request.contextPath}/coach/update/${coach.id}"
-               modelAttribute="coachUpdate" cssClass="form-horizontal">
+               modelAttribute="coach" cssClass="form-horizontal">
         <div class="form-group">
             <form:label path="firstName" cssClass="col-sm-2 control-label">First name</form:label>
             <div class="col-sm-10">

@@ -60,7 +60,7 @@ public class CoachController {
         CoachDto coachDto = coachFacade.getCoach(id);
         if (coachDto == null)
             return "redirect:/coach";
-        model.addAttribute("coachUpdate", coachDto);
+        model.addAttribute("coach", coachDto);
         return "coach/update";
     }
 

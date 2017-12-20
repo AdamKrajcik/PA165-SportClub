@@ -4,6 +4,8 @@ package cz.muni.fi.pa165.sportsclub.dto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,6 +18,8 @@ public class TeamDto {
 
     private Long id;
 
+    @NotNull
+    @Size(min = 3, max = 25)
     private String name;
 
     @JsonManagedReference

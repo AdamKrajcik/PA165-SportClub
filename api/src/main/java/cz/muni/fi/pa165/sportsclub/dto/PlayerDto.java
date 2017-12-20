@@ -2,6 +2,9 @@ package cz.muni.fi.pa165.sportsclub.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -13,9 +16,17 @@ import java.util.Set;
  */
 public class PlayerDto extends PersonDto {
 
+    @NotNull
+    @Min(80)
+    @Max(280)
     private int height;
 
+    @NotNull
+    @Min(30)
+    @Max(150)
+
     private int weight;
+
 
     private Date dateOfBirth;
 
