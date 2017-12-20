@@ -33,6 +33,11 @@
     </table>
 
     <h2>Managed teams:</h2>
+        <my:a href="/team/create/${coach.id}" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Add New Team
+        </my:a>
+
         <c:choose>
             <c:when test="${coach.teams.size()==0}">
                 <td><c:out value="Coach has no teams"/></td>

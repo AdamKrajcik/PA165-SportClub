@@ -1,8 +1,11 @@
 package cz.muni.fi.pa165.sportsclub.controllers;
 
+import cz.muni.fi.pa165.sportsclub.dto.CoachDto;
 import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.dto.RosterEntryDto;
 import cz.muni.fi.pa165.sportsclub.dto.TeamDto;
+import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
+import cz.muni.fi.pa165.sportsclub.facade.CoachFacade;
 import cz.muni.fi.pa165.sportsclub.facade.PlayerFacade;
 import cz.muni.fi.pa165.sportsclub.facade.TeamFacade;
 import org.springframework.stereotype.Controller;
@@ -27,6 +30,9 @@ public class TeamController {
 
     @Inject
     TeamFacade teamFacade;
+
+    @Inject
+    CoachFacade coachFacade;
 
     @Inject
     PlayerFacade playerFacade;
@@ -95,5 +101,30 @@ public class TeamController {
     public String getTeams(Model model) {
         model.addAttribute("teams", teamFacade.getAllTeams());
         return "team/list";
+    }
+
+    @RequestMapping(value = "/create/{coachId}", method = RequestMethod.GET)
+    public String createTeamOfCoachForm(@PathVariable("coachId") long coachId, Model model, UriComponentsBuilder uriBuilder) {
+
+        model.addAttribute("team", new TeamDto());
+        model.addAttribute("coachId", coachId);
+        model.addAttribute("ageGroups", AgeGroup.getAllAscending()
+                .stream()
+                .map(ageGroup -> ageGroup.toString())
+                .collect(Collectors.toList()));
+
+        return "team/create";
+    }
+
+    @RequestMapping(value = "/create/{coachId}", method = RequestMethod.POST)
+    public String doCreateTeamOfCoach(@PathVariable("coachId") long coachId, @ModelAttribute("team") TeamDto team, Model model, UriComponentsBuilder uriBuilder) {
+
+        CoachDto coach = coachFacade.getCoach(coachId);
+        team.setCoach(coach);
+        coach.getTeams().add(team);
+        teamFacade.createTeam(team);
+        coachFacade.updateCoach(coach);
+
+        return "redirect:" + uriBuilder.path("/coach/view/{id}").buildAndExpand(coachId).encode().toUriString();
     }
 }

@@ -87,6 +87,10 @@ public class Team {
         return Collections.unmodifiableSet(rosterEntries);
     }
 
+    public void setRosterEntries(Set<RosterEntry> rosterEntries) {
+        this.rosterEntries = rosterEntries;
+    }
+
     public void addRosterEntry(RosterEntry rosterEntry) {
         this.rosterEntries.add(rosterEntry);
     }
