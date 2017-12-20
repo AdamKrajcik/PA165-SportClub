@@ -49,9 +49,4 @@ public enum AgeGroup {
                 ? iterator.previous()
                 : null;
     }
-
-    @Override
-    public String toString(){
-        return "M" + this.getLowerBoundary()+ "-" + this.getUpperBoundary();
-    }
 }
