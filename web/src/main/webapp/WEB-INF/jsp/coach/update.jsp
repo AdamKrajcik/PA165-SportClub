@@ -12,9 +12,11 @@
 <my:pagetemplate title="Update coach">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/coach/edit/${coach.id}"
+    <form:form method="post" action="${pageContext.request.contextPath}/coach/edit/"
                modelAttribute="coach" cssClass="form-horizontal">
+        <form:hidden path="id"/>
         <div class="form-group ${firstName_error?'has-error':''}">
+
             <form:label path="firstName" cssClass="col-sm-2 control-label">First name</form:label>
             <div class="col-sm-10">
                 <form:input path="firstName" cssClass="form-control"/>

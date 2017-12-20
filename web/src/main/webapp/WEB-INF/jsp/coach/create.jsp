@@ -11,23 +11,23 @@
     <my:pagetemplate title="New coach">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/coach/create"
+    <form:form method="post" action="${pageContext.request.contextPath}/coach/new"
                modelAttribute="coachCreate" cssClass="form-horizontal">
-        <div class="form-group">
+        <div class="form-group ${firstName_error?'has-error':''}">
             <form:label path="firstName" cssClass="col-sm-2 control-label">First name</form:label>
             <div class="col-sm-10">
                 <form:input path="firstName" cssClass="form-control"/>
                 <form:errors path="firstName" cssClass="help-block"/>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group ${lastName_error?'has-error':''}">
             <form:label path="lastName" cssClass="col-sm-2 control-label">Last name</form:label>
             <div class="col-sm-10">
                 <form:input path="lastName" cssClass="form-control"/>
                 <form:errors path="lastName" cssClass="help-block"/>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group ${email_error?'has-error':''}">
             <form:label path="email" cssClass="col-sm-2 control-label">Email</form:label>
             <div class="col-sm-10">
                 <form:input path="email" cssClass="form-control"/>

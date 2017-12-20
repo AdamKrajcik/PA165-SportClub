@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.sportsclub.controllers;
 
+import cz.muni.fi.pa165.sportsclub.dto.PlayerCreateDto;
 import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
+import cz.muni.fi.pa165.sportsclub.dto.PlayerUpdateDto;
 import cz.muni.fi.pa165.sportsclub.facade.PlayerFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,14 +38,32 @@ public class PlayerWebController {
     // @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createPlayer(Model model) {
-        model.addAttribute("playerCreate", new PlayerDto());
+        model.addAttribute("playerCreate", new PlayerCreateDto());
         return "player/create";
     }
 
     //@Secured("ROLE_ADMIN")
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createPlayer(@ModelAttribute("player") PlayerDto playerDto, UriComponentsBuilder uriBuilder) {
-        playerFacade.createPlayer(playerDto);
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public String createPlayer(@Valid @ModelAttribute("playerCreate") PlayerCreateDto playerDto, BindingResult bindingResult, Model model, UriComponentsBuilder uriBuilder) {
+        if (bindingResult.hasErrors()) {
+            playerDto.setDateOfBirth(null);
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+
+                model.addAttribute(fe.getField() + "_error", true);
+
+            }
+            return "player/create";
+
+        }
+        PlayerDto player = new PlayerDto();
+        player.setLastName(playerDto.getLastName());
+        player.setFirstName(playerDto.getFirstName());
+        player.setWeight(playerDto.getWeight());
+        player.setHeight(playerDto.getHeight());
+        player.setDateOfBirth(playerDto.getDateOfBirth());
+        player.setEmail(playerDto.getEmail());
+
+        playerFacade.createPlayer(player);
         return "redirect:" + uriBuilder.path("/player/list").toUriString();
     }
 
@@ -62,7 +82,7 @@ public class PlayerWebController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String updatePlayer(@Valid @ModelAttribute("player") PlayerDto player, BindingResult bindingResult, Model model, UriComponentsBuilder uriBuilder) {
+    public String updatePlayer(@Valid @ModelAttribute("player") PlayerUpdateDto playerUpdateDto, BindingResult bindingResult, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
 
             for (FieldError fe : bindingResult.getFieldErrors()) {
@@ -71,11 +91,11 @@ public class PlayerWebController {
             return "player/update";
 
         }
-        PlayerDto playerFromDb = playerFacade.getPlayer(player.getId());
-        playerFromDb.setHeight(player.getHeight());
-        playerFromDb.setWeight(player.getWeight());
-        playerFromDb.setFirstName(player.getFirstName());
-        playerFromDb.setLastName(player.getLastName());
+        PlayerDto playerFromDb = playerFacade.getPlayer(playerUpdateDto.getId());
+        playerFromDb.setHeight(playerUpdateDto.getHeight());
+        playerFromDb.setWeight(playerUpdateDto.getWeight());
+        playerFromDb.setFirstName(playerUpdateDto.getFirstName());
+        playerFromDb.setLastName(playerUpdateDto.getLastName());
 
         playerFacade.updatePlayer(playerFromDb);
         return "redirect:" + uriBuilder.path("/player/list").toUriString();

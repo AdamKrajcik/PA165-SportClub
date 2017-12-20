@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.sportsclub.controllers;
 
+import cz.muni.fi.pa165.sportsclub.dto.CoachCreateDto;
 import cz.muni.fi.pa165.sportsclub.dto.CoachDto;
+import cz.muni.fi.pa165.sportsclub.dto.CoachUpdateDto;
 import cz.muni.fi.pa165.sportsclub.facade.CoachFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,14 +39,26 @@ public class CoachController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createCoach(Model model) {
-        model.addAttribute("coachCreate", new CoachDto());
+        model.addAttribute("coachCreate", new CoachCreateDto());
         return "coach/create";
     }
 
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createCoach(@ModelAttribute("coach") CoachDto coachDto, UriComponentsBuilder uriBuilder) {
-        coachFacade.createCoach(coachDto);
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public String createCoach(@Valid @ModelAttribute("coachCreate") CoachCreateDto coachDto, BindingResult bindingResult, Model model, UriComponentsBuilder uriBuilder) {
+        if (bindingResult.hasErrors()) {
+
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }
+            return "coach/create";
+
+        }
+        CoachDto coach = new CoachDto();
+        coach.setEmail(coachDto.getEmail());
+        coach.setFirstName(coachDto.getFirstName());
+        coach.setLastName(coachDto.getLastName());
+        coachFacade.createCoach(coach);
         return "redirect:" + uriBuilder.path("/coach/list").toUriString();
     }
 
@@ -66,8 +80,8 @@ public class CoachController {
     }
 
 
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String updateCoach(@Valid @ModelAttribute("coach") CoachDto coachDto, @PathVariable long id, BindingResult bindingResult, Model model, UriComponentsBuilder uriBuilder) {
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String updateCoach(@Valid @ModelAttribute("coach") CoachUpdateDto coachUpdateDto, BindingResult bindingResult, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
 
             for (FieldError fe : bindingResult.getFieldErrors()) {
@@ -76,9 +90,9 @@ public class CoachController {
             return "coach/update";
 
         }
-        CoachDto coachFromDb = coachFacade.getCoach(id);
-        coachFromDb.setFirstName(coachDto.getFirstName());
-        coachFromDb.setLastName(coachDto.getLastName());
+        CoachDto coachFromDb = coachFacade.getCoach(coachUpdateDto.getId());
+        coachFromDb.setFirstName(coachUpdateDto.getFirstName());
+        coachFromDb.setLastName(coachUpdateDto.getLastName());
 
         coachFacade.updateCoach(coachFromDb);
         return "redirect:" + uriBuilder.path("/coach/list").toUriString();

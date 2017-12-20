@@ -40,7 +40,7 @@
         <div class="form-group ${height_error?'has-error':''}">
             <form:label path="height" cssClass="col-sm-2 control-label">Height</form:label>
             <div class="col-sm-10">
-                <form:input path="height" cssClass="form-control"/>
+                <form:input path="height" cssClass="form-control" type="number" min="80" max="280"/>
                 <form:errors path="height" cssClass="help-block"/>
                 <c:out value="${player.height}"/>
             </div>
@@ -48,7 +48,7 @@
         <div class="form-group ${weight_error?'has-error':''}">
             <form:label path="weight" cssClass="col-sm-2 control-label">Weight</form:label>
             <div class="col-sm-10">
-                <form:input path="weight" cssClass="form-control"/>
+                <form:input path="weight" cssClass="form-control" type="number" min="30" max="150"/>
                 <form:errors path="weight" cssClass="help-block"/>
                 <c:out value="${player.weight}"/>
             </div>
