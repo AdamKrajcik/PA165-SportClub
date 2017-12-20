@@ -33,7 +33,8 @@ public class AgeGroupServiceImpl implements AgeGroupService {
                 .toInstant()
                 .atZone(zone)
                 .toLocalDate();
-        LocalDate birthLocalDate = birthDate
+        LocalDate birthLocalDate = new Date(birthDate
+                .getTime())
                 .toInstant()
                 .atZone(zone)
                 .toLocalDate();

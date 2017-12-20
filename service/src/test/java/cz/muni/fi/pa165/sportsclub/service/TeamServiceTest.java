@@ -54,19 +54,19 @@ public class TeamServiceTest extends AbstractTestNGSpringContextTests {
         team1.setAgeGroup(AgeGroup.MS);
         team1.setCoach(coach1);
         team1.setName("Sparta");
-        team1.setId(1);
+        team1.setId(1L);
 
         team2 = new Team();
         team2.setAgeGroup(AgeGroup.MS);
         team2.setCoach(coach1);
         team2.setName("Banik");
-        team2.setId(2);
+        team2.setId(2L);
 
         team3 = new Team();
         team3.setAgeGroup(AgeGroup.MS);
         team3.setCoach(coach1);
         team3.setName("Brno");
-        team3.setId(3);
+        team3.setId(3L);
     }
 
     @BeforeClass

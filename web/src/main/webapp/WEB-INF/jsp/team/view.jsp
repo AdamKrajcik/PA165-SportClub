@@ -19,17 +19,15 @@
         Edit Team
     </my:a>
 
-    <div>
     <h2>Players</h2>
-    <my:a href="/team/add-existing/${team.id}" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        Add Existing
-    </my:a>
-    <my:a href="/player/create" class="btn btn-primary">
+        <my:a href="/player/create" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Create New
-    </my:a>
-    </div>
+        </my:a>
+        <my:a href="/team/add-existing/${team.id}" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Add Existing
+        </my:a>
 
     <table class="table">
         <thead>
@@ -50,12 +48,13 @@
                 <td>${rosterEntry.player.email}</td>
                 <td>${rosterEntry.jerseyNumber}</td>
                 <td>
-                    <form method="get" action="${pageContext.request.contextPath}/player/view/${rosterEntry.player.email}">
+                    <form method="get"
+                          action="${pageContext.request.contextPath}/player/view/${rosterEntry.player.id}">
                         <button type="submit" class="btn btn-default">Show Info</button>
                     </form>
                 </td>
                 <td>
-                    <form method="post" action="${pageContext.request.contextPath}/team/delete/${rosterEntry.id}">
+                    <form method="post" action="${pageContext.request.contextPath}/team/remove-roster-entry/${rosterEntry.id}">
                         <button type="submit" class="btn btn-danger">Remove</button>
                     </form>
                 </td>

@@ -90,9 +90,8 @@ public class TeamFacadeImpl implements TeamFacade {
             throw new IllegalArgumentException("Neither team nor player cannot be null");
         }
 
-
-        Player p = mappingService.mapTo(player, Player.class);
-        Team t = mappingService.mapTo(team, Team.class);
+        Player p = playerService.findById(player.getId());
+        Team t = teamService.findById(team.getId());
         AgeGroup a = ageGroupService.ageGroupForBirthDate(p.getDateOfBirth());
         if (a != t.getAgeGroup() && a.oneAbove() != t.getAgeGroup()) {
             throw new IllegalArgumentException("Player cannot play for this team - bad age group");
@@ -101,7 +100,6 @@ public class TeamFacadeImpl implements TeamFacade {
             throw new IllegalArgumentException("Player already present in team");
         }
         RosterEntry entry = new RosterEntry();
-
 
         entry.setJerseyNumber(jerseyNumber);
         entry.setPlayer(p);

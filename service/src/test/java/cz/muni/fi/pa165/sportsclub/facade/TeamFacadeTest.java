@@ -84,13 +84,13 @@ public class TeamFacadeTest extends AbstractTestNGSpringContextTests {
         team1.setCoach(coach);
         team1.setName("Sparta");
 
-        //team1.setId(1);
+        //team1.setId(1L);
 
         team1Dto = new TeamDto();
         team1Dto.setAgeCategory("MS");
         team1Dto.setCoach(coachDto);
         team1Dto.setName("Sparta");
-        team1Dto.setId(1);
+        team1Dto.setId(1L);
 
         player1 = new Player();
         player1.setDateOfBirth(Date.from(Instant.parse("1976-08-27T00:00:00.000Z")));
@@ -136,13 +136,14 @@ public class TeamFacadeTest extends AbstractTestNGSpringContextTests {
     public void addPlayer() {
 
         Mockito.when(mappingService.mapTo(team1Dto, Team.class)).thenReturn(team1);
+        Mockito.when(teamService.findById(1L)).thenReturn(team1);
+        Mockito.when(playerService.findById(1L)).thenReturn(player1);
         Mockito.when(mappingService.mapTo(player1Dto, Player.class)).thenReturn(player1);
         Mockito.when(ageGroupService.ageGroupForBirthDate(Date.from(Instant.parse("1976-08-27T00:00:00.000Z")))).thenReturn(AgeGroup.MS);
         teamFacade.addPlayer(player1Dto, team1Dto, 42);
         Mockito.verify(teamService, Mockito.times(1)).updateTeam(team1);
         Mockito.verify(playerService, Mockito.times(1)).updatePlayer(player1);
         Mockito.verify(rosterService, Mockito.times(1)).createEntry(Mockito.any());
-
     }
 
     @Test
