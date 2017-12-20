@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.sportsclub.controllers;
 
-import cz.muni.fi.pa165.sportsclub.dto.CoachDto;
 import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.dto.RosterEntryDto;
 import cz.muni.fi.pa165.sportsclub.dto.TeamDto;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
