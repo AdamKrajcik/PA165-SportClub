@@ -14,10 +14,10 @@
 
 <my:pagetemplate title="${team.name}">
 <jsp:attribute name="body">
-    <my:a href="/team/edit/${team.id}" class="btn btn-default">
-        <span class="" aria-hidden="true"></span>
-        Edit Team
-    </my:a>
+    <%--<my:a href="/team/edit/${team.id}" class="btn btn-default">--%>
+        <%--<span class="" aria-hidden="true"></span>--%>
+        <%--Edit Team--%>
+    <%--</my:a>--%>
 
     <h2>Players</h2>
         <my:a href="/player/create" class="btn btn-primary">
