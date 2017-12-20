@@ -54,7 +54,7 @@
                     </form>
                 </td>
                 <td>
-                    <form method="post" action="${pageContext.request.contextPath}/team/remove-roster-entry/${rosterEntry.id}">
+                    <form method="post" action="${pageContext.request.contextPath}/team/remove-player/${team.id}/${rosterEntry.player.id}">
                         <button type="submit" class="btn btn-danger">Remove</button>
                     </form>
                 </td>

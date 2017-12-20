@@ -77,4 +77,13 @@ public class TeamController {
 
         return "redirect:" + uriBuilder.path("/team/view/{id}").buildAndExpand(id).encode().toUriString();
     }
+
+    @RequestMapping(value = "/remove-player/{teamId}/{playerId}", method = RequestMethod.POST)
+    public String removeRosterEntry(@PathVariable("teamId") long teamId, @PathVariable("playerId") long playerId, Model model, UriComponentsBuilder uriBuilder) {
+        TeamDto teamDto = teamFacade.getTeam(teamId);
+        PlayerDto playerDto = playerFacade.getPlayer(playerId);
+        teamFacade.removePlayer(playerDto, teamDto);
+
+        return "redirect:" + uriBuilder.path("/team/view/{id}").buildAndExpand(teamId).encode().toUriString();
+    }
 }
