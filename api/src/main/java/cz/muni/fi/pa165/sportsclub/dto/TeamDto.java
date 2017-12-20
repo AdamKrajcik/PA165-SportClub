@@ -81,6 +81,6 @@ public class TeamDto {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getCoach(), getRoster(), getAgeCategory());
+        return Objects.hash(getId(), getName(), getAgeCategory());
     }
 }

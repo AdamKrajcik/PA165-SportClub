@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.sportsclub.mapper;
 
+import cz.muni.fi.pa165.sportsclub.dto.RosterEntryDto;
+import cz.muni.fi.pa165.sportsclub.dto.TeamDto;
+import cz.muni.fi.pa165.sportsclub.entity.Team;
 import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +10,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MappingServiceImpl implements MappingService {
@@ -27,6 +31,13 @@ public class MappingServiceImpl implements MappingService {
     public <T> T mapTo(Object u, Class<T> mapToClass) {
         return dozer.map(u, mapToClass);
     }
+
+
+//    public TeamDto teamToDto(Team team) {
+//        TeamDto dto = new TeamDto();
+//        dozer.map(team, dto);
+//        Set<RosterEntryDto> roster = new = dozer.map(team.getRosterEntries());
+//    }
 
     @Override
     public Mapper getMapper() {

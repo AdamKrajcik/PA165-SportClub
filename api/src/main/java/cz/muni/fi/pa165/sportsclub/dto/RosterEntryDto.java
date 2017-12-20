@@ -60,13 +60,11 @@ public class RosterEntryDto {
         if (o == null || getClass() != o.getClass()) return false;
         RosterEntryDto that = (RosterEntryDto) o;
         return getJerseyNumber() == that.getJerseyNumber() &&
-                Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getTeam(), that.getTeam()) &&
-                Objects.equals(getPlayer(), that.getPlayer());
+                Objects.equals(getId(), that.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTeam(), getPlayer(), getJerseyNumber());
+        return Objects.hash(getId(), getJerseyNumber());
     }
 }

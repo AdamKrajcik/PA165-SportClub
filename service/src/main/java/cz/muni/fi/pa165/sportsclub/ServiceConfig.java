@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.sportsclub;
 
+import cz.muni.fi.pa165.sportsclub.mapper.MappingBuilder;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,9 @@ public class ServiceConfig {
 
     @Bean
     public Mapper dozer(){
-        return new DozerBeanMapper();
+        DozerBeanMapper mapper = new DozerBeanMapper();
+        mapper.addMapping(new MappingBuilder());
+
+        return mapper;
     }
 }
