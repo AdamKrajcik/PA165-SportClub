@@ -15,7 +15,7 @@ import java.util.Set;
  */
 @Entity
 public class Coach extends Person {
-    @OneToMany(mappedBy = "coach")
+    @OneToMany(mappedBy = "coach", cascade = CascadeType.REMOVE)
     private Set<Team> teams = new HashSet<Team>();
 
 

@@ -37,7 +37,7 @@ public class Team {
     @Enumerated(EnumType.STRING)
     private AgeGroup ageGroup;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team",cascade = CascadeType.REMOVE)
     private Set<RosterEntry> rosterEntries = new HashSet<>();
 
 

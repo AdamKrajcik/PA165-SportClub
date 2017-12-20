@@ -84,4 +84,16 @@ public class TeamController {
 
         return "redirect:" + uriBuilder.path("/team/view/{id}").buildAndExpand(teamId).encode().toUriString();
     }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public String deleteTeam(@PathVariable long id, UriComponentsBuilder uriBuilder) {
+        teamFacade.deleteTeam(teamFacade.getTeam(id));
+        return "redirect:" + uriBuilder.path("/team/list").toUriString();
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String getTeams(Model model) {
+        model.addAttribute("teams", teamFacade.getAllTeams());
+        return "team/list";
+    }
 }

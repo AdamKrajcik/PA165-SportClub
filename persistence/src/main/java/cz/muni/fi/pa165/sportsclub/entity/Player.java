@@ -39,7 +39,7 @@ public class Player extends Person {
     @Past
     private Date dateOfBirth;
 
-    @OneToMany(mappedBy = "player")
+    @OneToMany(mappedBy = "player",cascade = CascadeType.REMOVE)
     private Set<RosterEntry> rosterEntries = new HashSet<RosterEntry>();
 
 
