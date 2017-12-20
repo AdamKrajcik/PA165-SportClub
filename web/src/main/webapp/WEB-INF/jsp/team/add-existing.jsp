@@ -32,7 +32,7 @@
         <div class="form-group">
             <form:label path="jerseyNumber" cssClass="col-sm-2 control-label">Jersey number</form:label>
             <div class="col-sm-10">
-                <form:input path="jerseyNumber" cssClass="form-control" type="number"/>
+                <form:input path="jerseyNumber" cssClass="form-control" type="number" min="1" max="99"/>
                 <form:errors path="jerseyNumber" cssClass="help-block"/>
             </div>
         </div>
