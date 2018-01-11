@@ -15,7 +15,7 @@
 <my:pagetemplate title="Teams">
 <jsp:attribute name="body">
 
-    <my:a href="/team/list" class="btn btn-primary">
+    <my:a href="/team/create" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         New team
     </my:a>
