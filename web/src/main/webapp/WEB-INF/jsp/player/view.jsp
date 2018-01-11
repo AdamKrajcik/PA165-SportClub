@@ -62,6 +62,11 @@
                 </table>
                     </c:otherwise>
         </c:choose>
+        <td>
+            <form method="get" action="${pageContext.request.contextPath}/player/list">
+                <button type="submit" class="btn btn-primary">Return to players</button>
+            </form>
+        </td>
 
 
 

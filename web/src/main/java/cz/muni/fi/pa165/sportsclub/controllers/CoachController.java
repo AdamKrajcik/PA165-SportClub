@@ -64,7 +64,7 @@ public class CoachController {
             coachFacade.createCoach(coach);
         } catch (JpaSystemException e) {
             redirectAttributes.addFlashAttribute("alert_danger", "Error, coach with email " + coachDto.getEmail() + " already exists!");
-            return "redirect:" + uriBuilder.path("/player/list").toUriString();
+            return "redirect:" + uriBuilder.path("/coach/list").toUriString();
         }
         return "redirect:" + uriBuilder.path("/coach/list").toUriString();
     }

@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.Calendar" %><%--
   445403 Kristian Katanik
 --%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="false" session="false" %>
@@ -53,7 +53,7 @@
         <div class="form-group ${dateAsString_error?'has-error':''}">
             <form:label path="dateAsString" cssClass="col-sm-2 control-label">Date of birth</form:label>
             <div class="col-sm-10">
-                <form:input path="dateAsString" cssClass="form-control" type="date" min="1900-01-01" required="true"/>
+                <form:input path="dateAsString" cssClass="form-control" type="date" min="1940-01-01" max="2010-12-31" required="true"/>
 
                 <form:errors path="dateAsString" cssClass="help-block"/>
             </div>
