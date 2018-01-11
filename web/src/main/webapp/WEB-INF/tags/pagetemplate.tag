@@ -5,6 +5,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="${pageContext.request.locale}">
@@ -56,19 +57,28 @@
         </div>
     </c:if>
 
-    <!-- authenticated user info -->
-    <c:if test="${not empty authenticatedUser}">
+    <sec:authorize access="isAuthenticated()">
     <div class="row">
         <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <c:out value="${authenticatedUser.givenName} ${authenticatedUser.surname}"/>
+                    <p>
+                        <b>
+                        <sec:authentication property="principal.username" />
+                        </b>
+                    </p>
+                    <form action="${pageContext.request.contextPath}/logout" method="get">
+                        <button type="submit" class="btn btn-default navbar-btn">
+                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                            Log out
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    </c:if>
+    </sec:authorize>
 
     <!-- alerts -->
     <c:if test="${not empty alert_danger}">
