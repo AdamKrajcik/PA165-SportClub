@@ -230,6 +230,7 @@ public class RosterServiceImplTest extends AbstractTestNGSpringContextTests {
         assertThat(rosterService.getAllowedTeams(coach, playerM20)).isEmpty();
     }
 
+
     @Test
     public void testGetAllowedPlayers() throws Exception {
         Coach coach = EntityFactory.createCoach();

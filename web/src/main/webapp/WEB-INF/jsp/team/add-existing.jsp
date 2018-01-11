@@ -15,7 +15,7 @@
 <my:pagetemplate title="Add existing player to team '${team.name}'">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/team/add-existing/1"
+    <form:form method="post" action="${pageContext.request.contextPath}/team/add-existing/${team.id}"
                modelAttribute="rosterEntry" cssClass="form-horizontal">
         <div class="form-group">
             <form:label path="player.email" cssClass="col-sm-2 control-label">Player</form:label>
@@ -29,7 +29,7 @@
                 <form:errors path="player.email" cssClass="help-block"/>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group ${jerseyNumber_error?'has-error':''}">
             <form:label path="jerseyNumber" cssClass="col-sm-2 control-label">Jersey number</form:label>
             <div class="col-sm-10">
                 <form:input path="jerseyNumber" cssClass="form-control" type="number" min="1" max="99"/>

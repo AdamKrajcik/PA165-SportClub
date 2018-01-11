@@ -11,6 +11,7 @@ import cz.muni.fi.pa165.sportsclub.utils.TimeSpan;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -92,7 +93,7 @@ public class RosterServiceImpl implements RosterService {
 
         Set<RosterEntry> teamRosterEntries = team.getRosterEntries();
 
-        return playerDao.findByBirthDate(
+        List<Player> players = playerDao.findByBirthDate(
                 oneAboveSpan == null
                         ? baseSpan.getFrom()
                         : oneAboveSpan.getFrom(),
@@ -101,5 +102,16 @@ public class RosterServiceImpl implements RosterService {
         .stream()
         .filter(p -> teamRosterEntries.stream().allMatch(r -> r.getPlayer() != p))
         .collect(Collectors.toList());
+
+        List<Player> returnPlayers = new ArrayList<>();
+        for(Player player : players){
+            returnPlayers.add(player);
+        }
+        for(Player player : players){
+            if(player.getRosterEntries().size() != 0){
+                returnPlayers.remove(player);
+            }
+        }
+        return returnPlayers;
     }
 }

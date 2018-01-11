@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Implementation of TeamFacade
@@ -98,6 +99,12 @@ public class TeamFacadeImpl implements TeamFacade {
         }
         if (t.getRosterEntries().stream().anyMatch(e -> e.getPlayer() == p)) {
             throw new IllegalArgumentException("Player already present in team");
+        }
+        Set<RosterEntry> entries = t.getRosterEntries();
+        for(RosterEntry entry : entries){
+            if(entry.getJerseyNumber() == jerseyNumber){
+                throw new IllegalArgumentException("Jersey number is already used");
+            }
         }
         RosterEntry entry = new RosterEntry();
 
