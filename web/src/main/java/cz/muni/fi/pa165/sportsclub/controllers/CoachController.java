@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.sportsclub.dto.CoachCreateDto;
 import cz.muni.fi.pa165.sportsclub.dto.CoachDto;
 import cz.muni.fi.pa165.sportsclub.dto.CoachUpdateDto;
 import cz.muni.fi.pa165.sportsclub.facade.CoachFacade;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
@@ -45,7 +47,7 @@ public class CoachController {
 
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String createCoach(@Valid @ModelAttribute("coachCreate") CoachCreateDto coachDto, BindingResult bindingResult, Model model, UriComponentsBuilder uriBuilder) {
+    public String createCoach(@Valid @ModelAttribute("coachCreate") CoachCreateDto coachDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
 
             for (FieldError fe : bindingResult.getFieldErrors()) {
@@ -58,7 +60,12 @@ public class CoachController {
         coach.setEmail(coachDto.getEmail());
         coach.setFirstName(coachDto.getFirstName());
         coach.setLastName(coachDto.getLastName());
-        coachFacade.createCoach(coach);
+        try {
+            coachFacade.createCoach(coach);
+        } catch (JpaSystemException e) {
+            redirectAttributes.addFlashAttribute("alert_danger", "Error, coach with email " + coachDto.getEmail() + " already exists!");
+            return "redirect:" + uriBuilder.path("/player/list").toUriString();
+        }
         return "redirect:" + uriBuilder.path("/coach/list").toUriString();
     }
 

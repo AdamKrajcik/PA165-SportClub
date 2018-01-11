@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.sportsclub.dto.PlayerCreateDto;
 import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.dto.PlayerUpdateDto;
 import cz.muni.fi.pa165.sportsclub.facade.PlayerFacade;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,10 +13,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by ${KristianKatanik} on 19.12.2017.
@@ -44,11 +48,10 @@ public class PlayerWebController {
 
     //@Secured("ROLE_ADMIN")
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String createPlayer(@Valid @ModelAttribute("playerCreate") PlayerCreateDto playerDto, BindingResult bindingResult, Model model, UriComponentsBuilder uriBuilder) {
+    public String createPlayer(@Valid @ModelAttribute("playerCreate") PlayerCreateDto playerDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
-            playerDto.setDateOfBirth(null);
+            //playerDto.setDateOfBirth(null);
             for (FieldError fe : bindingResult.getFieldErrors()) {
-
                 model.addAttribute(fe.getField() + "_error", true);
 
             }
@@ -60,10 +63,19 @@ public class PlayerWebController {
         player.setFirstName(playerDto.getFirstName());
         player.setWeight(playerDto.getWeight());
         player.setHeight(playerDto.getHeight());
-        player.setDateOfBirth(playerDto.getDateOfBirth());
+        try {
+            player.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd").parse(playerDto.getDateAsString()));
+        } catch (ParseException e) {
+            return "player/create";
+        }
         player.setEmail(playerDto.getEmail());
 
-        playerFacade.createPlayer(player);
+        try {
+            playerFacade.createPlayer(player);
+        } catch (JpaSystemException e) {
+            redirectAttributes.addFlashAttribute("alert_danger", "Error, player with email " + playerDto.getEmail() + " already exists!");
+            return "redirect:" + uriBuilder.path("/player/list").toUriString();
+        }
         return "redirect:" + uriBuilder.path("/player/list").toUriString();
     }
 

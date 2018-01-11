@@ -33,7 +33,7 @@
             <td><c:out value="${player.email}"/></td>
             <td><c:out value="${player.height}"/></td>
             <td><c:out value="${player.weight}"/></td>
-            <td><c:out value="${player.dateOfBirth.toLocaleString()}"/></td>
+            <td><c:out value="${player.localDate}"/></td>
         </tr>
         </tbody>
     </table>

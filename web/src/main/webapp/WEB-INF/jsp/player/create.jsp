@@ -50,11 +50,12 @@
                 <c:out value="${player.weight}"/>
             </div>
         </div>
-        <div class="form-group ${dateOfBirth_error?'has-error':''}">
-            <form:label path="dateOfBirth" cssClass="col-sm-2 control-label">Date of birth</form:label>
+        <div class="form-group ${dateAsString_error?'has-error':''}">
+            <form:label path="dateAsString" cssClass="col-sm-2 control-label">Date of birth</form:label>
             <div class="col-sm-10">
-                <form:input path="dateOfBirth" cssClass="form-control" placeholder="In format MM/DD/YYYY"/>
-                <form:errors path="dateOfBirth" cssClass="help-block"/>
+                <form:input path="dateAsString" cssClass="form-control" type="date" min="1900-01-01" required="true"/>
+
+                <form:errors path="dateAsString" cssClass="help-block"/>
             </div>
         </div>
 

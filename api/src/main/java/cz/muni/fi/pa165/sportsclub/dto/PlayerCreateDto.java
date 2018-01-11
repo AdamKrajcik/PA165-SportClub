@@ -26,9 +26,21 @@ public class PlayerCreateDto {
     private int weight;
 
 
-    @NotNull
+    //    @NotNull
     @Past
     private Date dateOfBirth;
+
+    @NotNull
+    @Size(min = 6)
+    private String dateAsString;
+
+    public String getDateAsString() {
+        return dateAsString;
+    }
+
+    public void setDateAsString(String dateAsString) {
+        this.dateAsString = dateAsString;
+    }
 
     @NotNull
     @Size(min = 1, max = 25)

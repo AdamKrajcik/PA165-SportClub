@@ -2,6 +2,11 @@ package cz.muni.fi.pa165.sportsclub.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -23,6 +28,10 @@ public class PlayerDto extends PersonDto {
 
     @JsonManagedReference
     private Set<RosterEntryDto> rosterEntries;
+
+    private int age;
+
+    private String localDate;
 
     public int getHeight() {
         return height;
@@ -54,6 +63,14 @@ public class PlayerDto extends PersonDto {
 
     public void setRosterEntries(Set<RosterEntryDto> rosterEntries) {
         this.rosterEntries = rosterEntries;
+    }
+
+    public int getAge() {
+        return Period.between(dateOfBirth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
+    }
+
+    public String getLocalDate() {
+        return dateOfBirth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
     }
 
     @Override

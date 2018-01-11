@@ -39,7 +39,7 @@
                 <td><c:out value="${player.email}"/></td>
                 <td><c:out value="${player.height}"/></td>
                 <td><c:out value="${player.weight}"/></td>
-                <td><c:out value="${player.dateOfBirth.toLocaleString()}"/></td>
+                <td><c:out value="${player.localDate}"/></td>
                 <td><c:out value="${player.rosterEntries.size()}"/></td>
                 <td>
                     <my:a href="/player/view/${player.id}" class="btn btn-primary">View</my:a>
