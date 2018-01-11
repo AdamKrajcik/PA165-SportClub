@@ -14,6 +14,24 @@
 
 <my:pagetemplate title="${team.name}">
 <jsp:attribute name="body">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Coach's email</th>
+            <th>Age category</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>${team.id}</td>
+            <td><c:out value="${team.name}"/></td>
+            <td><c:out value="${team.coach.email}"/></td>
+            <td><c:out value="${team.ageCategory}"/></td>
+        </tr>
+        </tbody>
+    </table>
     <%--<my:a href="/team/edit/${team.id}" class="btn btn-default">--%>
         <%--<span class="" aria-hidden="true"></span>--%>
         <%--Edit Team--%>
@@ -62,5 +80,10 @@
         </c:forEach>
         </tbody>
     </table>
+        <td>
+            <form method="get" action="${pageContext.request.contextPath}/team/list">
+                <button type="submit" class="btn btn-primary">Return to teams</button>
+            </form>
+        </td>
 </jsp:attribute>
 </my:pagetemplate>
