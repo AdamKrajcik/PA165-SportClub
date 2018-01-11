@@ -74,7 +74,7 @@ public class PlayerWebController {
             playerFacade.createPlayer(player);
         } catch (JpaSystemException e) {
             redirectAttributes.addFlashAttribute("alert_danger", "Error, player with email " + playerDto.getEmail() + " already exists!");
-            return "redirect:" + uriBuilder.path("/player/list").toUriString();
+            return "redirect:" + uriBuilder.path("/player/create").toUriString();
         }
         return "redirect:" + uriBuilder.path("/player/list").toUriString();
     }

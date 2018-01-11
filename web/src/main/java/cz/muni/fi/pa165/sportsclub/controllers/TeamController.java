@@ -10,10 +10,12 @@ import cz.muni.fi.pa165.sportsclub.facade.PlayerFacade;
 import cz.muni.fi.pa165.sportsclub.facade.TeamFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
@@ -105,9 +107,18 @@ public class TeamController {
 
     @RequestMapping(value = "/create/{coachId}", method = RequestMethod.GET)
     public String createTeamOfCoachForm(@PathVariable("coachId") long coachId, Model model, UriComponentsBuilder uriBuilder) {
+        return this.genericCreateTeamForm(coachId, model, uriBuilder);
+    }
 
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String createTeamForm(Model model, UriComponentsBuilder uriBuilder) {
+        return this.genericCreateTeamForm(null, model, uriBuilder);
+    }
+
+    private String genericCreateTeamForm(Long coachId, Model model, UriComponentsBuilder uriBuilder) {
         model.addAttribute("team", new TeamDto());
         model.addAttribute("coachId", coachId);
+        model.addAttribute("coaches", coachFacade.getAllCoaches());
         model.addAttribute("ageGroups", AgeGroup.getAllAscending()
                 .stream()
                 .map(ageGroup -> ageGroup.toString())
@@ -116,8 +127,19 @@ public class TeamController {
         return "team/create";
     }
 
-    @RequestMapping(value = "/create/{coachId}", method = RequestMethod.POST)
-    public String doCreateTeamOfCoach(@PathVariable("coachId") long coachId, @ModelAttribute("team") TeamDto team, Model model, UriComponentsBuilder uriBuilder) {
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String doCreateTeamOfCoach(@ModelAttribute("team") TeamDto team, RedirectAttributes redirectAttributes, Model model, UriComponentsBuilder uriBuilder) {
+        Long coachId = team.getCoach().getId();
+
+        boolean hasDuplicateName = teamFacade.getAllTeams()
+                .stream()
+                .anyMatch(teamDto -> teamDto.getName().equals(team.getName()));
+        if (hasDuplicateName) {
+            redirectAttributes.addFlashAttribute("alert_danger", "Error, team with name " + team.getName() + " already exists!");
+            // TODO: Not used!! Take the coach ID from session for logged in coach
+            redirectAttributes.addAttribute("coachId", coachId);
+            return "redirect:" + uriBuilder.path("/team/create").toUriString();
+        }
 
         CoachDto coach = coachFacade.getCoach(coachId);
         team.setCoach(coach);
