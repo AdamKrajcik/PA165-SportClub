@@ -28,8 +28,7 @@ import java.util.Locale;
 
 @EnableWebMvc
 @Configuration
-//@Import(SecurityConfiguration.class)
-@Import(SampleDataConfiguration.class)
+@Import(SecurityConfiguration.class)
 @ComponentScan(basePackages = {"cz.muni.fi.pa165.sportsclub.controllers", "cz.muni.fi.pa165.sportsclub.controller"})
 public class MvcApplicationContext extends WebMvcConfigurerAdapter {
 
