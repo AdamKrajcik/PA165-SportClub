@@ -10,6 +10,7 @@ import cz.muni.fi.pa165.sportsclub.facade.PlayerFacade;
 import cz.muni.fi.pa165.sportsclub.facade.TeamFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,7 +53,7 @@ public class TeamController {
     }
 
     @RequestMapping(value = "/add-existing/{id}", method = RequestMethod.GET)
-    public String addExisting(@PathVariable long id, Model model) {
+    public String addExisting(@PathVariable long id, Model model, RedirectAttributes redirectAttributes,  UriComponentsBuilder uriBuilder) {
         TeamDto team = teamFacade.getTeam(id);
 
         List<PlayerDto> allowedPlayers = teamFacade.getAllowedPlayers(team);
@@ -62,6 +63,10 @@ public class TeamController {
                 .map(playerDto -> playerDto.getEmail())
                 .collect(Collectors.toList());
 
+        if(inviteEmails.size() == 0){
+            redirectAttributes.addFlashAttribute("alert_danger", "There are no available players for this team.");
+            return "redirect:" + uriBuilder.path("/team/view/{id}").buildAndExpand(id).encode().toUriString();
+        }
         RosterEntryDto rosterEntryDto = new RosterEntryDto();
         rosterEntryDto.setPlayer(new PlayerDto());
 
@@ -73,13 +78,27 @@ public class TeamController {
     }
 
     @RequestMapping(value = "/add-existing/{id}", method = RequestMethod.POST)
-    public String addExistingPOST(@ModelAttribute("rosterEntry") RosterEntryDto rosterEntry, @PathVariable("id") long id, Model model, UriComponentsBuilder uriBuilder) {
+    public String addExistingPOST(@ModelAttribute("rosterEntry") RosterEntryDto rosterEntry, @PathVariable("id") long id, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+
+        if (bindingResult.hasErrors()) {
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+
+            }
+            return "/add-existing/{id}";
+
+        }
         String email = rosterEntry.getPlayer().getEmail();
         int jerseyNumber = rosterEntry.getJerseyNumber();
 
         PlayerDto player = playerFacade.getPlayerByEmail(email);
         TeamDto team = teamFacade.getTeam(id);
-        teamFacade.addPlayer(player, team, jerseyNumber);
+        try {
+            teamFacade.addPlayer(player, team, jerseyNumber);
+        }catch(IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("alert_danger", "Error, jersey number " + jerseyNumber + " already exists!" + e);
+            return "redirect:" + uriBuilder.path("/team/view/{id}").buildAndExpand(id).encode().toUriString();
+        }
 
         return "redirect:" + uriBuilder.path("/team/view/{id}").buildAndExpand(id).encode().toUriString();
     }
