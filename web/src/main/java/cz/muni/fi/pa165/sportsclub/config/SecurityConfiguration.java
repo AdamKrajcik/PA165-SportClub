@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/img/**").permitAll()
+                .mvcMatchers("/rest/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

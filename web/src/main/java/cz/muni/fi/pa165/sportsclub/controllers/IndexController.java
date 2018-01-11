@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.sportsclub.controllers;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +17,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(Model model, UriComponentsBuilder uriBuilder) {
-        boolean authenticated = SecurityContextHolder.getContext().getAuthentication() != null &&
-                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                //when Anonymous Authentication is enabled
-                !(SecurityContextHolder.getContext().getAuthentication()
+    public String index(Model model, Authentication authentication, UriComponentsBuilder uriBuilder) {
+        boolean authenticated = authentication != null &&
+                authentication.isAuthenticated() &&
+                // when Anonymous Authentication is enabled
+                !(authentication
                         instanceof AnonymousAuthenticationToken);
         if (authenticated) {
             return "redirect:" + uriBuilder.path("/coach/list").toUriString();
