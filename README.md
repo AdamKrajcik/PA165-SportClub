@@ -27,3 +27,18 @@ POST on /rest/player with player as JSON in body to create player
 PUT on /rest/player/\{id\} with player as JSON in body to edit player with ID \{id\}
 
 DELETE on /rest/player/\{id\} to delete player with ID \{id\}
+
+With cURL the commands would look like e.g.
+```bash
+curl --request GET \
+  --url http://localhost:8080/pa165/rest/player
+  
+curl --request GET \
+  --url http://localhost:8080/pa165/rest/player/2
+
+curl --request GET \
+  --url http://localhost:8080/pa165/rest/player/byEmail/player2@gmail.com
+
+curl --request DELETE \
+  --url http://localhost:8080/pa165/rest/player/1
+```
