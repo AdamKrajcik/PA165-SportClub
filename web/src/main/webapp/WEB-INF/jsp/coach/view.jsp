@@ -34,10 +34,12 @@
     </table>
 
     <h2>Managed teams:</h2>
+    <sec:authorize access="hasAuthority('ADMIN')">
         <my:a href="/team/create/${coach.id}" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Add New Team
         </my:a>
+    </sec:authorize>
 
         <c:choose>
             <c:when test="${coach.teams.size()==0}">
@@ -62,9 +64,11 @@
                                     </form>
                                 </td>
                                 <td>
+                                    <sec:authorize access="hasAuthority('ADMIN')">
                                     <form method="get" action="${pageContext.request.contextPath}/team/delete/${team.id}">
                                         <button type="submit" class="btn btn-primary">Delete</button>
                                     </form>
+                                    </sec:authorize>
                                 </td>
                                  </tr>
                         </c:forEach>

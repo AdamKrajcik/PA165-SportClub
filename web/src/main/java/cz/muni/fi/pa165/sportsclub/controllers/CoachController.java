@@ -27,7 +27,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/coach")
-@Secured("ROLE_USER")
+@Secured("COACH")
 public class CoachController {
 
     @Inject
@@ -41,14 +41,14 @@ public class CoachController {
     }
 
 
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createCoach(Model model) {
         model.addAttribute("coachCreate", new CoachCreateDto());
         return "coach/create";
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String createCoach(@Valid @ModelAttribute("coachCreate") CoachCreateDto coachDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
@@ -72,14 +72,14 @@ public class CoachController {
         return "redirect:" + uriBuilder.path("/coach/list").toUriString();
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deleteCoach(@PathVariable long id, UriComponentsBuilder uriBuilder) {
         coachFacade.deleteCoach(id);
         return "redirect:" + uriBuilder.path("/coach/list").toUriString();
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String updateCoach(@PathVariable long id, Model model) {
         CoachDto coachDto = coachFacade.getCoach(id);
@@ -89,7 +89,7 @@ public class CoachController {
         return "coach/update";
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured("ADMIN")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String updateCoach(@Valid @ModelAttribute("coach") CoachUpdateDto coachUpdateDto, BindingResult bindingResult, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
