@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 import cz.muni.fi.pa165.sportsclub.facade.CoachFacade;
 import cz.muni.fi.pa165.sportsclub.facade.PlayerFacade;
 import cz.muni.fi.pa165.sportsclub.facade.TeamFacade;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("/team")
+@Secured("ROLE_USER")
 public class TeamController {
 
     @Inject
@@ -112,6 +114,7 @@ public class TeamController {
         return "redirect:" + uriBuilder.path("/team/view/{id}").buildAndExpand(teamId).encode().toUriString();
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deleteTeam(@PathVariable long id, UriComponentsBuilder uriBuilder) {
         teamFacade.deleteTeam(teamFacade.getTeam(id));

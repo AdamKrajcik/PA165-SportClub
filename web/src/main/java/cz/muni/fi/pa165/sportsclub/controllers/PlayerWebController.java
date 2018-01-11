@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.dto.PlayerUpdateDto;
 import cz.muni.fi.pa165.sportsclub.facade.PlayerFacade;
 import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 
 @Controller
 @RequestMapping("/player")
+@Secured("ROLE_USER")
 public class PlayerWebController {
 
     @Inject

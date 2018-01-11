@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.sportsclub.dto.CoachDto;
 import cz.muni.fi.pa165.sportsclub.dto.CoachUpdateDto;
 import cz.muni.fi.pa165.sportsclub.facade.CoachFacade;
 import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/coach")
+@Secured("ROLE_USER")
 public class CoachController {
 
     @Inject
@@ -39,13 +41,14 @@ public class CoachController {
     }
 
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createCoach(Model model) {
         model.addAttribute("coachCreate", new CoachCreateDto());
         return "coach/create";
     }
 
-
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String createCoach(@Valid @ModelAttribute("coachCreate") CoachCreateDto coachDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
@@ -69,14 +72,14 @@ public class CoachController {
         return "redirect:" + uriBuilder.path("/coach/list").toUriString();
     }
 
-
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deleteCoach(@PathVariable long id, UriComponentsBuilder uriBuilder) {
         coachFacade.deleteCoach(id);
         return "redirect:" + uriBuilder.path("/coach/list").toUriString();
     }
 
-
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String updateCoach(@PathVariable long id, Model model) {
         CoachDto coachDto = coachFacade.getCoach(id);
@@ -86,7 +89,7 @@ public class CoachController {
         return "coach/update";
     }
 
-
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String updateCoach(@Valid @ModelAttribute("coach") CoachUpdateDto coachUpdateDto, BindingResult bindingResult, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
