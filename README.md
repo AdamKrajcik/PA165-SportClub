@@ -1,8 +1,3 @@
-# IMPORTANT FOR REVIEWS
-
-Unfortunately, we didn't make milestone 3 in time and our code from before midnight doesn't do anything. Please, use the latest commit (from 20th December) for review and subtract some points for delay.
-
-
 # PA165-SportClub
 
 School project for PA165 subject at Masaryk University - Faculty of Informatics for managing sport teams and their rosters.
