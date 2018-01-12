@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
+import javax.annotation.security.RolesAllowed;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -27,7 +28,6 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/coach")
-@Secured("COACH")
 public class CoachController {
 
     @Inject
@@ -41,14 +41,14 @@ public class CoachController {
     }
 
 
-    @Secured("ADMIN")
+    @RolesAllowed("ADMIN")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createCoach(Model model) {
         model.addAttribute("coachCreate", new CoachCreateDto());
         return "coach/create";
     }
 
-    @Secured("ADMIN")
+    @RolesAllowed("ADMIN")
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String createCoach(@Valid @ModelAttribute("coachCreate") CoachCreateDto coachDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
@@ -72,14 +72,14 @@ public class CoachController {
         return "redirect:" + uriBuilder.path("/coach/list").toUriString();
     }
 
-    @Secured("ADMIN")
+    @RolesAllowed("ADMIN")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deleteCoach(@PathVariable long id, UriComponentsBuilder uriBuilder) {
         coachFacade.deleteCoach(id);
         return "redirect:" + uriBuilder.path("/coach/list").toUriString();
     }
 
-    @Secured("ADMIN")
+    @RolesAllowed("ADMIN")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String updateCoach(@PathVariable long id, Model model) {
         CoachDto coachDto = coachFacade.getCoach(id);
@@ -89,7 +89,7 @@ public class CoachController {
         return "coach/update";
     }
 
-    @Secured("ADMIN")
+    @RolesAllowed("ADMIN")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String updateCoach(@Valid @ModelAttribute("coach") CoachUpdateDto coachUpdateDto, BindingResult bindingResult, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {

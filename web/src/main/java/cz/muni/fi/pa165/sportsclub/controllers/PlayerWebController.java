@@ -28,7 +28,6 @@ import java.text.SimpleDateFormat;
 
 @Controller
 @RequestMapping("/player")
-@Secured("ROLE_USER")
 public class PlayerWebController {
 
     @Inject
@@ -41,18 +40,17 @@ public class PlayerWebController {
         return "player/list";
     }
 
-    // @Secured("ROLE_ADMIN")
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createPlayer(Model model) {
         model.addAttribute("playerCreate", new PlayerCreateDto());
         return "player/create";
     }
 
-    //@Secured("ROLE_ADMIN")
+
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String createPlayer(@Valid @ModelAttribute("playerCreate") PlayerCreateDto playerDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
-            //playerDto.setDateOfBirth(null);
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
 
@@ -88,7 +86,7 @@ public class PlayerWebController {
         return "player/view";
     }
 
-    // @Secured("ROLE_ADMIN")
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deletePlayer(@PathVariable long id, UriComponentsBuilder uriBuilder) {
         playerFacade.deletePlayer(playerFacade.getPlayer(id));

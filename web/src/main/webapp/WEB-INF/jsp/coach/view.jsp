@@ -65,7 +65,7 @@
                                 </td>
                                 <td>
                                     <sec:authorize access="hasAuthority('ADMIN')">
-                                    <form method="get" action="${pageContext.request.contextPath}/team/delete/${team.id}">
+                                    <form method="post" action="${pageContext.request.contextPath}/team/delete/${team.id}">
                                         <button type="submit" class="btn btn-primary">Delete</button>
                                     </form>
                                     </sec:authorize>
