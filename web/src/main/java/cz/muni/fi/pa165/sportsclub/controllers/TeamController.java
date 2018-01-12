@@ -150,7 +150,15 @@ public class TeamController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String doCreateTeamOfCoach(@ModelAttribute("team") TeamDto team, RedirectAttributes redirectAttributes, Model model, UriComponentsBuilder uriBuilder) {
+    public String doCreateTeamOfCoach(@ModelAttribute("team") TeamDto team, RedirectAttributes redirectAttributes, Model model, BindingResult bindingResult, UriComponentsBuilder uriBuilder) {
+        if (bindingResult.hasErrors()) {
+
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }
+            return "team/create";
+
+        }
         Long coachId = team.getCoach().getId();
 
         boolean hasDuplicateName = teamFacade.getAllTeams()
