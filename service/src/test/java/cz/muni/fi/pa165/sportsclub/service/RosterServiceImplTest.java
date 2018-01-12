@@ -235,30 +235,23 @@ public class RosterServiceImplTest extends AbstractTestNGSpringContextTests {
         Coach coach = EntityFactory.createCoach();
         Team teamM16 = EntityFactory.createTeam("Test Team M16", AgeGroup.M16, coach);
 
-        Date date20yrs = Date.from(Instant.parse("1995-07-27T23:59:59.999Z"));
+        Date date20yrsOld = Date.from(Instant.parse("1996-07-27T23:59:59.999Z"));
         Date date16yrsOld = Date.from(Instant.parse("1999-07-27T23:59:59.999Z"));
         Date currentTime = EntityFactory.getConstantCurrentTime();
 
-        when(ageGroupService.getTimeSpan(AgeGroup.M16))
-                .thenReturn(new TimeSpan(date16yrsOld, currentTime));
-
-        when(ageGroupService.getTimeSpan(AgeGroup.M20))
-                .thenReturn(new TimeSpan(date20yrs, date16yrsOld));
-
+        when(ageGroupService.getTimeSpan(AgeGroup.M16)).thenReturn(new TimeSpan(date16yrsOld, currentTime));
+        when(ageGroupService.getTimeSpan(AgeGroup.M20)).thenReturn(new TimeSpan(date20yrsOld, currentTime));
 
         // Single player
-        when(playerDao.findByBirthDate(date20yrs, currentTime))
-                .thenReturn(Collections.singletonList(playerM16));
+        when(playerDao.findByBirthDate(date16yrsOld, currentTime)).thenReturn(Collections.singletonList(playerM16));
         assertThat(rosterService.getAllowedPlayers(teamM16)).containsExactlyInAnyOrder(playerM16);
 
         // Two players
-        when(playerDao.findByBirthDate(date20yrs, currentTime))
-                .thenReturn(new ArrayList<>(Arrays.asList(playerM16, playerM20)));
-        assertThat(rosterService.getAllowedPlayers(teamM16)).containsExactlyInAnyOrder(playerM16, playerM20);
+        when(playerDao.findByBirthDate(date20yrsOld, currentTime)).thenReturn(new ArrayList<>(Arrays.asList(playerM16, playerM20)));
+        assertThat(rosterService.getAllowedPlayers(teamM16)).containsExactlyInAnyOrder(playerM16);
 
         // No players
-        when(playerDao.findByBirthDate(date20yrs, currentTime))
-                .thenReturn(new ArrayList<>());
+        when(playerDao.findByBirthDate(date16yrsOld, currentTime)).thenReturn(new ArrayList<>());
         assertThat(rosterService.getAllowedPlayers(teamM16)).isEmpty();
     }
 }
