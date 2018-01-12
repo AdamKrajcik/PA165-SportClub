@@ -16,7 +16,7 @@
 <my:pagetemplate title="Coaches">
 <jsp:attribute name="body">
 
-    <sec:authorize access="hasAuthority('ADMIN')">
+    <sec:authorize access="hasAuthority('ROLE_ADMIN')">
     <my:a href="/coach/create" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         New coach
@@ -54,14 +54,14 @@
                     <my:a href="/coach/view/${coach.id}" class="btn btn-primary">View</my:a>
                 </td>
                 <td>
-                    <sec:authorize access="hasAuthority('ADMIN')">
+                    <sec:authorize access="hasAuthority('ROLE_ADMIN')">
                     <form method="get" action="${pageContext.request.contextPath}/coach/update/${coach.id}">
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>
                     </sec:authorize>
                 </td>
                 <td>
-                    <sec:authorize access="hasAuthority('ADMIN')">
+                    <sec:authorize access="hasAuthority('ROLE_ADMIN')">
                     <form method="post" action="${pageContext.request.contextPath}/coach/delete/${coach.id}">
                         <button type="submit" class="btn btn-primary">Delete</button>
                     </form>

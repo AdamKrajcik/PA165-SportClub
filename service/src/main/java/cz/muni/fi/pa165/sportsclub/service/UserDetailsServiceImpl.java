@@ -33,13 +33,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             final GrantedAuthority ROLE_USER = new GrantedAuthority() {
                 @Override
                 public String getAuthority() {
-                    return "USER";
+                    return "ROLE_USER";
                 }
             };
             final GrantedAuthority ROLE_ADMIN = new GrantedAuthority() {
                 @Override
                 public String getAuthority() {
-                    return "ADMIN";
+                    return "ROLE_ADMIN";
                 }
             };
 

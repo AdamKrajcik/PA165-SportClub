@@ -16,12 +16,10 @@
 <my:pagetemplate title="Teams">
 <jsp:attribute name="body">
 
-    <sec:authorize access="hasAuthority('ADMIN')">
     <my:a href="/team/create" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         New team
     </my:a>
-    </sec:authorize>
 
     <table class="table">
         <thead>
@@ -43,7 +41,7 @@
                     <my:a href="/team/view/${team.id}" class="btn btn-primary">View</my:a>
                 </td>
                 <td>
-                    <sec:authorize access="hasAuthority('ADMIN')">
+                    <sec:authorize access="hasAuthority('ROLE_ADMIN')">
                     <form method="post" action="${pageContext.request.contextPath}/team/delete/${team.id}">
                         <button type="submit" class="btn btn-primary">Delete</button>
                     </form>
