@@ -103,15 +103,6 @@ public class RosterServiceImpl implements RosterService {
         .filter(p -> teamRosterEntries.stream().allMatch(r -> r.getPlayer() != p))
         .collect(Collectors.toList());
 
-        List<Player> returnPlayers = new ArrayList<>();
-        for(Player player : players){
-            returnPlayers.add(player);
-        }
-        for(Player player : players){
-            if(player.getRosterEntries().size() != 0){
-                returnPlayers.remove(player);
-            }
-        }
-        return returnPlayers;
+        return players;
     }
 }
