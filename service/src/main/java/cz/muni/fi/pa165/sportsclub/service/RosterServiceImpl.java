@@ -11,7 +11,6 @@ import cz.muni.fi.pa165.sportsclub.utils.TimeSpan;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -84,20 +83,16 @@ public class RosterServiceImpl implements RosterService {
     @Override
     public List<Player> getAllowedPlayers(Team team) {
         AgeGroup base = team.getAgeGroup();
-        AgeGroup oneAbove = base.oneAbove();
+        AgeGroup oneBelow = base.oneBelow();
 
         TimeSpan baseSpan = ageGroupService.getTimeSpan(base);
-        TimeSpan oneAboveSpan = oneAbove == null
-                ? null
-                : ageGroupService.getTimeSpan(oneAbove);
+        TimeSpan oneBelowSpan = (oneBelow == null) ? null : ageGroupService.getTimeSpan(oneBelow);
 
         Set<RosterEntry> teamRosterEntries = team.getRosterEntries();
 
         List<Player> players = playerDao.findByBirthDate(
-                oneAboveSpan == null
-                        ? baseSpan.getFrom()
-                        : oneAboveSpan.getFrom(),
-                baseSpan.getTo()
+                baseSpan.getFrom(),
+                (oneBelowSpan == null) ? baseSpan.getTo() : oneBelowSpan.getTo()
         )
         .stream()
         .filter(p -> teamRosterEntries.stream().allMatch(r -> r.getPlayer() != p))
