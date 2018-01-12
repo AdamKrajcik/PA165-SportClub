@@ -37,3 +37,15 @@ curl --request GET \
 curl --request DELETE \
   --url http://localhost:8080/pa165/rest/player/1
 ```
+
+### Admin Credentials
+```
+email:    admin@admin.cz
+password: admin
+```
+
+### User Credentials
+```
+email:    coach@coach.cz
+password: coach
+```
