@@ -7,6 +7,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <my:pagetemplate title="Coach view">
 <jsp:attribute name="body">
@@ -33,10 +34,12 @@
     </table>
 
     <h2>Managed teams:</h2>
+    <sec:authorize access="hasAuthority('ADMIN')">
         <my:a href="/team/create/${coach.id}" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Add New Team
         </my:a>
+    </sec:authorize>
 
         <c:choose>
             <c:when test="${coach.teams.size()==0}">
@@ -61,9 +64,11 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <form method="get" action="${pageContext.request.contextPath}/team/delete/${team.id}">
+                                    <sec:authorize access="hasAuthority('ADMIN')">
+                                    <form method="post" action="${pageContext.request.contextPath}/team/delete/${team.id}">
                                         <button type="submit" class="btn btn-primary">Delete</button>
                                     </form>
+                                    </sec:authorize>
                                 </td>
                                  </tr>
                         </c:forEach>

@@ -51,6 +51,11 @@
             <artifactId>spring-security-taglibs</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>jsr250-api</artifactId>
+        </dependency>
+
         <!-- validator for bean properties -->
         <dependency>
             <groupId>javax.validation</groupId>

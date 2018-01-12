@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.sportsclub.dto.PlayerDto;
 import cz.muni.fi.pa165.sportsclub.dto.PlayerUpdateDto;
 import cz.muni.fi.pa165.sportsclub.facade.PlayerFacade;
 import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,18 +40,17 @@ public class PlayerWebController {
         return "player/list";
     }
 
-    // @Secured("ROLE_ADMIN")
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createPlayer(Model model) {
         model.addAttribute("playerCreate", new PlayerCreateDto());
         return "player/create";
     }
 
-    //@Secured("ROLE_ADMIN")
+
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String createPlayer(@Valid @ModelAttribute("playerCreate") PlayerCreateDto playerDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, UriComponentsBuilder uriBuilder) {
         if (bindingResult.hasErrors()) {
-            //playerDto.setDateOfBirth(null);
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
 
@@ -86,7 +86,7 @@ public class PlayerWebController {
         return "player/view";
     }
 
-    // @Secured("ROLE_ADMIN")
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deletePlayer(@PathVariable long id, UriComponentsBuilder uriBuilder) {
         playerFacade.deletePlayer(playerFacade.getPlayer(id));

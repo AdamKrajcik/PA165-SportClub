@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.sportsclub.enums.AgeGroup;
 import cz.muni.fi.pa165.sportsclub.facade.CoachFacade;
 import cz.muni.fi.pa165.sportsclub.facade.PlayerFacade;
 import cz.muni.fi.pa165.sportsclub.facade.TeamFacade;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Set;
@@ -96,7 +98,7 @@ public class TeamController {
         try {
             teamFacade.addPlayer(player, team, jerseyNumber);
         }catch(IllegalArgumentException e){
-            redirectAttributes.addFlashAttribute("alert_danger", "Error, jersey number " + jerseyNumber + " already exists!" + e);
+            redirectAttributes.addFlashAttribute("alert_danger", "Error, jersey number " + jerseyNumber + " already exists!");
             return "redirect:" + uriBuilder.path("/team/view/{id}").buildAndExpand(id).encode().toUriString();
         }
 
@@ -112,6 +114,7 @@ public class TeamController {
         return "redirect:" + uriBuilder.path("/team/view/{id}").buildAndExpand(teamId).encode().toUriString();
     }
 
+    @RolesAllowed("ADMIN")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deleteTeam(@PathVariable long id, UriComponentsBuilder uriBuilder) {
         teamFacade.deleteTeam(teamFacade.getTeam(id));
@@ -155,7 +158,6 @@ public class TeamController {
                 .anyMatch(teamDto -> teamDto.getName().equals(team.getName()));
         if (hasDuplicateName) {
             redirectAttributes.addFlashAttribute("alert_danger", "Error, team with name " + team.getName() + " already exists!");
-            // TODO: Not used!! Take the coach ID from session for logged in coach
             redirectAttributes.addAttribute("coachId", coachId);
             return "redirect:" + uriBuilder.path("/team/create").toUriString();
         }

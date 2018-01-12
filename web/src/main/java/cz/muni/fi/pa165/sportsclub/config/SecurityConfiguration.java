@@ -46,11 +46,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/login?logout")
                 .permitAll()
                 .and()
-                .csrf();
+                .csrf().disable();
     }
 
     @Inject
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+
     }
 }

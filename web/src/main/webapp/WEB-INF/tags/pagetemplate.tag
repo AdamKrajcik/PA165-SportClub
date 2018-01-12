@@ -22,6 +22,15 @@
 </head>
 <body>
 <!-- navigation bar -->
+<div class="container">
+
+    <div class="row">
+        <div class="pull-right">
+            <sec:authorize access="isAuthenticated()">
+                <p style="margin: 0 10px 0 0">You are logged in as <b><sec:authentication property="principal.username" /></b></p>
+            </sec:authorize>
+        </div>
+    </div>
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
         <div class="navbar-header">
@@ -36,12 +45,32 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
+                    <sec:authorize access="isAuthenticated()">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.admin"/><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><my:a href="/coach/list"><f:message key="navigation.admin.coaches"/></my:a></li>
                         <li><my:a href="/team/list"><f:message key="navigation.admin.teams"/></my:a></li>
                         <li><my:a href="/player/list"><f:message key="navigation.admin.players"/></my:a></li>
                     </ul>
+                    </sec:authorize>
+                </li>
+                <li>
+                    <sec:authorize access="isAuthenticated()">
+                        <form action="${pageContext.request.contextPath}/logout" method="get">
+                            <button type="submit" class="btn btn-default navbar-btn">
+                                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                                Log out
+                            </button>
+                        </form>
+                    </sec:authorize>
+                    <sec:authorize access="isAnonymous()">
+                        <form action="${pageContext.request.contextPath}/login" method="get">
+                            <button type="submit" class="btn btn-default navbar-btn">
+                                <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                                Log in
+                            </button>
+                        </form>
+                    </sec:authorize>
                 </li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -57,28 +86,7 @@
         </div>
     </c:if>
 
-    <sec:authorize access="isAuthenticated()">
-    <div class="row">
-        <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
-        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <p>
-                        <b>
-                        <sec:authentication property="principal.username" />
-                        </b>
-                    </p>
-                    <form action="${pageContext.request.contextPath}/logout" method="get">
-                        <button type="submit" class="btn btn-default navbar-btn">
-                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                            Log out
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    </sec:authorize>
+
 
     <!-- alerts -->
     <c:if test="${not empty alert_danger}">
